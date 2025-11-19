@@ -8,11 +8,11 @@ def home():
 
 @app.route("/ml")
 def ml():
-    return render_template("ml.html")
+    return render_template("ML.html")
 
 @app.route("/dl")
 def dl():
-    return render_template("dl.html")
+    return render_template("DL.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
