@@ -9,13 +9,14 @@
 </head>
 <body>
 
-<div class="container-fluid py-3">
-  <div class="header-row d-flex align-items-center mb-3">
+<div class="container-fluid py-3 d-flex flex-wrap align-items-start gap-2">
+  <!-- Header 與 Top-bar 同行 -->
+  <div class="header-row d-flex align-items-center flex-grow-1">
     <a href="/" class="btn btn-secondary me-3">← 回首頁</a>
     <h2 class="m-0">互動式程式碼教學（ML 專案）</h2>
   </div>
 
-  <div class="top-bar" id="topBar">
+  <div class="top-bar d-flex align-items-center">
     <button class="icon-btn btn btn-outline-primary" id="toggleBtn">☰</button>
     <div class="project-btn-container" id="projectBtns">
       <button class="project-btn btn btn-outline-primary" data-id="1">linear_regression <br> 線性迴歸</button>
@@ -23,29 +24,29 @@
       <button class="project-btn btn btn-outline-primary" data-id="3">專案 3</button>
     </div>
   </div>
+</div>
 
-  <div class="four-panel-container" id="fourPanel">
-    <div class="panel left-top" id="description">
-      <h4>程式碼說明</h4>
-      <p>滑鼠點擊程式碼行以查看說明</p>
-    </div>
-    <div class="panel right-top" id="codeArea">
-      <pre id="codeContent"></pre>
-    </div>
-    <div class="panel left-bottom">
-      <textarea id="userNotes" placeholder="在此撰寫筆記..."></textarea>
-      <button id="saveNotesBtn">儲存筆記</button>
-    </div>
-    <div class="panel right-bottom">
-      <div id="chatDisplay" class="chat-display"></div>
-      <textarea id="chatInput"></textarea>
-      <button id="sendChatBtn">送出</button>
-    </div>
-
-    <!-- 拖拉桿 -->
-    <div id="hResizer" class="horizontal-resizer"></div>
-    <div id="vResizer" class="vertical-resizer"></div>
+<div class="four-panel-container" id="fourPanel">
+  <div class="panel left-top" id="description">
+    <h4>程式碼說明</h4>
+    <p>滑鼠點擊程式碼行以查看說明</p>
   </div>
+  <div class="panel right-top" id="codeArea">
+    <pre id="codeContent"></pre>
+  </div>
+  <div class="panel left-bottom">
+    <textarea id="userNotes" placeholder="在此撰寫筆記..."></textarea>
+    <button id="saveNotesBtn">儲存筆記</button>
+  </div>
+  <div class="panel right-bottom">
+    <div id="chatDisplay" class="chat-display"></div>
+    <textarea id="chatInput"></textarea>
+    <button id="sendChatBtn">送出</button>
+  </div>
+
+  <!-- 拖拉桿 -->
+  <div id="hResizer" class="horizontal-resizer"></div>
+  <div id="vResizer" class="vertical-resizer"></div>
 </div>
 
 <script type="module" src="{{ url_for('static', filename='js/ML_project_runner.js') }}"></script>

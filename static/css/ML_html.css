@@ -1,7 +1,8 @@
 html, body { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; user-select:none; }
 
-.header-row { display:flex; align-items:center; gap:10px; padding:10px; background:#f8f9fa; }
-.top-bar { display:flex; align-items:center; padding:5px 10px; background:#f8f9fa; overflow:hidden; }
+.container-fluid.d-flex { gap:10px; flex-wrap:wrap; align-items:center; }
+.header-row { display:flex; align-items:center; gap:10px; }
+.top-bar { display:flex; align-items:center; overflow:hidden; }
 .top-bar .icon-btn { margin-right:10px; }
 .project-btn-container { display:flex; gap:5px; overflow-x:auto; max-height:0; opacity:0; transition:all 0.3s ease; }
 .project-btn-container.show { max-height:100px; opacity:1; }
@@ -17,7 +18,7 @@ html, body { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; use
   gap: 5px;
   height: calc(100vh - 80px);
   position: relative;
-  transition: grid-template-rows 0.2s, grid-template-columns 0.2s;
+  transition: grid-template-rows 0.1s linear, grid-template-columns 0.1s linear; /* 快速動畫 */
 }
 
 .panel {
@@ -29,45 +30,25 @@ html, body { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; use
   flex-direction: column;
 }
 
-/* 右上程式碼區 */
 .right-top { background-color: #1e1e1e; color: #d4d4d4; font-family: monospace; }
-
-/* 左下筆記區 */
 .left-bottom textarea { width:100%; height:calc(100% - 30px); resize:none; }
-
-/* 右下 ChatGPT */
 .right-bottom { display:flex; flex-direction:column; }
 .right-bottom .chat-display { flex:1; border:1px solid #aaa; overflow-y:auto; }
 .right-bottom textarea { width:100%; height:60px; resize:none; }
 
-/* 水平拖拉桿 */
+/* 拖拉桿 */
+.horizontal-resizer, .vertical-resizer {
+  background:#aaa; z-index:10; transition: all 0.1s linear;
+}
 .horizontal-resizer {
-  position: absolute;
-  height: 8px;
-  width: 100%;
-  background: #aaa;
-  cursor: row-resize;
-  z-index: 10;
-  transition: background 0.2s, height 0.2s;
+  position:absolute; height:8px; width:100%; cursor:row-resize;
 }
-
-/* 垂直拖拉桿 */
 .vertical-resizer {
-  position: absolute;
-  width: 8px;
-  height: 100%;
-  background: #aaa;
-  cursor: col-resize;
-  z-index: 10;
-  transition: background 0.2s, width 0.2s;
+  position:absolute; width:8px; height:100%; cursor:col-resize;
 }
-
-/* 拖拉動畫 */
-.horizontal-resizer.dragging { background:#ff9800; height:12px; }
-.vertical-resizer.dragging { background:#ff9800; width:12px; }
-
-/* 拖拉時取消 grid 過渡，避免殘影 */
-.four-panel-container.dragging { transition: none !important; }
+.horizontal-resizer.dragging { background:#ff9800; height:12px; transition:none; }
+.vertical-resizer.dragging { background:#ff9800; width:12px; transition:none; }
+.four-panel-container.dragging { transition:none !important; }
 
 /* 程式碼行高亮 */
 .code-line { padding:2px 5px; cursor:pointer; }

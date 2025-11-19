@@ -2,7 +2,6 @@ import { ML_projects as projects } from "./ML_project_loader.js";
 
 let currentProject = 1;
 
-// 渲染程式碼
 function renderProject(id){
   const codeArea = document.getElementById("codeContent");
   const desc = document.getElementById("description");
@@ -34,7 +33,6 @@ function renderProject(id){
 }
 renderProject(currentProject);
 
-// 專案切換
 document.querySelectorAll(".project-btn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     currentProject = btn.dataset.id;
@@ -42,12 +40,10 @@ document.querySelectorAll(".project-btn").forEach(btn=>{
   });
 });
 
-// Top-bar toggle
 document.getElementById("toggleBtn").addEventListener("click", ()=>{
   document.getElementById("projectBtns").classList.toggle("show");
 });
 
-// 筆記儲存
 document.getElementById('saveNotesBtn').addEventListener('click', ()=>{
   const notes = document.getElementById('userNotes').value;
   const blob = new Blob([notes], {type:'text/plain'});
@@ -58,7 +54,6 @@ document.getElementById('saveNotesBtn').addEventListener('click', ()=>{
   URL.revokeObjectURL(link.href);
 });
 
-// ChatGPT 假回覆
 document.getElementById('sendChatBtn').addEventListener('click', ()=>{
   const input = document.getElementById('chatInput').value;
   if(!input) return;
@@ -81,10 +76,9 @@ const container = document.getElementById("fourPanel");
 const hResizer = document.getElementById("hResizer");
 const vResizer = document.getElementById("vResizer");
 
-let isDraggingH = false;
-let isDraggingV = false;
-let rowPercent = 50;
-let colPercent = 50;
+let isDraggingH = false, isDraggingV = false;
+let rowPercent = 50, colPercent = 50;
+const minPercent = 10, maxPercent = 90;
 
 function updateHResizer() { hResizer.style.top = rowPercent + "%"; }
 function updateVResizer() { vResizer.style.left = colPercent + "%"; }
@@ -100,8 +94,9 @@ document.addEventListener("mousemove", e=>{
   if(!isDraggingH) return;
   const rect = container.getBoundingClientRect();
   let y = e.clientY - rect.top;
-  y = Math.max(50, Math.min(y, rect.height-50));
   rowPercent = (y/rect.height)*100;
+  if(rowPercent < minPercent) rowPercent = minPercent;
+  if(rowPercent > maxPercent) rowPercent = maxPercent;
   container.style.gridTemplateRows = `${rowPercent}% ${100-rowPercent}%`;
   updateHResizer();
 });
@@ -125,8 +120,9 @@ document.addEventListener("mousemove", e=>{
   if(!isDraggingV) return;
   const rect = container.getBoundingClientRect();
   let x = e.clientX - rect.left;
-  x = Math.max(50, Math.min(x, rect.width-50));
   colPercent = (x/rect.width)*100;
+  if(colPercent < minPercent) colPercent = minPercent;
+  if(colPercent > maxPercent) colPercent = maxPercent;
   container.style.gridTemplateColumns = `${colPercent}% ${100-colPercent}%`;
   updateVResizer();
 });
@@ -139,6 +135,6 @@ document.addEventListener("mouseup", e=>{
   document.body.style.cursor = "default";
 });
 
-// 初始化位置
+// 初始化拖拉桿位置
 updateHResizer();
 updateVResizer();
