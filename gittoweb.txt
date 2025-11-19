@@ -1,30 +1,31 @@
-C:\Users\user\Desktop\Web_Learning_Model
+https://github.com/xiaoyao3312/Web_Learning_Model
 
-cd C:\Users\user\Desktop\Web_Learning_Model
-pwd   # 確認目前路徑
-
-git init
-git add .
-git commit -m "update some content"
-git remote add origin https://github.com/xiaoyao3312/Web_Learning_Model.git
-git branch -M main
-git push -u origin main
+Web_Learning_Model/
+│
+├─ app.py                 # Flask 主程式
+├─ templates/
+│   ├─ index.html
+│   ├─ ml.html
+│   └─ dl.html
+├─ static/
+│   ├─ css/
+│   │   ├─ ML_html.css
+│   │   └─ DL_html.css
+│   └─ js/
+│       ├─ ML_project_loader.js
+│       ├─ DL_project_loader.js
+│       ├─ ML_js/
+│       │   ├─ project_1_add.js
+│       │   └─ project_2_multiply.js
+│       └─ DL_js/
+│           ├─ project_1_cnn.js
+│           └─ project_2_rnn.js
+└─ ...
 
 後續
 git add .
-git commit -m "update some content"
+git commit -m "你的描述"
 git push
-
-https://github.com/xiaoyao3312/Web_Learning_Model
-
-
-
-```
-cd C:\Users\user\Desktop\Web_Learning_Model
-.\upload_git.ps1
-
-```
-
 
 深度學習
 http://127.0.0.1:5000

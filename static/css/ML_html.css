@@ -1,59 +1,118 @@
+/* --------------------------- */
+/* 基本排版 */
+/* --------------------------- */
 body, html {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+  height: 100%;
 }
+
+/* --------------------------- */
+/* 主容器 */
+/* --------------------------- */
 .main-container {
   display: flex;
+  flex-direction: column; /* Top-bar + 程式碼區垂直排列 */
   height: 90vh;
   transition: all 0.3s ease;
 }
-.sidebar {
-  background-color: #f8f9fa;
-  overflow: hidden;
-  transition: width 0.3s ease;
-  width: 50px;
-}
-.sidebar.expanded {
-  width: 200px;
-}
-.sidebar button.icon-btn {
-  width: 100%;
-  margin: 5px 0;
-  padding: 5px;
-}
-.sidebar button.project-btn {
-  display: none;
-  width: 100%;
-  margin: 5px 0;
-}
-.sidebar.expanded button.project-btn {
-  display: block;
-}
-.code-container {
-  flex: 1;
+
+/* --------------------------- */
+/* 上方 Top-bar */
+/* --------------------------- */
+.top-bar {
   display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 5px 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* toggle 按鈕 */
+.top-bar .icon-btn {
+  margin-right: 10px;
+}
+
+/* project 按鈕容器 */
+.project-btn-container {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto; /* 超出顯示橫向滾動 */
+  scroll-behavior: smooth;
+  width: 0; /* 初始隱藏 */
+  transition: width 0.3s ease;
+}
+
+/* 展開寬度自動 */
+.project-btn-container.show {
+  width: 100%;
+}
+
+/* project 按鈕 */
+.project-btn {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s ease;
+  white-space: normal; /* 換行 */
+  text-align: center;
+}
+
+/* 展開動畫 */
+.project-btn-container.show .project-btn {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 鼠標拖曳時樣式 */
+.project-btn-container.active {
+  cursor: grabbing;
+}
+
+/* --------------------------- */
+/* 程式碼區容器 */
+/* --------------------------- */
+.code-container {
+  display: flex;
+  flex: 1;
   gap: 10px;
   padding: 10px;
+  overflow: hidden;
 }
+
+/* 左右面板 */
 .left-panel, .right-panel {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
   border-radius: 5px;
 }
+
+/* 說明面板 */
 .left-panel {
   background-color: #f0f0f0;
 }
+
+/* 程式碼面板 */
 .right-panel {
   background-color: #1e1e1e;
   color: #d4d4d4;
   font-family: monospace;
 }
+
+/* 程式碼行 */
 .code-line {
   padding: 2px 5px;
   cursor: pointer;
 }
+
 .code-line:hover {
   background-color: rgba(255,255,255,0.1);
+}
+
+.code-line.active {
+  background-color: rgba(100, 100, 100, 0.3); /* Bootstrap primary 顏色半透明 */
+  border-radius: 3px;
 }

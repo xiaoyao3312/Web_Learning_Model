@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ML 專案互動教學頁</title>
+<title>互動式 ML 專案教學</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/ML_html.css') }}">
 </head>
@@ -11,15 +11,13 @@
 
 <div class="container-fluid py-3">
   <a href="/" class="btn btn-secondary mb-3">← 回首頁</a>
-  <h2>ML 專案互動式程式碼教學（可縮放專案列表）</h2>
+  <h2>互動式程式碼教學（ML 專案）</h2>
 
-  <div class="main-container">
-    <!-- 側邊欄 -->
-    <div class="sidebar" id="sidebar">
-      <button class="icon-btn btn btn-outline-primary" id="toggleBtn">☰</button>
-
-      <!-- 專案按鈕 -->
-      <button class="project-btn btn btn-outline-primary" data-id="1">專案 1</button>
+  <!-- 上方 Top-bar -->
+  <div class="top-bar" id="topBar">
+    <button class="icon-btn btn btn-outline-primary" id="toggleBtn">☰</button>
+    <div class="project-btn-container" id="projectBtns">
+      <button class="project-btn btn btn-outline-primary" data-id="1">linear_regression <br> 線性迴歸</button>
       <button class="project-btn btn btn-outline-primary" data-id="2">專案 2</button>
       <button class="project-btn btn btn-outline-primary" data-id="3">專案 3</button>
       <button class="project-btn btn btn-outline-primary" data-id="4">專案 4</button>
@@ -30,67 +28,21 @@
       <button class="project-btn btn btn-outline-primary" data-id="9">專案 9</button>
       <button class="project-btn btn btn-outline-primary" data-id="10">專案 10</button>
     </div>
+  </div>
 
-    <!-- 程式碼區 -->
-    <div class="code-container">
-      <div class="left-panel" id="description">
-        <h4>程式碼說明</h4>
-        <p>滑鼠移到程式碼行以查看說明</p>
-      </div>
-      <div class="right-panel" id="codeArea">
-        <pre id="codeContent"></pre>
-      </div>
+  <!-- 程式碼區 -->
+  <div class="code-container">
+    <div class="left-panel" id="description">
+      <h4>程式碼說明</h4>
+      <p>滑鼠移到程式碼行以查看說明</p>
+    </div>
+    <div class="right-panel" id="codeArea">
+      <pre id="codeContent"></pre>
     </div>
   </div>
 </div>
 
-<script type="module">
-import { ML_projects as projects } from "/static/js/ML_project_loader.js";
-
-let currentProject = 1;
-
-function renderProject(id){
-  const codeArea = document.getElementById("codeContent");
-  const desc = document.getElementById("description");
-
-  codeArea.innerHTML = "";
-  desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠移到程式碼行以查看說明</p>";
-
-  const lines = projects[id]?.code || [];
-
-  lines.forEach((lineObj)=>{
-    const span = document.createElement("span");
-    span.className="code-line";
-    span.dataset.desc = lineObj.desc;
-    span.textContent = lineObj.line;
-
-    span.addEventListener("mouseover",()=>{
-      desc.innerHTML="<h4>程式碼說明</h4><p>"+lineObj.desc+"</p>";
-    });
-    span.addEventListener("mouseout",()=>{
-      desc.innerHTML="<h4>程式碼說明</h4><p>滑鼠移到程式碼行以查看說明</p>";
-    });
-
-    codeArea.appendChild(span);
-    codeArea.appendChild(document.createElement("br"));
-  });
-}
-
-renderProject(currentProject);
-
-document.querySelectorAll(".project-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    currentProject = btn.dataset.id;
-    renderProject(currentProject);
-  });
-});
-
-const sidebar = document.getElementById("sidebar");
-document.getElementById("toggleBtn").addEventListener("click",()=>{
-  sidebar.classList.toggle("expanded");
-});
-</script>
-
+<script type="module" src="{{ url_for('static', filename='js/ML_project_runner.js') }}"></script>
 
 </body>
 </html>
