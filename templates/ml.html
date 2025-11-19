@@ -3,81 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>可縮放專案列表教學頁</title>
+<title>ML 專案互動教學頁</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-.main-container {
-  display: flex;
-  height: 90vh;
-  transition: all 0.3s ease;
-}
-.sidebar {
-  background-color: #f8f9fa;
-  overflow: hidden;
-  transition: width 0.3s ease;
-  width: 50px; /* 預設縮小只顯示 icon */
-}
-.sidebar.expanded {
-  width: 200px; /* 展開後顯示完整列表 */
-}
-.sidebar button.icon-btn {
-  width: 100%;
-  margin: 5px 0;
-  padding: 5px;
-}
-.sidebar button.project-btn {
-  display: none; /* 預設隱藏，展開時顯示 */
-  width: 100%;
-  margin: 5px 0;
-}
-.sidebar.expanded button.project-btn {
-  display: block;
-}
-.code-container {
-  flex: 1;
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-}
-.left-panel, .right-panel {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  border-radius: 5px;
-}
-.left-panel {
-  background-color: #f0f0f0;
-}
-.right-panel {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  font-family: monospace;
-}
-.code-line {
-  padding: 2px 5px;
-  cursor: pointer;
-}
-.code-line:hover {
-  background-color: rgba(255,255,255,0.1);
-}
-</style>
+<link rel="stylesheet" href="static/css/ML_html.css">
 </head>
 <body>
 
 <div class="container-fluid py-3">
   <a href="/" class="btn btn-secondary mb-3">← 回首頁</a>
-  <h2>互動式程式碼教學（可縮放專案列表）</h2>
+  <h2>ML 專案互動式程式碼教學（可縮放專案列表）</h2>
 
   <div class="main-container">
     <!-- 側邊欄 -->
     <div class="sidebar" id="sidebar">
       <button class="icon-btn btn btn-outline-primary" id="toggleBtn">☰</button>
-      <!-- 專案列表按鈕 -->
+
+      <!-- 專案按鈕 -->
       <button class="project-btn btn btn-outline-primary" data-id="1">專案 1</button>
       <button class="project-btn btn btn-outline-primary" data-id="2">專案 2</button>
       <button class="project-btn btn btn-outline-primary" data-id="3">專案 3</button>
@@ -103,62 +44,53 @@ body, html {
   </div>
 </div>
 
-<script>
-// 專案程式碼示例
-const projects = {
-  1: { code:[
-    {line:"def add(a,b):", desc:"定義 add 函式"},
-    {line:"    return a+b", desc:"回傳 a+b"},
-    {line:"result = add(1,2)", desc:"呼叫函式並存結果"},
-    {line:"print(result)", desc:"印出結果"}
-  ]},
-  2: { code:[
-    {line:"def multiply(x,y):", desc:"定義乘法函式"},
-    {line:"    return x*y", desc:"回傳 x*y"},
-    {line:"print(multiply(3,4))", desc:"印出結果"}
-  ]}
-  // 可以增加 3~10
-};
+<script type="module">
+import { ML_projects as projects } from "../static/js/ML_project_loader.js";
 
 let currentProject = 1;
 
-// 渲染專案
 function renderProject(id){
   const codeArea = document.getElementById("codeContent");
   const desc = document.getElementById("description");
+
   codeArea.innerHTML = "";
   desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠移到程式碼行以查看說明</p>";
-  const lines = projects[id].code;
+
+  const lines = projects[id]?.code || [];
+
   lines.forEach((lineObj)=>{
     const span = document.createElement("span");
     span.className="code-line";
     span.dataset.desc = lineObj.desc;
     span.textContent = lineObj.line;
-    span.addEventListener("mouseover",()=>{desc.innerHTML="<h4>程式碼說明</h4><p>"+lineObj.desc+"</p>";});
-    span.addEventListener("mouseout",()=>{desc.innerHTML="<h4>程式碼說明</h4><p>滑鼠移到程式碼行以查看說明</p>";});
+
+    span.addEventListener("mouseover",()=>{
+      desc.innerHTML="<h4>程式碼說明</h4><p>"+lineObj.desc+"</p>";
+    });
+    span.addEventListener("mouseout",()=>{
+      desc.innerHTML="<h4>程式碼說明</h4><p>滑鼠移到程式碼行以查看說明</p>";
+    });
+
     codeArea.appendChild(span);
     codeArea.appendChild(document.createElement("br"));
   });
 }
 
-// 初始化
 renderProject(currentProject);
 
-// 切換專案按鈕事件
-document.querySelectorAll('.project-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
+document.querySelectorAll(".project-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
     currentProject = btn.dataset.id;
     renderProject(currentProject);
   });
 });
 
-// 切換側邊欄收縮/展開
 const sidebar = document.getElementById("sidebar");
-const toggleBtn = document.getElementById("toggleBtn");
-toggleBtn.addEventListener("click",()=>{
+document.getElementById("toggleBtn").addEventListener("click",()=>{
   sidebar.classList.toggle("expanded");
 });
 </script>
+
 
 </body>
 </html>
