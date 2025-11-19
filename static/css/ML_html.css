@@ -28,6 +28,7 @@ body, html {
   padding: 5px 10px;
   overflow: hidden;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 /* toggle 按鈕 */
@@ -39,15 +40,15 @@ body, html {
 .project-btn-container {
   display: flex;
   gap: 5px;
-  overflow-x: auto; /* 超出顯示橫向滾動 */
-  scroll-behavior: smooth;
-  width: 0; /* 初始隱藏 */
-  transition: width 0.3s ease;
+  overflow-x: auto;
+  max-height: 0;       /* 初始隱藏 */
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
 }
-
 /* 展開寬度自動 */
 .project-btn-container.show {
-  width: 100%;
+  max-height: 100px;  /* 足夠容納按鈕 */
+  opacity: 1;
 }
 
 /* project 按鈕 */
@@ -76,18 +77,24 @@ body, html {
 /* --------------------------- */
 .code-container {
   display: flex;
-  flex: 1;
-  gap: 10px;
-  padding: 10px;
+  height: 70vh; /* 你可以調整整體高度 */
+  border: 1px solid #ccc;
   overflow: hidden;
+  position: relative;
 }
 
-/* 左右面板 */
 .left-panel, .right-panel {
   flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  border-radius: 5px;
+  padding: 10px;
+  overflow: auto;
+}
+
+/* 垂直分隔線 */
+.resizer {
+  width: 5px;
+  background: #aaa;
+  cursor: row-resize; /* 上下拖曳 */
+  position: relative;
 }
 
 /* 說明面板 */
@@ -112,7 +119,15 @@ body, html {
   background-color: rgba(255,255,255,0.1);
 }
 
+/* 點擊後高亮 */
 .code-line.active {
-  background-color: rgba(100, 100, 100, 0.3); /* Bootstrap primary 顏色半透明 */
+  background-color: rgba(255, 255, 0, 0.3); /* 點擊後高亮 */
   border-radius: 3px;
+}
+
+/* 上下拉桿 */
+#verticalResizer {
+  height: 5px;
+  background-color: #ccc;
+  cursor: row-resize;
 }

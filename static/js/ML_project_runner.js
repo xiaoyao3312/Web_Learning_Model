@@ -2,6 +2,9 @@ import { ML_projects as projects } from "./ML_project_loader.js"; // 匯入資�
 
 let currentProject = 1;
 
+// ---------------------------
+// 渲染專案程式碼
+// ---------------------------
 function renderProject(id) {
   const codeArea = document.getElementById("codeContent");
   const desc = document.getElementById("description");
@@ -24,10 +27,16 @@ function renderProject(id) {
         // 高亮目前行
         span.classList.add("active");
         desc.innerHTML = lineObj.desc + "</p>";
+
+        // **滾動到最上方**
+        desc.scrollTop = 0;
       } else {
         // 如果已高亮，取消高亮並顯示預設文字
         span.classList.remove("active");
         desc.innerHTML = "<h4>程式碼說明</h4><p>點擊程式碼行以查看說明</p>";
+
+        // 滾動到最上方
+        desc.scrollTop = 0;
       }
     });
 
@@ -38,7 +47,9 @@ function renderProject(id) {
 
 renderProject(currentProject);
 
+// ---------------------------
 // 專案按鈕事件
+// ---------------------------
 document.querySelectorAll(".project-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     currentProject = btn.dataset.id;
@@ -46,7 +57,9 @@ document.querySelectorAll(".project-btn").forEach((btn) => {
   });
 });
 
+// ---------------------------
 // Top-bar 展開/收起
+// ---------------------------
 const toggleBtn = document.getElementById("toggleBtn");
 const projectBtns = document.getElementById("projectBtns");
 
@@ -54,7 +67,9 @@ toggleBtn.addEventListener("click", () => {
   projectBtns.classList.toggle("show");
 });
 
+// ---------------------------
 // Top-bar 拖曳左右滑動
+// ---------------------------
 let isDown = false;
 let startX;
 let scrollLeft;
@@ -82,4 +97,36 @@ projectBtns.addEventListener('mousemove', (e) => {
   const x = e.pageX - projectBtns.offsetLeft;
   const walk = (x - startX) * 2;
   projectBtns.scrollLeft = scrollLeft - walk;
+});
+
+// ---------------------------
+// Code 區上下拖曳
+// ---------------------------
+const resizer = document.getElementById('verticalResizer');
+const leftPanel = document.getElementById('description');
+const rightPanel = document.getElementById('codeArea');
+
+let isResizing = false;
+
+resizer.addEventListener('mousedown', () => {
+  isResizing = true;
+  document.body.style.cursor = 'row-resize';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isResizing) return;
+  const containerTop = leftPanel.parentElement.getBoundingClientRect().top;
+  let newHeight = e.clientY - containerTop;
+
+  // 設定最小/最大高度
+  if (newHeight < 50) newHeight = 50;
+  if (newHeight > leftPanel.parentElement.offsetHeight - 50) newHeight = leftPanel.parentElement.offsetHeight - 50;
+
+  leftPanel.style.height = newHeight + 'px';
+  rightPanel.style.height = newHeight + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+  isResizing = false;
+  document.body.style.cursor = 'default';
 });

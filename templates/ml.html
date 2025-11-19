@@ -10,8 +10,10 @@
 <body>
 
 <div class="container-fluid py-3">
-  <a href="/" class="btn btn-secondary mb-3">← 回首頁</a>
-  <h2>互動式程式碼教學（ML 專案）</h2>
+<div class="header-row d-flex align-items-center mb-3">
+  <a href="/" class="btn btn-secondary me-3">← 回首頁</a>
+  <h2 class="m-0">互動式程式碼教學（ML 專案）</h2>
+</div>
 
   <!-- 上方 Top-bar -->
   <div class="top-bar" id="topBar">
@@ -32,13 +34,16 @@
 
   <!-- 程式碼區 -->
   <div class="code-container">
-    <div class="left-panel" id="description">
-      <h4>程式碼說明</h4>
-      <p>滑鼠移到程式碼行以查看說明</p>
-    </div>
-    <div class="right-panel" id="codeArea">
-      <pre id="codeContent"></pre>
-    </div>
+  <div class="left-panel" id="description">
+    <h4>程式碼說明</h4>
+    <p>滑鼠點擊程式碼行以查看說明</p>
+  </div>
+
+  <!-- 上下拉桿 -->
+  <div id="verticalResizer" style="height:5px; background:#ccc; cursor:row-resize;"></div>
+
+  <div class="right-panel" id="codeArea">
+    <pre id="codeContent"></pre>
   </div>
 </div>
 

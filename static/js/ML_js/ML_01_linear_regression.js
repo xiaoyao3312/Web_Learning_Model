@@ -1,6 +1,6 @@
 export const ML_01_linear_regression = {
   id: 1,
-  name: "專案 1：加法範例",
+  name: "ML_01_linear_regression",
   code: [
 {
     "line": `
