@@ -10,44 +10,44 @@
 <body>
 
 <div class="container-fluid py-3">
-<div class="header-row d-flex align-items-center mb-3">
-  <a href="/" class="btn btn-secondary me-3">← 回首頁</a>
-  <h2 class="m-0">互動式程式碼教學（ML 專案）</h2>
-</div>
+  <div class="header-row d-flex align-items-center mb-3">
+    <a href="/" class="btn btn-secondary me-3">← 回首頁</a>
+    <h2 class="m-0">互動式程式碼教學（ML 專案）</h2>
+  </div>
 
-  <!-- 上方 Top-bar -->
   <div class="top-bar" id="topBar">
     <button class="icon-btn btn btn-outline-primary" id="toggleBtn">☰</button>
     <div class="project-btn-container" id="projectBtns">
       <button class="project-btn btn btn-outline-primary" data-id="1">linear_regression <br> 線性迴歸</button>
       <button class="project-btn btn btn-outline-primary" data-id="2">專案 2</button>
       <button class="project-btn btn btn-outline-primary" data-id="3">專案 3</button>
-      <button class="project-btn btn btn-outline-primary" data-id="4">專案 4</button>
-      <button class="project-btn btn btn-outline-primary" data-id="5">專案 5</button>
-      <button class="project-btn btn btn-outline-primary" data-id="6">專案 6</button>
-      <button class="project-btn btn btn-outline-primary" data-id="7">專案 7</button>
-      <button class="project-btn btn btn-outline-primary" data-id="8">專案 8</button>
-      <button class="project-btn btn btn-outline-primary" data-id="9">專案 9</button>
-      <button class="project-btn btn btn-outline-primary" data-id="10">專案 10</button>
     </div>
   </div>
 
-  <!-- 程式碼區 -->
-  <div class="code-container">
-  <div class="left-panel" id="description">
-    <h4>程式碼說明</h4>
-    <p>滑鼠點擊程式碼行以查看說明</p>
-  </div>
+  <div class="four-panel-container" id="fourPanel">
+    <div class="panel left-top" id="description">
+      <h4>程式碼說明</h4>
+      <p>滑鼠點擊程式碼行以查看說明</p>
+    </div>
+    <div class="panel right-top" id="codeArea">
+      <pre id="codeContent"></pre>
+    </div>
+    <div class="panel left-bottom">
+      <textarea id="userNotes" placeholder="在此撰寫筆記..."></textarea>
+      <button id="saveNotesBtn">儲存筆記</button>
+    </div>
+    <div class="panel right-bottom">
+      <div id="chatDisplay" class="chat-display"></div>
+      <textarea id="chatInput"></textarea>
+      <button id="sendChatBtn">送出</button>
+    </div>
 
-  <!-- 上下拉桿 -->
-  <div id="verticalResizer" style="height:5px; background:#ccc; cursor:row-resize;"></div>
-
-  <div class="right-panel" id="codeArea">
-    <pre id="codeContent"></pre>
+    <!-- 拖拉桿 -->
+    <div id="hResizer" class="horizontal-resizer"></div>
+    <div id="vResizer" class="vertical-resizer"></div>
   </div>
 </div>
 
 <script type="module" src="{{ url_for('static', filename='js/ML_project_runner.js') }}"></script>
-
 </body>
 </html>

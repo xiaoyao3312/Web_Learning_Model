@@ -1,133 +1,75 @@
-/* --------------------------- */
-/* 基本排版 */
-/* --------------------------- */
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  height: 100%;
-}
+html, body { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; user-select:none; }
 
-/* --------------------------- */
-/* 主容器 */
-/* --------------------------- */
-.main-container {
-  display: flex;
-  flex-direction: column; /* Top-bar + 程式碼區垂直排列 */
-  height: 90vh;
-  transition: all 0.3s ease;
-}
+.header-row { display:flex; align-items:center; gap:10px; padding:10px; background:#f8f9fa; }
+.top-bar { display:flex; align-items:center; padding:5px 10px; background:#f8f9fa; overflow:hidden; }
+.top-bar .icon-btn { margin-right:10px; }
+.project-btn-container { display:flex; gap:5px; overflow-x:auto; max-height:0; opacity:0; transition:all 0.3s ease; }
+.project-btn-container.show { max-height:100px; opacity:1; }
+.project-btn { display:inline-block; opacity:0; transform:translateX(-20px); transition:all 0.3s ease; text-align:center; }
+.project-btn-container.show .project-btn { opacity:1; transform:translateX(0); }
+.project-btn-container.active { cursor:grabbing; }
 
-/* --------------------------- */
-/* 上方 Top-bar */
-/* --------------------------- */
-.top-bar {
-  display: flex;
-  align-items: center;
-  background-color: #f8f9fa;
-  padding: 5px 10px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-/* toggle 按鈕 */
-.top-bar .icon-btn {
-  margin-right: 10px;
-}
-
-/* project 按鈕容器 */
-.project-btn-container {
-  display: flex;
+/* 四格 Grid 布局 */
+.four-panel-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
   gap: 5px;
-  overflow-x: auto;
-  max-height: 0;       /* 初始隱藏 */
-  opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-}
-/* 展開寬度自動 */
-.project-btn-container.show {
-  max-height: 100px;  /* 足夠容納按鈕 */
-  opacity: 1;
+  height: calc(100vh - 80px);
+  position: relative;
+  transition: grid-template-rows 0.2s, grid-template-columns 0.2s;
 }
 
-/* project 按鈕 */
-.project-btn {
-  display: inline-block;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: all 0.3s ease;
-  white-space: normal; /* 換行 */
-  text-align: center;
-}
-
-/* 展開動畫 */
-.project-btn-container.show .project-btn {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* 鼠標拖曳時樣式 */
-.project-btn-container.active {
-  cursor: grabbing;
-}
-
-/* --------------------------- */
-/* 程式碼區容器 */
-/* --------------------------- */
-.code-container {
-  display: flex;
-  height: 70vh; /* 你可以調整整體高度 */
+.panel {
   border: 1px solid #ccc;
-  overflow: hidden;
-  position: relative;
-}
-
-.left-panel, .right-panel {
-  flex: 1;
   padding: 10px;
+  background: #f8f8f8;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 垂直分隔線 */
-.resizer {
-  width: 5px;
+/* 右上程式碼區 */
+.right-top { background-color: #1e1e1e; color: #d4d4d4; font-family: monospace; }
+
+/* 左下筆記區 */
+.left-bottom textarea { width:100%; height:calc(100% - 30px); resize:none; }
+
+/* 右下 ChatGPT */
+.right-bottom { display:flex; flex-direction:column; }
+.right-bottom .chat-display { flex:1; border:1px solid #aaa; overflow-y:auto; }
+.right-bottom textarea { width:100%; height:60px; resize:none; }
+
+/* 水平拖拉桿 */
+.horizontal-resizer {
+  position: absolute;
+  height: 8px;
+  width: 100%;
   background: #aaa;
-  cursor: row-resize; /* 上下拖曳 */
-  position: relative;
-}
-
-/* 說明面板 */
-.left-panel {
-  background-color: #f0f0f0;
-}
-
-/* 程式碼面板 */
-.right-panel {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  font-family: monospace;
-}
-
-/* 程式碼行 */
-.code-line {
-  padding: 2px 5px;
-  cursor: pointer;
-}
-
-.code-line:hover {
-  background-color: rgba(255,255,255,0.1);
-}
-
-/* 點擊後高亮 */
-.code-line.active {
-  background-color: rgba(255, 255, 0, 0.3); /* 點擊後高亮 */
-  border-radius: 3px;
-}
-
-/* 上下拉桿 */
-#verticalResizer {
-  height: 5px;
-  background-color: #ccc;
   cursor: row-resize;
+  z-index: 10;
+  transition: background 0.2s, height 0.2s;
 }
+
+/* 垂直拖拉桿 */
+.vertical-resizer {
+  position: absolute;
+  width: 8px;
+  height: 100%;
+  background: #aaa;
+  cursor: col-resize;
+  z-index: 10;
+  transition: background 0.2s, width 0.2s;
+}
+
+/* 拖拉動畫 */
+.horizontal-resizer.dragging { background:#ff9800; height:12px; }
+.vertical-resizer.dragging { background:#ff9800; width:12px; }
+
+/* 拖拉時取消 grid 過渡，避免殘影 */
+.four-panel-container.dragging { transition: none !important; }
+
+/* 程式碼行高亮 */
+.code-line { padding:2px 5px; cursor:pointer; }
+.code-line:hover { background: rgba(255,255,255,0.1); }
+.code-line.active { background: rgba(255,255,0,0.3); border-radius:3px; }

@@ -1,132 +1,144 @@
-import { ML_projects as projects } from "./ML_project_loader.js"; // 匯入資料層
+import { ML_projects as projects } from "./ML_project_loader.js";
 
 let currentProject = 1;
 
-// ---------------------------
-// 渲染專案程式碼
-// ---------------------------
-function renderProject(id) {
+// 渲染程式碼
+function renderProject(id){
   const codeArea = document.getElementById("codeContent");
   const desc = document.getElementById("description");
   codeArea.innerHTML = "";
   desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠點擊程式碼行以查看說明</p>";
 
   const lines = projects[id]?.code || [];
-  lines.forEach((lineObj) => {
+  lines.forEach(lineObj=>{
     const span = document.createElement("span");
     span.className = "code-line";
     span.dataset.desc = lineObj.desc;
     span.textContent = lineObj.line;
 
-    // 點擊高亮
-    span.addEventListener("click", () => {
-      // 先移除所有行的 active
-      document.querySelectorAll(".code-line").forEach((el) => el.classList.remove("active"));
-
-      if (!span.classList.contains("active")) {
-        // 高亮目前行
+    span.addEventListener("click", ()=>{
+      document.querySelectorAll(".code-line").forEach(el=>el.classList.remove("active"));
+      if(!span.classList.contains("active")){
         span.classList.add("active");
         desc.innerHTML = lineObj.desc + "</p>";
-
-        // **滾動到最上方**
-        desc.scrollTop = 0;
       } else {
-        // 如果已高亮，取消高亮並顯示預設文字
         span.classList.remove("active");
-        desc.innerHTML = "<h4>程式碼說明</h4><p>點擊程式碼行以查看說明</p>";
-
-        // 滾動到最上方
-        desc.scrollTop = 0;
+        desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠點擊程式碼行以查看說明</p>";
       }
+      desc.scrollTop = 0;
     });
 
     codeArea.appendChild(span);
     codeArea.appendChild(document.createElement("br"));
   });
 }
-
 renderProject(currentProject);
 
-// ---------------------------
-// 專案按鈕事件
-// ---------------------------
-document.querySelectorAll(".project-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
+// 專案切換
+document.querySelectorAll(".project-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
     currentProject = btn.dataset.id;
     renderProject(currentProject);
   });
 });
 
-// ---------------------------
-// Top-bar 展開/收起
-// ---------------------------
-const toggleBtn = document.getElementById("toggleBtn");
-const projectBtns = document.getElementById("projectBtns");
+// Top-bar toggle
+document.getElementById("toggleBtn").addEventListener("click", ()=>{
+  document.getElementById("projectBtns").classList.toggle("show");
+});
 
-toggleBtn.addEventListener("click", () => {
-  projectBtns.classList.toggle("show");
+// 筆記儲存
+document.getElementById('saveNotesBtn').addEventListener('click', ()=>{
+  const notes = document.getElementById('userNotes').value;
+  const blob = new Blob([notes], {type:'text/plain'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'user_notes.txt';
+  link.click();
+  URL.revokeObjectURL(link.href);
+});
+
+// ChatGPT 假回覆
+document.getElementById('sendChatBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('chatInput').value;
+  if(!input) return;
+
+  const chatDisplay = document.getElementById('chatDisplay');
+  const userMsg = document.createElement('div'); userMsg.textContent = "你: " + input;
+  chatDisplay.appendChild(userMsg);
+
+  const botMsg = document.createElement('div'); botMsg.textContent = "ChatGPT: 我收到你的訊息了!";
+  botMsg.style.color = "blue";
+  chatDisplay.appendChild(botMsg);
+
+  document.getElementById('chatInput').value = '';
+  chatDisplay.scrollTop = chatDisplay.scrollHeight;
 });
 
 // ---------------------------
-// Top-bar 拖曳左右滑動
-// ---------------------------
-let isDown = false;
-let startX;
-let scrollLeft;
+// 拖拉功能
+const container = document.getElementById("fourPanel");
+const hResizer = document.getElementById("hResizer");
+const vResizer = document.getElementById("vResizer");
 
-projectBtns.addEventListener('mousedown', (e) => {
-  isDown = true;
-  projectBtns.classList.add('active');
-  startX = e.pageX - projectBtns.offsetLeft;
-  scrollLeft = projectBtns.scrollLeft;
+let isDraggingH = false;
+let isDraggingV = false;
+let rowPercent = 50;
+let colPercent = 50;
+
+function updateHResizer() { hResizer.style.top = rowPercent + "%"; }
+function updateVResizer() { vResizer.style.left = colPercent + "%"; }
+
+// 水平拖拉
+hResizer.addEventListener("mousedown", e=>{
+  isDraggingH = true;
+  container.classList.add("dragging");
+  hResizer.classList.add("dragging");
+  document.body.style.cursor = "row-resize";
+});
+document.addEventListener("mousemove", e=>{
+  if(!isDraggingH) return;
+  const rect = container.getBoundingClientRect();
+  let y = e.clientY - rect.top;
+  y = Math.max(50, Math.min(y, rect.height-50));
+  rowPercent = (y/rect.height)*100;
+  container.style.gridTemplateRows = `${rowPercent}% ${100-rowPercent}%`;
+  updateHResizer();
+});
+document.addEventListener("mouseup", e=>{
+  if(isDraggingH){
+    container.classList.remove("dragging");
+    hResizer.classList.remove("dragging");
+  }
+  isDraggingH = false;
+  document.body.style.cursor = "default";
 });
 
-projectBtns.addEventListener('mouseleave', () => {
-  isDown = false;
-  projectBtns.classList.remove('active');
+// 垂直拖拉
+vResizer.addEventListener("mousedown", e=>{
+  isDraggingV = true;
+  container.classList.add("dragging");
+  vResizer.classList.add("dragging");
+  document.body.style.cursor = "col-resize";
+});
+document.addEventListener("mousemove", e=>{
+  if(!isDraggingV) return;
+  const rect = container.getBoundingClientRect();
+  let x = e.clientX - rect.left;
+  x = Math.max(50, Math.min(x, rect.width-50));
+  colPercent = (x/rect.width)*100;
+  container.style.gridTemplateColumns = `${colPercent}% ${100-colPercent}%`;
+  updateVResizer();
+});
+document.addEventListener("mouseup", e=>{
+  if(isDraggingV){
+    container.classList.remove("dragging");
+    vResizer.classList.remove("dragging");
+  }
+  isDraggingV = false;
+  document.body.style.cursor = "default";
 });
 
-projectBtns.addEventListener('mouseup', () => {
-  isDown = false;
-  projectBtns.classList.remove('active');
-});
-
-projectBtns.addEventListener('mousemove', (e) => {
-  if(!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - projectBtns.offsetLeft;
-  const walk = (x - startX) * 2;
-  projectBtns.scrollLeft = scrollLeft - walk;
-});
-
-// ---------------------------
-// Code 區上下拖曳
-// ---------------------------
-const resizer = document.getElementById('verticalResizer');
-const leftPanel = document.getElementById('description');
-const rightPanel = document.getElementById('codeArea');
-
-let isResizing = false;
-
-resizer.addEventListener('mousedown', () => {
-  isResizing = true;
-  document.body.style.cursor = 'row-resize';
-});
-
-document.addEventListener('mousemove', (e) => {
-  if (!isResizing) return;
-  const containerTop = leftPanel.parentElement.getBoundingClientRect().top;
-  let newHeight = e.clientY - containerTop;
-
-  // 設定最小/最大高度
-  if (newHeight < 50) newHeight = 50;
-  if (newHeight > leftPanel.parentElement.offsetHeight - 50) newHeight = leftPanel.parentElement.offsetHeight - 50;
-
-  leftPanel.style.height = newHeight + 'px';
-  rightPanel.style.height = newHeight + 'px';
-});
-
-document.addEventListener('mouseup', () => {
-  isResizing = false;
-  document.body.style.cursor = 'default';
-});
+// 初始化位置
+updateHResizer();
+updateVResizer();
