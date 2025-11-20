@@ -1,7 +1,25 @@
 import { ML_projects as projects } from "./ML_project_loader.js";
 
-// --- 專案載入邏輯 (保持原樣) ---
+// --- 專案載入邏輯 ---
 let currentProject = 1;
+const mainTitle = document.getElementById("mainTitle"); // 取得標題元素
+const BASE_TITLE = "互動式程式碼教學";
+
+/**
+ * 從按鈕元素中提取專案英文名稱並更新主標題
+ * @param {HTMLElement} btn - 點擊的專案按鈕元素
+ */
+function updateMainTitle(btn) {
+    if (!btn) return;
+    // 獲取按鈕文本，例如 "linear_regression <br> 線性迴歸"
+    const fullText = btn.innerHTML.trim();
+    // 提取第一個單詞 (即英文專案名)，使用 <br> 作為分隔符
+    const projectName = fullText.split('<br>')[0].trim();
+    
+    // 更新標題
+    mainTitle.textContent = `${BASE_TITLE}（${projectName}）`;
+}
+
 
 function renderProject(id){
   const codeArea = document.getElementById("codeContent");
@@ -32,11 +50,12 @@ function renderProject(id){
     codeArea.appendChild(document.createElement("br"));
   });
 }
-renderProject(currentProject);
+// renderProject 在這裡被呼叫，但標題更新必須在按鈕設定完畢後進行
 
 document.querySelectorAll(".project-btn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     currentProject = btn.dataset.id;
+    updateMainTitle(btn); // 在點擊時更新標題
     renderProject(currentProject);
   });
 });
@@ -51,13 +70,20 @@ document.getElementById('saveNotesBtn').addEventListener('click', ()=>{
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
   link.download = 'user_notes.txt';
-  link.click();
   URL.revokeObjectURL(link.href);
 });
 
-
+// --- 初始化標題和專案 ---
+// 確保在頁面加載時，初始專案 (ID 1) 的名稱正確顯示在標題中
+const initialProjectButton = document.querySelector('.project-btn[data-id="1"]');
+if (initialProjectButton) {
+    updateMainTitle(initialProjectButton);
+}
+renderProject(currentProject); 
 // ---------------------------
-// --- Gemini AI 聊天串接邏輯 (更新 API_KEY 處理) ---
+
+
+// --- Gemini AI 聊天串接邏輯 ---
 // 核心設定
 const MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent`;
