@@ -1,56 +1,194 @@
-html, body { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; user-select:none; }
+/* static/CSS/ML_html.css */
 
-.container-fluid.d-flex { gap:10px; flex-wrap:wrap; align-items:center; }
-.header-row { display:flex; align-items:center; gap:10px; }
-.top-bar { display:flex; align-items:center; overflow:hidden; }
-.top-bar .icon-btn { margin-right:10px; }
-.project-btn-container { display:flex; gap:5px; overflow-x:auto; max-height:0; opacity:0; transition:all 0.3s ease; }
-.project-btn-container.show { max-height:100px; opacity:1; }
-.project-btn { display:inline-block; opacity:0; transform:translateX(-20px); transition:all 0.3s ease; text-align:center; }
-.project-btn-container.show .project-btn { opacity:1; transform:translateX(0); }
-.project-btn-container.active { cursor:grabbing; }
+/* --- 專案按鈕列樣式 --- */
+.header-row {
+    margin-right: 15px;
+}
 
-/* 四格 Grid 布局 */
+.top-bar {
+    /* 讓 top-bar 不會自動換行 */
+    flex-shrink: 0; 
+}
+
+/* 確保所有標題也使用這個高對比顏色 */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--header-font-color);
+    transition: color 0.5s linear;
+}
+
+/* 確保按鈕顏色與頂部文字顏色一致 */
+#toggleBtn {
+    /* 確保按鈕有足夠的寬度 */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    padding: 0;
+    /* 確保按鈕圖示/文字顏色高對比 */
+    color: var(--header-font-color); 
+}
+
+.project-btn-container {
+    display: none;
+    /* 讓按鈕在水平方向排列 */
+    white-space: nowrap; 
+    overflow-x: auto;
+    padding: 0 10px;
+}
+
+.project-btn-container.show {
+    display: flex;
+    gap: 8px;
+}
+
+.project-btn {
+    min-width: 100px;
+    text-align: center;
+    /* 移除 Bootstrap 的 flex-grow 影響 */
+    flex-shrink: 0; 
+}
+
+/* --- 四面板佈局樣式 --- */
+
 .four-panel-container {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 50% 50%;
-  gap: 5px;
-  height: calc(100vh - 80px);
-  position: relative;
-  transition: grid-template-rows 0.1s linear, grid-template-columns 0.1s linear; /* 快速動畫 */
+    /* 使用 CSS Grid 實現四格佈局 */
+    display: grid;
+    /* 兩欄，比例由 JS 調整 */
+    grid-template-columns: 50% 50%; 
+    /* 兩行，比例由 JS 調整 */
+    grid-template-rows: 50% 50%;     
+    width: 100vw;
+    /* 佔據視窗剩餘高度 */
+    height: calc(100vh - 70px); 
+    overflow: hidden;
+    position: relative; /* 為了拖拉桿的 absolute 定位 */
 }
 
+/* 四個面板的通用樣式 */
 .panel {
-  border: 1px solid #ccc;
-  padding: 10px;
-  background: #f8f8f8;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
+    border: 1px solid #ddd;
+    padding: 15px;
+    overflow: auto; 
+    
+    /* 應用面板過渡 */
+    background-color: var(--panel-bg-color);
+    color: var(--panel-font-color);
+    transition: background-color 0.5s linear, color 0.5s linear;
+    
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
-.right-top { background-color: #1e1e1e; color: #d4d4d4; font-family: monospace; }
-.left-bottom textarea { width:100%; height:calc(100% - 30px); resize:none; }
-.right-bottom { display:flex; flex-direction:column; }
-.right-bottom .chat-display { flex:1; border:1px solid #aaa; overflow-y:auto; }
-.right-bottom textarea { width:100%; height:60px; resize:none; }
+/* 程式碼區域 */
+#codeArea {
+    white-space: pre-wrap; 
+    font-family: monospace;
+    line-height: 1.4;
+    cursor: default;
+}
 
-/* 拖拉桿 */
+/* 程式碼行 (JS中創建的) */
+.code-line {
+    display: block;
+    padding: 2px 4px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+/* 確保代碼行選中時顏色可見 */
+.code-line:hover {
+    /* 這裡的顏色保持固定，避免隨主題變動而難以辨識 */
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.code-line.active {
+    /* 這裡的顏色保持固定，避免隨主題變動而難以辨識 */
+    background-color: rgba(40, 167, 69, 0.3);
+    font-weight: bold;
+}
+
+/* 筆記與聊天區域 */
+#userNotes, #chatInput {
+    width: 100%;
+    height: 80%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ccc;
+    resize: none;
+    /* 確保輸入框背景也使用面板背景變數 */
+    background-color: var(--panel-bg-color); 
+    color: var(--panel-font-color);
+    /* 讓輸入框的背景和文字切換也平滑 */
+    transition: background-color 0.5s linear, color 0.5s linear;
+}
+
+.left-bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+#saveNotesBtn {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.right-bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-display {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    padding: 5px;
+    /* 確保聊天顯示背景也使用面板背景變數 */
+    background-color: var(--panel-bg-color);
+    color: var(--panel-font-color);
+    /* 讓聊天顯示的背景和文字切換也平滑 */
+    transition: background-color 0.5s linear, color 0.5s linear;
+}
+
+#sendChatBtn {
+    margin-top: 5px;
+    width: 100%;
+}
+
+/* --- 拖拉桿樣式 --- */
 .horizontal-resizer, .vertical-resizer {
-  background:#aaa; z-index:10; transition: all 0.1s linear;
+    position: absolute;
+    z-index: 10;
+    /* 拖拉桿背景色可以不變，確保可見性 */
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
 }
-.horizontal-resizer {
-  position:absolute; height:8px; width:100%; cursor:row-resize;
-}
-.vertical-resizer {
-  position:absolute; width:8px; height:100%; cursor:col-resize;
-}
-.horizontal-resizer.dragging { background:#ff9800; height:12px; transition:none; }
-.vertical-resizer.dragging { background:#ff9800; width:12px; transition:none; }
-.four-panel-container.dragging { transition:none !important; }
 
-/* 程式碼行高亮 */
-.code-line { padding:2px 5px; cursor:pointer; }
-.code-line:hover { background: rgba(255,255,255,0.1); }
-.code-line.active { background: rgba(255,255,0,0.3); border-radius:3px; }
+/* 水平拖拉桿 (上下分割線) */
+.horizontal-resizer {
+    left: 0;
+    width: 100%;
+    height: 8px; 
+    cursor: row-resize;
+    transform: translateY(-50%); 
+}
+
+/* 垂直拖拉桿 (左右分割線) */
+.vertical-resizer {
+    top: 0;
+    height: 100%;
+    width: 8px; 
+    cursor: col-resize;
+    transform: translateX(-50%); 
+}
+
+.horizontal-resizer:hover, .vertical-resizer:hover,
+.horizontal-resizer.dragging, .vertical-resizer.dragging {
+    background-color: rgba(0, 123, 255, 0.5);
+}
+
+/* 拖曳時禁止選取文字 */
+.four-panel-container.dragging {
+    user-select: none;
+}
