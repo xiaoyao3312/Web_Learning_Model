@@ -1,5 +1,3 @@
-/* static/CSS/ML_html.css */
-
 /* --- 專案按鈕列樣式 --- */
 .header-row {
     margin-right: 15px;
@@ -50,6 +48,43 @@ h1, h2, h3, h4, h5, h6 {
     flex-shrink: 0; 
 }
 
+/* --- API 金鑰輸入區樣式 --- */
+#apiKeyInput {
+    max-width: 300px; /* 限制輸入框最大寬度 */
+}
+#saveApiKeyBtn {
+    /* 確保按鈕不會被壓縮 */
+    white-space: nowrap;
+}
+/* 讓整個頂部容器在小螢幕上佈局更合理 */
+@media (max-width: 768px) {
+    .container-fluid.py-3 {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    .header-row {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .top-bar {
+        margin-bottom: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .project-btn-container {
+        width: calc(100% - 60px); /* 留一點空間給 toggleBtn */
+    }
+    #apiKeySetup {
+        width: 100%;
+        margin-top: 0 !important;
+        margin-bottom: 10px;
+    }
+    #apiKeyInput {
+        max-width: none;
+    }
+}
+
+
 /* --- 四面板佈局樣式 --- */
 
 .four-panel-container {
@@ -58,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
     /* 兩欄，比例由 JS 調整 */
     grid-template-columns: 50% 50%; 
     /* 兩行，比例由 JS 調整 */
-    grid-template-rows: 50% 50%;     
+    grid-template-rows: 50% 50%; 
     width: 100vw;
     /* 佔據視窗剩餘高度 */
     height: calc(100vh - 70px); 
@@ -108,10 +143,9 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
-/* 筆記與聊天區域 */
+/* 筆記與聊天區域通用樣式 */
 #userNotes, #chatInput {
-    width: 100%;
-    height: 80%;
+    /* 移除之前的 width: 100%; height: 80%; */
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid #ccc;
@@ -123,27 +157,36 @@ h1, h2, h3, h4, h5, h6 {
     transition: background-color 0.5s linear, color 0.5s linear;
 }
 
+/* 左下角筆記區 */
 .left-bottom {
     display: flex;
     flex-direction: column;
 }
 
+#userNotes {
+    flex-grow: 1; /* 讓筆記區佔滿剩餘空間 */
+    height: auto;
+    margin-bottom: 10px;
+}
+
 #saveNotesBtn {
-    margin-top: 10px;
+    /* margin-top: 10px; 刪除，已被 margin-bottom 取代 */
     width: 100%;
 }
 
+/* 右下角聊天區 - 啟用 Flex 佈局 */
 .right-bottom {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* 聊天顯示在上，輸入區在下 */
 }
 
+/* 聊天顯示區域 */
 .chat-display {
     flex-grow: 1;
     overflow-y: auto;
     border: 1px solid #ccc;
-    margin-bottom: 5px;
-    padding: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
     /* 確保聊天顯示背景也使用面板背景變數 */
     background-color: var(--panel-bg-color);
     color: var(--panel-font-color);
@@ -151,12 +194,96 @@ h1, h2, h3, h4, h5, h6 {
     transition: background-color 0.5s linear, color 0.5s linear;
 }
 
-#sendChatBtn {
-    margin-top: 5px;
-    width: 100%;
+/* 聊天輸入區域 - 橫向佈局 */
+.chat-input-area {
+    display: flex;
+    align-items: flex-end; /* 將按鈕和輸入框底部對齊 */
+    gap: 8px; /* 間隔 */
+    padding-top: 5px; /* 與聊天顯示區的間隔 */
 }
 
-/* --- 拖拉桿樣式 --- */
+#chatInput {
+    flex-grow: 1;
+    height: auto; /* 讓 JS 控制高度 */
+    min-height: 40px;
+    max-height: 120px;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+#sendChatBtn {
+    /* margin-top: 5px; 移除 */
+    width: 80px; /* 固定寬度，與輸入框對齊 */
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* 防止按鈕被壓縮 */
+}
+
+/* --- 聊天訊息氣泡樣式 --- */
+.message-bubble {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.user-bubble {
+    background-color: #0d6efd; /* Bootstrap primary blue */
+    color: white;
+    margin-left: auto; /* 推到右側 */
+    border-bottom-right-radius: 4px; /* 尖角效果 */
+}
+
+.ai-bubble {
+    background-color: #f0f0f0; /* 淺灰色 */
+    color: #333;
+    margin-right: auto; /* 推到左側 */
+    border-bottom-left-radius: 4px; /* 尖角效果 */
+}
+
+.ai-name {
+    font-weight: bold;
+    color: #0d6efd;
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+}
+
+/* 正在輸入的動畫點 */
+.typing-indicator .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 2px;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    animation: bounce 0.6s infinite alternate;
+}
+
+.typing-indicator .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-4px);
+    }
+}
+
+
+/* --- 拖拉桿樣式 (保持原樣) --- */
 .horizontal-resizer, .vertical-resizer {
     position: absolute;
     z-index: 10;

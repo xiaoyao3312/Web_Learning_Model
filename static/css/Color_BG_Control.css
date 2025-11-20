@@ -6,7 +6,7 @@
   --panel-font-color: #000;
   --header-font-color: #000; 
   
-  --fab-size: 70px;
+  --fab-size: 50px;
   --fab-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   /* 移除 --content-bg 變數，直接使用 --panel-bg-color */
 }

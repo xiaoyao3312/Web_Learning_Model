@@ -25,6 +25,12 @@
       <button class="project-btn btn btn-outline-primary" data-id="3">專案 3</button>
     </div>
   </div>
+  
+  <!-- 新增 API 金鑰輸入區 -->
+  <div id="apiKeySetup" class="flex-grow-1 d-flex gap-2 align-items-center mt-2 mt-md-0">
+    <input type="password" id="apiKeyInput" class="form-control" placeholder="在此輸入 Gemini API 金鑰 (臨時使用)">
+    <button id="saveApiKeyBtn" class="btn btn-warning flex-shrink-0">設定金鑰</button>
+  </div>
 </div>
 
 <div class="four-panel-container" id="fourPanel">
@@ -37,12 +43,22 @@
   </div>
   <div class="panel left-bottom">
     <textarea id="userNotes" placeholder="在此撰寫筆記..."></textarea>
-    <button id="saveNotesBtn">儲存筆記</button>
+    <button id="saveNotesBtn" class="btn btn-primary">儲存筆記</button>
   </div>
   <div class="panel right-bottom">
-    <div id="chatDisplay" class="chat-display"></div>
-    <textarea id="chatInput"></textarea>
-    <button id="sendChatBtn">送出</button>
+    <div id="chatDisplay" class="chat-display">
+      <!-- 初始歡迎訊息 -->
+      <div class="flex justify-start">
+        <div class="message-bubble ai-bubble">
+          <p class="ai-name">AI 助理</p>
+          <p>您好！我是您的 AI 助理。請先在頂部設定您的 API 金鑰（如果尚未自動設定），然後對程式碼提問！</p>
+        </div>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <textarea id="chatInput" rows="1" placeholder="請先設定 API 金鑰..." disabled></textarea>
+      <button id="sendChatBtn" class="btn btn-success" disabled>送出</button>
+    </div>
   </div>
 
   <!-- 拖拉桿 -->

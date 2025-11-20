@@ -36,3 +36,6 @@
 
 </body>
 </html>
+
+const API_KEY
+在JS檔裡找到這行 API改成自己的就能用
