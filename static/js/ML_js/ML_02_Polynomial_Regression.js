@@ -1,17 +1,17 @@
-export const ML_01_Linear_Regression = {
+export const ML_02_Polynomial_Regression = {
   id: 1,
-  name: "ML_01_Linear_Regression",
+  name: "ML_02_Polynomial_Regression",
   code: [
-    {
-      "line": `
+{
+    "line": `
 # ==========================
-# 線性回歸專案大綱
+# 多項式迴歸專案大綱
 # ==========================
-      `,
-      "desc": `
-<span style="font-size:26px; font-weight:bold;">📝 線性回歸專案大綱解析 (純線性)</span><br><br>
+    `,
+    "desc": `
+<span style="font-size:26px; font-weight:bold;">📝 多項式迴歸專案大綱解析</span><br><br>
 
-本專案以手動線性回歸為例，完整展示從資料生成、標準化、模型訓練到預測與視覺化的流程，幫助學生理解梯度下降、標準化、預測與可視化。
+本專案以手動多項式迴歸為例，完整展示從資料生成、標準化、模型訓練到預測與視覺化的流程，幫助學生理解梯度下降、標準化、預測與可視化。
 
 <hr>
 
@@ -47,7 +47,7 @@ df['weight_Z'] = weight_std.transform(df['weight'])
 </code></pre>
 </li>
 <li>模型初始化：
-<pre><code style="color:red;">model = MyLinear(a0=0, a1=-1)
+<pre><code style="color:red;">model = MyLinear(a0=0, a1=-1)   # 或 MyQuadratic, MyCubic
 </code></pre>
 </li>
 <li>損失函式與訓練器：
@@ -67,7 +67,7 @@ predicted_height = predict_height(60, model, height_std, weight_std)
 </li>
 <li>視覺化與驗證：
 <pre><code style="color:red;">sns.scatterplot(x='height', y='weight', data=df)
-plt.plot(x_line, y_line, color='red')  # 回歸線
+plt.plot(x_line, y_line, color='red')  # 回歸線
 plt.show()
 </code></pre>
 </li>
@@ -79,19 +79,22 @@ plt.show()
 <span style="font-size:22px; font-weight:bold;">3️⃣ 小結</span><br>
 <div style="margin-left:32px;">
 - 展示完整流程：資料生成 → 標準化 → 模型初始化 → 訓練 → 預測 → 視覺化<br>
-- 手動梯度下降 + Z-score 標準化，直觀理解線性回歸內部運作
+- 手動梯度下降 + Z-score 標準化，直觀理解線性與多項式迴歸內部運作<br>
+- 支援不同階數回歸模型（線性 / 二次 / 三次），靈活切換並驗證效果
 </div>
 `
-    },
-    {
-      "line": `
+},
+
+
+{
+    "line": `
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import plotly.express as px
 from matplotlib import pyplot as plt
-      `,
-      "desc": `
+    `,
+    "desc": `
 <span style="font-size:26px; font-weight:bold;">Python 常用資料科學與視覺化套件匯入解析</span><br><br>
 
 這五行程式碼都是資料科學、機器學習與資料視覺化的基礎套件，逐行解析如下：
@@ -105,7 +108,7 @@ from matplotlib import pyplot as plt
 - 幾乎所有科學計算都會用到 NumPy。<br>
 - 範例：<br>
 <code>arr = np.array([1, 2, 3])<br>
-mean_val = np.mean(arr)  # 計算平均值<br>
+mean_val = np.mean(arr)  # 計算平均值<br>
 </code>
 </div>
 
@@ -117,8 +120,8 @@ mean_val = np.mean(arr)  # 計算平均值<br>
 - 擅長操作表格資料（DataFrame）與時間序列資料（Series）。<br>
 - 常用於資料清理、分析與匯出 CSV/Excel。<br>
 - 範例：<br>
-<code>df = pd.read_csv("data.csv")   # 讀取 CSV 檔案<br>
-print(df.head())                  # 顯示前 5 筆資料<br>
+<code>df = pd.read_csv("data.csv")   # 讀取 CSV 檔案<br>
+print(df.head())                  # 顯示前 5 筆資料<br>
 </code>
 </div>
 
@@ -130,8 +133,8 @@ print(df.head())                  # 顯示前 5 筆資料<br>
 - 主要用於統計圖表，如箱型圖、直方圖、散佈圖與熱力圖。<br>
 - 可以快速畫出漂亮、易讀的圖表。<br>
 - 範例：<br>
-<code>sns.boxplot(x="age", y="salary", data=df)  # 畫箱型圖<br>
-sns.histplot(df['salary'], bins=20)           # 畫直方圖<br>
+<code>sns.boxplot(x="age", y="salary", data=df)  # 畫箱型圖<br>
+sns.histplot(df['salary'], bins=20)           # 畫直方圖<br>
 </code>
 </div>
 
@@ -144,7 +147,7 @@ sns.histplot(df['salary'], bins=20)           # 畫直方圖<br>
 - 適合做網頁展示或交互式報表。<br>
 - 範例：<br>
 <code>fig = px.scatter(df, x="age", y="salary", color="department")<br>
-fig.show()  # 互動式散佈圖<br>
+fig.show()  # 互動式散佈圖<br>
 </code>
 </div>
 
@@ -163,7 +166,7 @@ plt.legend()<br>
 plt.show()<br>
 </code>
 - 若要示意回歸公式，可用：
-<code>y = a0 + a1 * x</code><br>
+<code>y = a0 + a1 * x + a2 * x**2 + a3 * x**3</code><br>
 </div>
 
 <hr>
@@ -177,10 +180,10 @@ plt.show()<br>
 - 這些套件經常一起使用，是 Python 資料科學與機器學習專案的核心基礎。
 </div>
 `
-    },
+},
 
-    {
-      "line": `
+{
+    "line": `
 class MyLinear():
     def __init__(self, a0 = 0.0, a1 = 1.0):
         """線性模型: y = a0 + a1 * x"""
@@ -200,9 +203,9 @@ class MyLinear():
         xs = np.linspace(xmin, xmax, nsamples)
         ys = self.get_y(xs)
         return xs, ys
-      `,
-
-      "desc": `
+    `,
+    
+    "desc": `
 <span style="font-size:26px; font-weight:bold;">MyLinear 類別：一次線性模型完整解說</span><br><br>
 
 <span style="font-size:22px; font-weight:bold;">📌 模型概念</span><br>
@@ -275,11 +278,230 @@ plt.show()
 </code>
 <br><br>
 </div>
-      `
-    },
+    `
+},
 
-    {
-      "line": `
+{
+    "line": `
+class MyQuadratic():
+    def __init__(self, a0 = 0.0, a1 = 0.3, a2 = -0.5):
+        """二次模型: y = a0 + a1 * x + a2 * x^2"""
+        self.set_trainables([a0, a1, a2])
+
+    def set_trainables(self, params):
+        self.params = np.array(params, np.float64)
+
+    def get_trainables(self):
+        return self.params
+
+    def get_y(self, x):
+        a0, a1, a2 = self.params
+        return a0 + a1 * x + a2 * x ** 2
+
+    def get_line(self, xmin = 0.0, xmax = 15.0, nsamples = 11):
+        xs = np.linspace(xmin, xmax, nsamples)
+        ys = self.get_y(xs)
+        return xs, ys
+    `,
+
+    "desc": `
+<span style="font-size:26px; font-weight:bold;">MyQuadratic 類別：二次曲線模型完整解說</span><br><br>
+
+<span style="font-size:22px; font-weight:bold;">📌 模型概念</span><br>
+<div style="margin-left: 32px;">
+此類別實作的模型為：<br>
+<code>y = a0 + a1 * x + a2 * x^2</code><br><br>
+
+a0 → 截距（intercept）<br>
+a1 → 一次項係數（linear term）<br>
+a2 → 二次項係數（curvature，決定彎曲方向與強度）<br><br>
+
+它封裝了曲線模型常見的功能：<br>
+<ul>
+  <li>設定參數（set_trainables）</li>
+  <li>取得參數（get_trainables）</li>
+  <li>計算輸出 y（get_y）</li>
+  <li>生成畫曲線座標（get_line）</li>
+</ul>
+
+支援 NumPy 陣列，能一次處理大量 x 值，適合視覺化與教學。<br><br>
+</div>
+
+<hr>
+
+<span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化模型參數</span><br>
+<div style="margin-left: 32px;">
+建立 <code>MyQuadratic()</code> 物件時會自動呼叫。<br>
+預設參數：<br>
+• <code>a0 = 0.0</code>（截距）<br>
+• <code>a1 = 0.3</code>（一次項斜率）<br>
+• <code>a2 = -0.5</code>（決定曲線開口方向）<br><br>
+
+並透過 <code>self.set_trainables([a0, a1, a2])</code> 將參數存入物件中。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 set_trainables：設定模型參數</span><br>
+<div style="margin-left: 32px;">
+將傳入參數（例如 <code>[a0, a1, a2]</code>）轉成 NumPy 陣列，並儲存到 <code>self.params</code>。<br>
+這可讓後續的計算（尤其是向量化運算）更加快速與穩定。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 get_trainables：取得目前參數</span><br>
+<div style="margin-left: 32px;">
+回傳模型當前的三個參數：<code>[a0, a1, a2]</code>。<br>
+可用於訓練過程紀錄、debug、視覺化等用途。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 get_y：根據 x 計算 y</span><br>
+<div style="margin-left: 32px;">
+先將參數拆解成 <code>a0</code>、<code>a1</code>、<code>a2</code>，套用公式：<br>
+<code>y = a0 + a1 * x + a2 * x^2</code><br><br>
+
+支援：<br>
+• 單一數字 x<br>
+• NumPy 陣列（例如 <code>np.array([1,2,3])</code>）<br><br>
+
+因此能一次計算多個 y 值，適合畫曲線。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 get_line：產生繪製曲線用的資料</span><br>
+<div style="margin-left: 32px;">
+用於繪圖時，產生一組等距的 x 與對應的 y。<br><br>
+
+參數說明：<br>
+xmin → x 的最小值（預設 0）<br>
+xmax → x 的最大值（預設 15）<br>
+nsamples → 取樣點數（預設 11）<br><br>
+
+透過 <code>np.linspace</code> 生成 x 序列，再用 <code>get_y</code> 轉換成 y。<br><br>
+
+可直接用於繪圖：<br>
+<code>
+model = MyQuadratic(1, 2, -0.1)<br>
+xs, ys = model.get_line()<br>
+plt.plot(xs, ys)<br>
+plt.show()
+</code>
+<br><br>
+</div>
+    `
+},
+
+{
+    "line": `
+class MyCubic():
+    def __init__(self, a0 = 0.0, a1 = 0.3, a2 = -0.5, a3 = 0.1):
+        """三次模型: y = a0 + a1*x + a2*x^2 + a3*x^3"""
+        self.set_trainables([a0, a1, a2, a3])
+
+    def set_trainables(self, params):
+        self.params = np.array(params, np.float64)
+
+    def get_trainables(self):
+        return self.params
+
+    def get_y(self, x):
+        a0, a1, a2, a3 = self.params
+        return a0 + a1 * x + a2 * x ** 2 + a3 * x ** 3
+
+    def get_line(self, xmin = 0.0, xmax = 15.0, nsamples = 11):
+        xs = np.linspace(xmin, xmax, nsamples)
+        ys = self.get_y(xs)
+        return xs, ys
+    `,
+
+    "desc": `
+<span style="font-size:26px; font-weight:bold;">MyCubic 類別：三次曲線模型完整解說</span><br><br>
+
+<span style="font-size:22px; font-weight:bold;">📌 模型概念</span><br>
+<div style="margin-left: 32px;">
+此類別實作的模型為：<br>
+<code>y = a0 + a1 * x + a2 * x^2 + a3 * x^3</code><br><br>
+
+a0 → 截距（intercept）<br>
+a1 → 一次項係數（slope）<br>
+a2 → 二次項係數（curvature，彎曲強度）<br>
+a3 → 三次項係數（控制 S 型彎曲、多變化形狀）<br><br>
+
+三次模型能表達比一次、二次更複雜的曲線形狀，例如：  
+• S 形轉折  
+• 先增後減再增的曲線  
+• 多拐點（inflection point）<br><br>
+
+此類別包含：<br>
+<ul>
+  <li>設定參數（set_trainables）</li>
+  <li>取得參數（get_trainables）</li>
+  <li>計算輸出 y（get_y）</li>
+  <li>生成畫曲線座標（get_line）</li>
+</ul>
+
+支援 NumPy 陣列的向量化運算，適合用於機器學習模型展示與可視化。<br><br>
+</div>
+
+<hr>
+
+<span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化模型參數</span><br>
+<div style="margin-left: 32px;">
+建立 <code>MyCubic()</code> 物件時自動呼叫。<br>
+預設參數：<br>
+• <code>a0 = 0.0</code>（截距）<br>
+• <code>a1 = 0.3</code>（一次項斜率）<br>
+• <code>a2 = -0.5</code>（二次彎曲）<br>
+• <code>a3 = 0.1</code>（三次彎曲與 S 型特性）<br><br>
+
+透過 <code>self.set_trainables([a0, a1, a2, a3])</code> 儲存參數。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 set_trainables：設定模型參數</span><br>
+<div style="margin-left: 32px;">
+將 <code>[a0, a1, a2, a3]</code> 轉換為 NumPy 陣列，儲存在 <code>self.params</code>。<br>
+這能讓模型能利用 NumPy 的向量化加速運算。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 get_trainables：取得目前參數</span><br>
+<div style="margin-left: 32px;">
+回傳目前模型參數：<code>[a0, a1, a2, a3]</code>。<br>
+可用於顯示、記錄或訓練過程的調整。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 get_y：根據 x 計算 y</span><br>
+<div style="margin-left: 32px;">
+將參數拆解為 <code>a0</code>、<code>a1</code>、<code>a2</code>、<code>a3</code>，帶入公式：<br>
+<code>y = a0 + a1 * x + a2 * x^2 + a3 * x^3</code><br><br>
+
+支援輸入：<br>
+• 單一數字<br>
+• NumPy 陣列（如 <code>np.array([...])</code>）<br><br>
+
+可高效產生大量 y 值，適合畫三次曲線。<br><br>
+</div>
+
+<span style="font-size:22px; font-weight:bold;">🔹 get_line：產生繪製曲線用的資料</span><br>
+<div style="margin-left: 32px;">
+用於產生畫圖所需的 (xs, ys)。<br><br>
+
+參數：<br>
+xmin → x 最小值（預設 0）<br>
+xmax → x 最大值（預設 15）<br>
+nsamples → 取樣點數（預設 11）<br><br>
+
+透過 <code>np.linspace</code> 產生等距 x 值，再計算對應 y。<br><br>
+
+繪圖範例：<br>
+<code>
+model = MyCubic(1, -0.2, 0.05, 0.01)<br>
+xs, ys = model.get_line()<br>
+plt.plot(xs, ys)<br>
+plt.show()
+</code>
+<br><br>
+</div>
+    `
+},
+
+{
+    "line": `
 class MyMSELoss():
     def __init__(self, model):
         self.model = model
@@ -291,15 +513,15 @@ class MyMSELoss():
         y_pred = self.model.get_y(x)
         se = (y_true - y_pred) ** 2
         return np.sqrt(se.mean())
-      `,
+    `,
 
-      "desc": `
-<span style="font-size:26px; font-weight:bold;">MyMSELoss 類別：RMSE 損失函數完整解說</span><br><br>
+    "desc": `
+<span style="font-size:26px; font-weight:bold;">MyMSELoss 類別：MSE 損失函數完整解說</span><br><br>
 
 <span style="font-size:22px; font-weight:bold;">📌 這個類別的用途</span><br>
 <div style="margin-left: 32px;">
 MyMSELoss 用來計算模型的預測誤差。<br>
-它接收一個模型（如 MyLinear），並提供一個方法 <code>get_loss()</code>：<br><br>
+它接收一個模型（如 MyLinear 或 MyQuadratic），並提供一個方法 <code>get_loss()</code>：<br><br>
 
 <strong>計算 RMSE（Root Mean Squared Error, 均方根誤差）</strong><br>
 
@@ -319,13 +541,19 @@ RMSE 越小，表示模型對資料的擬合越好。<br><br>
 
 <code>loss_fn = MyMSELoss(model)</code><br><br>
 
-此模型（MyLinear）會儲存在 <code>self.model</code>。<br>
+此模型（Linear / Quadratic 皆可）會儲存在 <code>self.model</code>。<br>
 之後用 <code>get_loss()</code> 計算誤差時會用到它的 <code>get_y()</code> 做預測。<br><br>
 </div>
 
 <span style="font-size:22px; font-weight:bold;">🔹 get_model：回傳綁定的模型</span><br>
 <div style="margin-left: 32px;">
-單純提供一個方法取得目前使用的模型。<br><br>
+單純提供一個方法取得目前使用的模型。<br>
+常用於：<br>
+<ul>
+  <li>檢查目前正在評估哪個模型</li>
+  <li>debug</li>
+  <li>將模型記錄於訓練流程中</li>
+</ul>
 </div><br>
 
 <span style="font-size:22px; font-weight:bold;">🔹 get_loss：計算 RMSE（均方根誤差）</span><br>
@@ -334,14 +562,16 @@ RMSE 越小，表示模型對資料的擬合越好。<br><br>
 
 步驟如下：<br>
 
-1. **取得模型預測**  
-使用綁定模型的 <code>get_y(x)</code> 方法：  
+1. **取得模型預測**  
+使用綁定模型的 <code>get_y(x)</code> 方法：  
 <code>y_pred = self.model.get_y(x)</code>
 
-2. **計算誤差平方（Squared Error, SE）**  
+2. **計算誤差平方（Squared Error, SE）**  
 <code>se = (y_true - y_pred) ** 2</code>
 
-3. **開根號變成 RMSE（均方根誤差）**  
+3. **取平均（Mean Squared Error, MSE）**
+
+4. **開根號變成 RMSE（均方根誤差）**  
 <code>return np.sqrt(se.mean())</code><br><br>
 
 為什麼用 RMSE 而不是 MSE？<br>
@@ -350,65 +580,27 @@ RMSE 越小，表示模型對資料的擬合越好。<br><br>
 MSE 單位會變成平方，不直觀。<br>
 </div><br>
 </div>
-      `
-    },
-    {
-      "line": `
-class MyTrainer():
-    def __init__(self, loss_fn):
-        """梯度下降訓練器: 負責計算梯度並用於更新參數"""
-        self.loss_fn = loss_fn
-        self.model = loss_fn.get_model()
-
-    def get_gradient(self, x, y_true):
-        """計算梯度 (只支援 MyLinear, 2個參數 a0, a1)"""
-        y_pred = self.model.get_y(x)
-        error = y_pred - y_true # (y_pred - y_true)
-
-        # 梯度 for a0 (截距) : 2/N * sum(y_pred - y_true)
-        grad_a0 = 2 * error.mean()
-
-        # 梯度 for a1 (斜率) : 2/N * sum((y_pred - y_true) * x)
-        grad_a1 = 2 * (error * x).mean()
-
-        return np.array([grad_a0, grad_a1], np.float64)
-      `,
-      "desc": `
-<span style="font-size:26px; font-weight:bold;">MyTrainer 類別：梯度下降訓練器解說</span><br><br>
-
-<span style="font-size:22px; font-weight:bold;">📌 這個類別的用途</span><br>
-<div style="margin-left: 32px;">
-此類別專門用來計算 **梯度**，是實現梯度下降（Gradient Descent）的核心。<br>
-它依賴於模型 (MyLinear) 和真實資料來計算每個參數應該調整的方向和幅度。<br><br>
-</div>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化並綁定模型與損失函數</span><br>
+<span style="font-size:22px; font-weight:bold;">📌 使用範例</span><br>
 <div style="margin-left: 32px;">
-建立 Trainer 時會儲存 Loss Function (<code>loss_fn</code>) 和 Model (<code>model</code>)。<br>
-Loss Function 用來計算 RMSE，而 Model 則用來進行預測。<br><br>
+<code>
+model = MyLinear(1, 2)<br>
+loss_fn = MyMSELoss(model)<br><br>
+x = np.array([1, 2, 3])<br>
+y = np.array([2, 5, 10])<br><br>
+loss = loss_fn.get_loss(x, y)<br>
+print(loss)
+</code><br><br>
+
+此範例會輸出模型預測與真實資料之間的 RMSE。<br>
 </div>
+    `
+},
 
-<span style="font-size:22px; font-weight:bold;">🔹 get_gradient：計算參數梯度（核心）</span><br>
-<div style="margin-left: 32px;">
-此方法計算兩個參數 $a_0$ (截距) 和 $a_1$ (斜率) 的梯度：<br>
-
-<strong style="font-size:20px;">1. $a_0$ 的梯度 (grad\_a0)：</strong><br>
-$$\\frac{\\partial MSE}{\\partial a_0} = \\frac{2}{N} \\sum (y_{pred} - y_{true})$$<br>
-實際程式碼：<code>2 * error.mean()</code><br><br>
-
-<strong style="font-size:20px;">2. $a_1$ 的梯度 (grad\_a1)：</strong><br>
-$$\\frac{\\partial MSE}{\\partial a_1} = \\frac{2}{N} \\sum (y_{pred} - y_{true}) \\cdot x$$
-實際程式碼：<code>2 * (error * x).mean()</code><br><br>
-
-回傳一個包含 $a_0$ 和 $a_1$ 梯度的 NumPy 陣列，供主程式區塊用來更新參數。<br>
-</div>
-`
-    },
-
-    {
-      "line": `
+{
+    "line": `
 class MyZStandardization():
     def __init__(self):
         self.mean = None
@@ -424,21 +616,21 @@ class MyZStandardization():
 
     def inverse_transform(self, dataZ):
         return np.array(dataZ) * self.std + self.mean
-      `,
+    `,
 
-      "desc": `
+    "desc": `
 <span style="font-size:26px; font-weight:bold;">MyZStandardization 類別：Z-score 標準化完整解說</span><br><br>
 
 <span style="font-size:22px; font-weight:bold;">📌 這個類別的用途</span><br>
 <div style="margin-left: 32px;">
 此類別專門用來做「Z-score 標準化（Standardization）」。<br><br>
 
-標準化的公式為：  
+標準化的公式為：  
 <div style="margin-left: 32px;">
-Z = (x − mean) / std  
+Z = (x − mean) / std  
 </div><br>
 
-作用：  
+作用：  
 <ul>
   <li>中心化資料（平均變成 0）</li>
   <li>縮放資料（標準差變成 1）</li>
@@ -451,7 +643,7 @@ Z = (x − mean) / std  
 
 <span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化（尚未計算 mean 與 std）</span><br>
 <div style="margin-left: 32px;">
-初始化後預設：  
+初始化後預設：  
 <ul>
   <li><code>self.mean = None</code></li>
   <li><code>self.std = None</code></li>
@@ -464,7 +656,7 @@ Z = (x − mean) / std  
 <div style="margin-left: 32px;">
 <code>fit(data)</code> 用來學習資料的分佈。<br><br>
 
-計算方式：  
+計算方式：  
 <ul>
   <li><code>self.mean = data.mean()</code></li>
   <li><code>self.std = data.std()</code></li>
@@ -472,19 +664,19 @@ Z = (x − mean) / std  
 
 其後，物件便可用來做 transform。<br><br>
 
-回傳值：  
-<code>(mean, std)</code>  
+回傳值：  
+<code>(mean, std)</code>  
 方便在外部檢查。<br>
 </div><br>
 
 <span style="font-size:22px; font-weight:bold;">🔹 transform：將資料轉成標準化後的 Z 分數</span><br>
 <div style="margin-left: 32px;">
-使用公式：  
+使用公式：  
 <div style="margin-left: 32px;">
-Z = (x − mean) / std  
+Z = (x − mean) / std  
 </div><br>
 
-特點：  
+特點：  
 <ul>
   <li>支援 list / NumPy array</li>
   <li>計算後變成平均 0、標準差 1 的資料</li>
@@ -493,40 +685,60 @@ Z = (x − mean) / std  
 
 <span style="font-size:22px; font-weight:bold;">🔹 inverse_transform：還原回原資料</span><br>
 <div style="margin-left: 32px;">
-使用逆轉換公式：  
+使用逆轉換公式：  
 <div style="margin-left: 32px;">
-x = Z * std + mean  
+x = Z * std + mean  
 </div><br>
 
-用途：  
+用途：  
 <ul>
   <li>模型預測後數值通常需還原回原本尺度</li>
   <li>容易比較真實值與模型輸出</li>
 </ul>
 </div>
-`
-    },
 
-    {
-      "line": `
+<hr>
+
+<span style="font-size:22px; font-weight:bold;">📌 使用範例</span><br>
+<div style="margin-left: 32px;">
+<code>
+data = np.array([10, 12, 14, 16])<br><br>
+
+scaler = MyZStandardization()<br>
+mean, std = scaler.fit(data)<br><br>
+
+dataZ = scaler.transform(data)<br>
+print(dataZ)   # 標準化結果<br><br>
+
+original = scaler.inverse_transform(dataZ)<br>
+print(original)  # 還原到原資料
+</code><br><br>
+
+此流程模擬 sklearn.preprocessing.StandardScaler 的核心功能。<br>
+</div>
+    `
+},
+
+{
+    "line": `
 def generate_weights(heights, sigma = 5, height_ans = 1, weight_ans = -100):
     return weight_ans + height_ans * heights + np.random.normal(0, sigma, heights.shape)
-      `,
+    `,
 
-      "desc": `
+    "desc": `
 <span style="font-size:26px; font-weight:bold;">generate_weights 函式：模擬「身高 → 體重」資料的生成器</span><br><br>
 
 <span style="font-size:22px; font-weight:bold;">📌 函式用途</span><br>
 <div style="margin-left: 32px;">
 這個函式用來「隨機生成」身高與體重的關係資料。<br>
-它模擬一個線性模型：  
+它模擬一個線性模型：  
 <div style="margin-left: 32px;">
 <code>weight = weight_ans + height_ans * height + noise</code>
 </div>
 
 其中 noise 來自常態分佈，可讓資料更像真實世界的測量數據。<br><br>
 
-用途：  
+用途：  
 <ul>
   <li>教學用：線性回歸示範</li>
   <li>測試模型：練習訓練與評估</li>
@@ -540,7 +752,8 @@ def generate_weights(heights, sigma = 5, height_ans = 1, weight_ans = -100):
 
 <div style="margin-left: 32px;">
 <strong>1. heights</strong><br>
-使用者提供的「身高資料」陣列 (NumPy array)。<br><br>
+使用者提供的「身高資料」陣列 (NumPy array)。<br>
+例如：<code>np.array([150,160,170])</code><br><br>
 
 <strong>2. sigma（預設 5）</strong><br>
 噪聲（noise）的標準差。<br>
@@ -550,7 +763,7 @@ def generate_weights(heights, sigma = 5, height_ans = 1, weight_ans = -100):
 </ul><br>
 
 <strong>3. height_ans（預設 1）</strong><br>
-身高與體重的「斜率」。  
+身高與體重的「斜率」。  
 表示：身高每增加 1 單位，體重增加多少。<br><br>
 
 <strong>4. weight_ans（預設 -100）</strong><br>
@@ -565,29 +778,45 @@ def generate_weights(heights, sigma = 5, height_ans = 1, weight_ans = -100):
 <div style="margin-left: 32px;">
 整個回傳值由三個部分組成：<br><br>
 
-1. **線性關係：**  
+1. **線性關係：**  
 <code>height_ans * heights</code><br>
 
-2. **截距：**  
+2. **截距：**  
 <code>weight_ans</code><br>
 
-3. **雜訊 noise：**  
-使用常態分佈產生：  
+3. **雜訊 noise：**  
+使用常態分佈產生：  
 <code>np.random.normal(0, sigma, heights.shape)</code><br>
 → 產出與 heights 同形狀的噪聲陣列<br><br>
 
-組合結果：  
+組合結果：  
 <code>
 weight = weight_ans + height_ans * heights + noise
 </code><br><br>
 
 這樣產生的體重資料彷彿真實世界一樣帶有自然波動。<br>
 </div>
-`
-    },
 
-    {
-      "line": `
+<hr>
+
+<span style="font-size:22px; font-weight:bold;">📌 使用範例</span><br>
+
+<div style="margin-left: 32px;">
+<code>
+heights = np.array([150, 160, 170, 180])<br>
+weights = generate_weights(heights, sigma=4, height_ans=0.9, weight_ans=-80)<br>
+print(weights)
+</code><br><br>
+
+輸出會類似：  
+<code>[55.1, 63.8, 72.2, 80.5]</code><br>
+（每次執行都會略有不同，因為 noise 會隨機生成）<br>
+</div>
+    `
+},
+
+{
+    "line": `
 def train_model(df, model, trainer, height_std, weight_std,
                 learning_rate = 0.01, num_epochs = 500, plot_every = 50):
 
@@ -608,11 +837,8 @@ def train_model(df, model, trainer, height_std, weight_std,
     print()
 
     for epoch in range(num_epochs):
-        # 1. 計算梯度
         grads = trainer.get_gradient(df['height_Z'], df['weight_Z'])
-        # 2. 更新參數 (Gradient Descent)
         new_params = model.get_trainables() - learning_rate * grads
-        # 3. 設定回模型中
         model.set_trainables(new_params)
 
         if (epoch + 1) % plot_every == 0 or epoch == 0:
@@ -620,7 +846,6 @@ def train_model(df, model, trainer, height_std, weight_std,
             params = model.get_trainables()
             print(f"Epoch {epoch + 1:3d} - RMSE: {current_loss:.4f} - Params: {params}")
 
-            # 反標準化，產生繪圖用的原始尺度線條
             xs_Z, ys_Z = model.get_line(df['height_Z'].min(), df['height_Z'].max(), nsamples = len(df))
             xs_orig = height_std.inverse_transform(xs_Z)
             ys_orig = weight_std.inverse_transform(ys_Z)
@@ -632,19 +857,19 @@ def train_model(df, model, trainer, height_std, weight_std,
             plt.xlabel('Height (cm)')
             plt.ylabel('Weight (kg)')
             plt.show()
-      `,
-      "desc": `
+    `,
+    "desc": `
 <span style="font-size:26px; font-weight:bold;">train_model：執行模型訓練與視覺化的主函式</span><br><br>
 
-這個函式是整個專案的核心流程：  
-✔ 取得資料  
-✔ 計算梯度  
-✔ 更新模型參數  
-✔ 顯示訓練過程  
-✔ 每隔幾次迴圈視覺化模型線條  
+這個函式是整個專案的核心流程：  
+✔ 取得資料  
+✔ 計算梯度  
+✔ 更新模型參數  
+✔ 顯示訓練過程  
+✔ 每隔幾次迴圈視覺化模型線條  
 <br>
 
-用於線性回歸模型訓練，具有高度泛用性。
+用於線性與二次模型皆可使用，具有高度泛用性。
 
 <hr>
 
@@ -653,7 +878,7 @@ def train_model(df, model, trainer, height_std, weight_std,
 <div style="margin-left: 32px;">
 此函式負責「完整的機器學習訓練迴圈」（手動版 Gradient Descent）。<br><br>
 
-它會執行：  
+它會執行：  
 <ul>
   <li>讀取資料並印出資料統計（含 Z-score）</li>
   <li>呼叫 trainer 計算梯度</li>
@@ -674,15 +899,21 @@ def train_model(df, model, trainer, height_std, weight_std,
 <strong>1. df</strong><br>
 Pandas 資料表，含有 height、weight、height_Z、weight_Z。<br><br>
 
-<strong>2. model (MyLinear)</strong><br>
-模型物件，提供參數存取與預測功能。<br><br>
+<strong>2. model</strong><br>
+模型物件，例如：<code>MyLinear() 或 MyQuadratic()</code><br>
+提供：  
+<ul>
+  <li>get_trainables()</li>
+  <li>set_trainables()</li>
+  <li>get_line()</li>
+</ul>
 
-<strong>3. trainer (MyTrainer)</strong><br>
-訓練器物件，負責計算梯度：  
+<strong>3. trainer</strong><br>
+訓練器物件，負責計算梯度：  
 <code>trainer.get_gradient(x, y)</code><br><br>
 
 <strong>4. height_std, weight_std</strong><br>
-標準化工具，負責：  
+標準化工具，負責：  
 <ul>
   <li>標準化 Z-score</li>
   <li>反標準化 inverse_transform</li>
@@ -705,7 +936,8 @@ Pandas 資料表，含有 height、weight、height_Z、weight_Z。<br><br>
 <div style="margin-left: 32px;">
 
 <strong>1. 計算梯度：</strong><br>
-<code>grads = trainer.get_gradient(df['height_Z'], df['weight_Z'])</code><br><br>
+<code>grads = trainer.get_gradient(df['height_Z'], df['weight_Z'])</code><br>
+這邊完全依賴 trainer 物件的實作。<br><br>
 
 <strong>2. 更新參數（Gradient Descent）：</strong><br>
 <code>new_params = old_params - learning_rate * grads</code><br>
@@ -721,71 +953,129 @@ Pandas 資料表，含有 height、weight、height_Z、weight_Z。<br><br>
 <span style="font-size:22px; font-weight:bold;">🔹 可視化與訓練紀錄</span>
 
 <div style="margin-left: 32px;">
-只要符合下列任一條件就會印出資訊並畫圖：  
+只要符合下列任一條件就會印出資訊並畫圖：  
 <ul>
   <li>第 1 次 epoch（epoch == 0）</li>
   <li>每 plot_every 次迴圈一次</li>
 </ul>
 
-接著會將模型的 Z-score 預測線條，透過反標準化還原成原始尺度，並繪製在資料點上，觀察模型收斂狀況。
-</div>
-`
-    },
+輸出資訊包含：  
+<ul>
+  <li>當前 RMSE（模型誤差）</li>
+  <li>更新後的參數值</li>
+</ul>
 
-    {
-      "line": `
+接著會：  
+
+1. 呼叫模型 get_line() 取得 Z-score 空間的線  
+2. 使用 inverse_transform 轉回實際身高與體重  
+3. 畫出  
+   - 藍色：原始資料點  
+   - 紅色：模型預測線  
+</div>
+
+<hr>
+
+<span style="font-size:22px; font-weight:bold;">📌 小結：這個函式的角色</span>
+
+<div style="margin-left: 32px;">
+它就像「訓練跑步機」：  
+<ul>
+  <li>trainer：提供坡度（梯度）</li>
+  <li>model：被訓練的運動員</li>
+  <li>train_model：整個訓練場地（控制流程）</li>
+</ul>
+
+所有更新規則、顯示文字、繪圖都集中在這一個函式中。
+</div>
+    `
+},
+
+{
+    "line": `
 def predict_weight(height, model, height_std, weight_std):
     """給定身高預測體重"""
-    # 1. 將身高轉為 Z-score
     height_Z = height_std.transform([height])[0]
     params = model.get_trainables()
 
-    # 2. 應用線性模型公式 (y = a0 + a1 * x)
-    a0, a1 = params
-    weight_Z = a0 + a1 * height_Z
+    if len(params) == 2:      # 線性模型
+        a0, a1 = params
+        weight_Z = a0 + a1 * height_Z
+    elif len(params) == 3:    # 二次模型
+        a0, a1, a2 = params
+        weight_Z = a0 + a1 * height_Z + a2 * height_Z ** 2
+    elif len(params) == 4:    # 三次模型
+        a0, a1, a2, a3 = params
+        weight_Z = a0 + a1 * height_Z + a2 * height_Z ** 2 + a3 * height_Z ** 3
 
-    # 3. 反標準化回真實體重
     return weight_std.inverse_transform([weight_Z])[0]
 
 def predict_height(weight, model, height_std, weight_std):
     """給定體重預測身高（數值搜尋）"""
-    # 1. 將體重轉為 Z-score
     params = model.get_trainables()
     weight_Z = weight_std.transform([weight])[0]
-
-    # 2. 建立可能的 Z-score 身高範圍 (-3σ 到 +3σ)
     possible_heights = np.linspace(-3, 3, 1000)
 
-    # 3. 將所有候選身高代入線性模型，計算預測體重
-    a0, a1 = params
-    predicted_weights = a0 + a1 * possible_heights
+    if len(params) == 2:
+        a0, a1 = params
+        predicted_weights = a0 + a1 * possible_heights
+    elif len(params) == 3:
+        a0, a1, a2 = params
+        predicted_weights = a0 + a1 * possible_heights + a2 * possible_heights ** 2
+    elif len(params) == 4:
+        a0, a1, a2, a3 = params
+        predicted_weights = a0 + a1 * possible_heights + a2 * possible_heights ** 2 + a3 * possible_heights ** 3
 
-    # 4. 找出最接近目標體重 (weight_Z) 的那個身高 Z-score
     idx = np.argmin(np.abs(predicted_weights - weight_Z))
     height_Z = possible_heights[idx]
-
-    # 5. 反標準化回真實身高
     return height_std.inverse_transform([height_Z])[0]
-      `,
-      "desc": `
+    `,
+    "desc": `
 <span style="font-size:26px; font-weight:bold;">預測函式：根據身高推估體重 & 根據體重推估身高</span><br><br>
 
-這兩個函式負責將訓練好的線性模型應用到實際預測上：  
-✔ <strong>predict_weight</strong>：輸入身高 → 預測體重 (直接代入公式)  
-✔ <strong>predict_height</strong>：輸入體重 → 反推身高 (數值搜尋)  
+這兩個函式負責把「模型訓練結果」應用到實際預測上：  
+✔ <strong>predict_weight</strong>：輸入身高 → 預測體重  
+✔ <strong>predict_height</strong>：輸入體重 → 反推身高  
 <br>
+並支援 **線性、二次、三次模型**。
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 predict_weight：依身高預測體重 (解析解)</span><br>
+<span style="font-size:22px; font-weight:bold;">📌 predict_weight：依身高預測體重</span><br>
 
 <div style="margin-left: 32px;">
-此函式的流程分為三步：  
+此函式的流程分為三步：  
 <ul>
   <li>把輸入身高轉成 Z-score</li>
-  <li>套用線性模型公式 <code>weight_Z = a0 + a1 * height_Z</code></li>
+  <li>根據模型參數（線性/二次/三次）計算 Z-score 下的預測體重</li>
   <li>再反標準化回原始體重單位（kg）</li>
 </ul>
+</div>
+
+<strong style="font-size:20px;">🔹 Step 1：標準化身高</strong><br>
+<div style="margin-left: 32px;">
+<code>height_Z = height_std.transform([height])[0]</code><br>
+模型是在 Z-score 空間訓練的，因此預測時也要轉換。
+</div><br>
+
+<strong style="font-size:20px;">🔹 Step 2：依照模型階數做推論</strong><br>
+
+<div style="margin-left: 32px;">
+根據參數數量自動判斷模型是：  
+<ul>
+  <li>2 個參數 → 線性 (a0 + a1 x)</li>
+  <li>3 個參數 → 二次 (a0 + a1 x + a2 x²)</li>
+  <li>4 個參數 → 三次 (a0 + a1 x + a2 x² + a3 x³)</li>
+</ul>
+
+這樣使用者不需要知道模型類型，函式會自動判斷。
+</div><br>
+
+<strong style="font-size:20px;">🔹 Step 3：反標準化回真實體重</strong><br>
+
+<div style="margin-left: 32px;">
+<code>weight_std.inverse_transform([weight_Z])[0]</code><br>
+讓結果回到原本單位（公斤）。
 </div>
 
 <hr>
@@ -793,35 +1083,78 @@ def predict_height(weight, model, height_std, weight_std):
 <span style="font-size:22px; font-weight:bold;">📌 predict_height：依體重反推身高（數值搜尋法）</span><br>
 
 <div style="margin-left: 32px;">
-這個函式雖然對於線性模型有解析解 (<code>height_Z = (weight_Z - a0) / a1</code>)，但為了讓預測器更穩定，仍採用「數值搜尋」方式找到最佳身高。<br><br>
-流程簡述：  
-1. 將目標體重標準化為 <code>weight_Z</code>。  
-2. 在合理的 Z-score 範圍內列舉 (<code>np.linspace</code>) 1000 個可能的身高 Z-score。  
-3. 將這 1000 個候選身高代入模型，預測對應的體重 Z-score。  
-4. 找出預測體重 **最接近** <code>weight_Z</code> 的那個身高 Z-score。  
-5. 將找出的身高 Z-score 反標準化回真實身高（cm）。
+這個函式比較特別：因為一次、二次、三次方程式反解過程複雜，  
+因此採用「數值搜尋」方式找到最佳身高。
 </div>
-`
-    },
 
-    {
-      "line": `
+<br>
+
+<strong style="font-size:20px;">🔹 Step 1：標準化體重</strong>
+<div style="margin-left: 32px;">
+<code>weight_Z = weight_std.transform([weight])[0]</code><br>
+</div><br>
+
+<strong style="font-size:20px;">🔹 Step 2：建立可能的 Z-score 身高範圍</strong>
+<div style="margin-left: 32px;">
+<code>possible_heights = np.linspace(-3, 3, 1000)</code><br>
+表示在 Z-score 空間中從平均 -3σ 到 +3σ 列舉 1000 個可能身高。
+</div><br>
+
+<strong style="font-size:20px;">🔹 Step 3：把所有候選身高代入模型計算對應體重</strong>
+<div style="margin-left: 32px;">
+依照模型階數動態決定：線性/二次/三次。
+</div><br>
+
+<strong style="font-size:20px;">🔹 Step 4：找出最接近目標體重的那個身高</strong>
+<div style="margin-left: 32px;">
+<code>idx = np.argmin(np.abs(predicted_weights - weight_Z))</code><br>
+這行的作用是：  
+「找出模型預測體重最接近 weight_Z 的 Z-score 身高」。
+</div><br>
+
+<strong style="font-size:20px;">🔹 Step 5：反標準化回真實身高單位（cm）</strong>
+<div style="margin-left: 32px;">
+<code>height_std.inverse_transform([height_Z])[0]</code>
+</div>
+
+<hr>
+
+<span style="font-size:22px; font-weight:bold;">📌 小結：兩個預測函式的差異</span>
+
+<div style="margin-left: 32px;">
+<ul>
+  <li><strong>predict_weight</strong>：直接帶入公式 → 解析解</li>
+  <li><strong>predict_height</strong>：沒有解析解 → 數值搜尋</li>
+</ul>
+
+這樣的設計能同時支援：  
+✔ 線性回歸  
+✔ 二次曲線  
+✔ 三次曲線  
+且無需額外寫不同版本的預測器。
+</div>
+    `
+},
+
+{
+    "line": `
 # ==========================================================
 # 主程式執行區
 # ==========================================================
 # 🔧 模型訓練與資料設定參數
-data_size = 300        # 資料筆數
-heights_min = 140      # 身高最小值（cm）
-heights_max = 180      # 身高最大值（cm）
-sigma = 10             # 體重生成時的隨機雜訊標準差（越大表示資料越分散）
-height_ans = 1.0       # 真實斜率（每增加 1 cm 身高，體重平均增加 1.0 kg）
-weight_ans = -100      # 真實截距（身高 0 cm 時的理論體重）
-a0 = 0                 # 模型初始截距（y = a0 + ...）
-a1 = -1                # 模型初始斜率
-# 刪除 a2, a3
-learning_rate = 0.01   # 學習率 (learning rate)：控制每次梯度下降更新參數的幅度  
-num_epochs = 200       # 訓練迴圈次數 (number of epochs)
-plot_every = 50        # 每隔多少次迴圈繪製一次回歸線
+data_size = 300        # 資料筆數
+heights_min = 140      # 身高最小值（cm）
+heights_max = 180      # 身高最大值（cm）
+sigma = 10             # 體重生成時的隨機雜訊標準差（越大表示資料越分散）
+height_ans = 1.0       # 真實斜率（每增加 1 cm 身高，體重平均增加 1.0 kg）
+weight_ans = -100      # 真實截距（身高 0 cm 時的理論體重）
+a0 = 0                 # 模型截距（y = a0 + ...）
+a1 = -1                # 線性影響
+a2 = -0.5              # 二次影響（曲線彎曲度）
+a3 = 0.1               # 三次影響（曲線更高階彎曲度）
+learning_rate = 0.01   # 學習率 (learning rate)：控制每次梯度下降更新參數的幅度  
+num_epochs = 200       # 訓練迴圈次數 (number of epochs)
+plot_every = 50        # 每隔多少次迴圈繪製一次回歸線
 
 # 產生身高資料
 heights = np.random.uniform(heights_min, heights_max, data_size)
@@ -837,8 +1170,10 @@ weight_std.fit(df['weight'])
 df['height_Z'] = height_std.transform(df['height'])
 df['weight_Z'] = weight_std.transform(df['weight'])
 
-# 選擇模型 (只保留線性模型)
-model = MyLinear(a0, a1) 
+# 選擇模型
+# model = MyLinear(a0, a1)
+# model = MyQuadratic(a0, a1, a2)
+model = MyCubic(a0, a1, a2, a3)  # 三次模型
 
 loss_fn = MyMSELoss(model)
 trainer = MyTrainer(loss_fn)
@@ -851,16 +1186,16 @@ train_model(df, model, trainer, height_std, weight_std,
 test_height = 170
 predicted_weight = predict_weight(test_height, model, height_std, weight_std)
 print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f} kg")
-      `,
-      "desc": `
+    `,
+    "desc": `
 <span style="font-size:26px; font-weight:bold;">主程式執行區解析：從資料生成到模型訓練與預測</span><br><br>
 
-這個程式區塊是整個專案的「入口點」，負責完成以下流程：  
-✔ 設定參數  
-✔ 生成模擬資料（身高→體重）  
-✔ 標準化資料  
-✔ 選擇線性模型並訓練  
-✔ 測試預測功能  
+這個程式區塊是整個專案的「入口點」，負責完成以下流程：  
+✔ 設定參數  
+✔ 生成模擬資料（身高→體重）  
+✔ 標準化資料  
+✔ 選擇模型並訓練  
+✔ 測試預測功能  
 <br>
 
 <hr>
@@ -871,7 +1206,7 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 - <strong>heights_min / heights_max</strong>：身高範圍 (cm)<br>
 - <strong>sigma</strong>：體重生成時的隨機雜訊標準差<br>
 - <strong>height_ans / weight_ans</strong>：真實線性模型的斜率與截距<br>
-- <strong>a0 / a1</strong>：選擇模型的初始參數<br>
+- <strong>a0 ~ a3</strong>：選擇模型的初始參數<br>
 - <strong>learning_rate</strong>：梯度下降步長<br>
 - <strong>num_epochs</strong>：總訓練迴圈次數<br>
 - <strong>plot_every</strong>：每隔多少回合繪圖觀察模型收斂
@@ -898,7 +1233,7 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 
 <span style="font-size:22px; font-weight:bold;">📌 4️⃣ 選擇模型與訓練器</span><br>
 <div style="margin-left: 32px;">
-- 選擇 <code>MyLinear</code> 模型<br>
+- 可選擇 <code>MyLinear</code> / <code>MyQuadratic</code> / <code>MyCubic</code><br>
 - 訓練器 <code>MyTrainer</code> 搭配損失函式 <code>MyMSELoss</code><br>
 - 所有參數初始化完成後即可進行訓練
 </div>
@@ -908,7 +1243,13 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 <span style="font-size:22px; font-weight:bold;">📌 5️⃣ 訓練模型</span><br>
 <div style="margin-left: 32px;">
 - 使用 <code>train_model()</code> 執行完整訓練迴圈<br>
-- 包含計算梯度、更新參數、輸出 RMSE 與可視化等功能
+- 功能包含：
+<ul>
+  <li>計算梯度</li>
+  <li>更新模型參數</li>
+  <li>每隔 <code>plot_every</code> 次迴圈印出 RMSE 與參數</li>
+  <li>可視化模型預測線與資料點</li>
+</ul>
 </div>
 
 <hr>
@@ -919,7 +1260,17 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 - 呼叫 <code>predict_weight()</code> 得到預測體重<br>
 - 將結果列印出，方便檢查模型是否合理
 </div>
-`
-    },
+
+<hr>
+
+<span style="font-size:22px; font-weight:bold;">📌 小結：主程式角色</span><br>
+<div style="margin-left: 32px;">
+- 整合前面所有模組：資料生成、標準化、模型選擇、訓練與預測<br>
+- 可透過修改參數快速切換不同資料量、模型階數與學習率<br>
+- 適合教學與實驗，完整展示從資料到模型的流程
+</div>
+    `
+},
+
   ]
 };
