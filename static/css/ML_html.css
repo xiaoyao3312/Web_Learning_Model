@@ -1,3 +1,20 @@
+/*
+ * 【核心響應式字體設定】
+ * 使用 clamp() 函數來控制字體大小，使其根據視窗寬度 (vw) 縮放，
+ * 但保持在一個可讀的最小值和最大值之間。
+ * 結構: clamp(最小值, 彈性縮放值, 最大值)
+ */
+body {
+    /* 設定網頁預設字體：最小 14px, 彈性 2.5vw, 最大 18px */
+    font-size: clamp(14px, 2.5vw, 18px);
+    line-height: 1.6;
+}
+
+h4 {
+    /* 專門針對 h4 標題，縮放範圍更大：最小 16px, 彈性 3.5vw, 最大 24px */
+    font-size: clamp(16px, 3.5vw, 24px); 
+}
+
 /* --- 專案按鈕列樣式 --- */
 .header-row {
     margin-right: 15px;
@@ -22,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.4rem); /* 讓按鈕圖示也響應式縮放 */
     padding: 0;
     /* 確保按鈕圖示/文字顏色高對比 */
     color: var(--header-font-color); 
@@ -46,15 +63,19 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     /* 移除 Bootstrap 的 flex-grow 影響 */
     flex-shrink: 0; 
+    /* 確保按鈕文字也繼承響應式大小 */
+    font-size: clamp(12px, 2vw, 16px);
 }
 
 /* --- API 金鑰輸入區樣式 --- */
 #apiKeyInput {
     max-width: 300px; /* 限制輸入框最大寬度 */
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保輸入框文字縮放 */
 }
 #saveApiKeyBtn {
     /* 確保按鈕不會被壓縮 */
     white-space: nowrap;
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
 }
 /* 讓整個頂部容器在小螢幕上佈局更合理 */
 @media (max-width: 768px) {
@@ -121,6 +142,8 @@ h1, h2, h3, h4, h5, h6 {
     font-family: monospace;
     line-height: 1.4;
     cursor: default;
+    /* 【響應式】程式碼字體最小 12px，最大 16px */
+    font-size: clamp(12px, 1.8vw, 16px);
 }
 
 /* 程式碼行 (JS中創建的) */
@@ -145,7 +168,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* 筆記與聊天區域通用樣式 */
 #userNotes, #chatInput {
-    /* 移除之前的 width: 100%; height: 80%; */
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid #ccc;
@@ -155,6 +177,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--panel-font-color);
     /* 讓輸入框的背景和文字切換也平滑 */
     transition: background-color 0.5s linear, color 0.5s linear;
+    /* 【響應式】輸入框文字縮放 */
+    font-size: clamp(14px, 2.2vw, 17px);
 }
 
 /* 左下角筆記區 */
@@ -170,8 +194,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #saveNotesBtn {
-    /* margin-top: 10px; 刪除，已被 margin-bottom 取代 */
     width: 100%;
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
 }
 
 /* 右下角聊天區 - 啟用 Flex 佈局 */
@@ -212,7 +236,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #sendChatBtn {
-    /* margin-top: 5px; 移除 */
     width: 80px; /* 固定寬度，與輸入框對齊 */
     height: 40px;
     padding: 0;
@@ -220,6 +243,7 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
     flex-shrink: 0; /* 防止按鈕被壓縮 */
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
 }
 
 /* --- 聊天訊息氣泡樣式 --- */
@@ -229,7 +253,8 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 15px;
     margin-bottom: 8px;
     word-wrap: break-word;
-    font-size: 0.95rem;
+    /* 【響應式】聊天氣泡文字縮放 */
+    font-size: clamp(13px, 2vw, 16px);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -250,7 +275,7 @@ h1, h2, h3, h4, h5, h6 {
 .ai-name {
     font-weight: bold;
     color: #0d6efd;
-    font-size: 0.85rem;
+    font-size: clamp(12px, 1.8vw, 14px); /* AI 助理名稱文字縮放 */
     margin-bottom: 2px;
 }
 

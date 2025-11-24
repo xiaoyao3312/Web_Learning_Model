@@ -22,55 +22,58 @@ function updateMainTitle(btn) {
 
 
 function renderProject(id){
-  const codeArea = document.getElementById("codeContent");
-  const desc = document.getElementById("description");
-  codeArea.innerHTML = "";
-  desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠點擊程式碼行以查看說明</p>";
+    const codeArea = document.getElementById("codeContent");
+    const desc = document.getElementById("description");
+    codeArea.innerHTML = "";
+    desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠點擊程式碼行以查看說明</p>";
 
-  const lines = projects[id]?.code || [];
-  lines.forEach(lineObj=>{
-    const span = document.createElement("span");
-    span.className = "code-line";
-    span.dataset.desc = lineObj.desc;
-    span.textContent = lineObj.line;
+    const lines = projects[id]?.code || [];
+    lines.forEach(lineObj=>{
+        const span = document.createElement("span");
+        span.className = "code-line";
+        span.dataset.desc = lineObj.desc;
+        span.textContent = lineObj.line;
 
-    span.addEventListener("click", ()=>{
-      document.querySelectorAll(".code-line").forEach(el=>el.classList.remove("active"));
-      if(!span.classList.contains("active")){
-        span.classList.add("active");
-        desc.innerHTML = lineObj.desc + "</p>";
-      } else {
-        span.classList.remove("active");
-        desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠點擊程式碼行以查看說明</p>";
-      }
-      desc.scrollTop = 0;
+        span.addEventListener("click", ()=>{
+            document.querySelectorAll(".code-line").forEach(el=>el.classList.remove("active"));
+            if(!span.classList.contains("active")){
+                span.classList.add("active");
+                desc.innerHTML = lineObj.desc + "</p>";
+            } else {
+                span.classList.remove("active");
+                desc.innerHTML = "<h4>程式碼說明</h4><p>滑鼠點擊程式碼行以查看說明</p>";
+            }
+            desc.scrollTop = 0;
+        });
+
+        codeArea.appendChild(span);
+        codeArea.appendChild(document.createElement("br"));
     });
-
-    codeArea.appendChild(span);
-    codeArea.appendChild(document.createElement("br"));
-  });
 }
-// renderProject 在這裡被呼叫，但標題更新必須在按鈕設定完畢後進行
 
 document.querySelectorAll(".project-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    currentProject = btn.dataset.id;
-    updateMainTitle(btn); // 在點擊時更新標題
-    renderProject(currentProject);
-  });
+    btn.addEventListener("click", ()=>{
+        currentProject = btn.dataset.id;
+        updateMainTitle(btn); // 在點擊時更新標題
+        renderProject(currentProject);
+    });
 });
 
 document.getElementById("toggleBtn").addEventListener("click", ()=>{
-  document.getElementById("projectBtns").classList.toggle("show");
+    document.getElementById("projectBtns").classList.toggle("show");
 });
 
 document.getElementById('saveNotesBtn').addEventListener('click', ()=>{
-  const notes = document.getElementById('userNotes').value;
-  const blob = new Blob([notes], {type:'text/plain'});
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'user_notes.txt';
-  URL.revokeObjectURL(link.href);
+    const notes = document.getElementById('userNotes').value;
+    const blob = new Blob([notes], {type:'text/plain'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'user_notes.txt';
+    // 確保下載可以正常觸發
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
 });
 
 // --- 初始化標題和專案 ---
@@ -88,8 +91,7 @@ renderProject(currentProject);
 const MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent`;
 
-/* !! 重要 !! 
- * API_KEY 現在是一個 'let' 變數，以便從 UI 輸入框更新。
+/* * API_KEY 現在是一個 'let' 變數，以便從 UI 輸入框更新。
  * 初始值為空字串，等待使用者從介面輸入。
  */
 let API_KEY = ""; 
@@ -178,6 +180,7 @@ function appendMessage(sender, text) {
         
         // 替換換行符號為 <br> 以便在 HTML 中正確顯示
         const aiText = document.createElement('p');
+        // 使用 innerHTML 來渲染 <br>
         aiText.innerHTML = text.replace(/\n/g, '<br>'); 
         bubble.appendChild(aiText);
     }
@@ -219,7 +222,7 @@ function toggleTypingIndicator(show) {
             typingIndicatorElement = null;
         }
     }
-     // 保持捲動到底部
+      // 保持捲動到底部
     chatDisplay.scrollTop = chatDisplay.scrollHeight;
 }
 
@@ -260,7 +263,8 @@ async function sendMessage() {
 
     const fetchOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        // 【關鍵】這裡的 headers 保持簡潔，不包含 API Key
+        headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify(payload)
     };
 
@@ -268,14 +272,22 @@ async function sendMessage() {
     
     // 4. 執行 API 呼叫
     try {
+        // 【修復點】將 API Key 作為查詢參數添加到 URL 中，這是您原始可用的方式
         const response = await exponentialBackoff(() => fetch(`${API_URL}?key=${API_KEY}`, fetchOptions));
         
         if (!response.ok) {
-            // --- 專門處理 403 Forbidden 錯誤 ---
-            if (response.status === 403) {
-                 throw new Error(`API 請求被拒絕 (403 Forbidden)。請檢查您的 API 金鑰是否有效，或該專案是否已啟用 Gemini API 服務。`);
+            // 解析錯誤回應
+            const errorBody = await response.json();
+            const errorMessage = errorBody.error?.message || `API 請求失敗，狀態碼: ${response.status}`;
+
+            // --- 專門處理 401 和 403 錯誤 ---
+            if (response.status === 401) {
+                 throw new Error(`API 請求未經授權 (401 Unauthorized)。請確認您的金鑰是否正確。`);
             }
-            throw new Error(`API 請求失敗，狀態碼: ${response.status}`);
+            if (response.status === 403) {
+                 throw new Error(`API 請求被拒絕 (403 Forbidden)。請檢查金鑰是否有效或專案是否已啟用服務。`);
+            }
+            throw new Error(errorMessage);
         }
 
         const result = await response.json();
@@ -302,7 +314,7 @@ async function sendMessage() {
     }
 }
 
-// --- 事件監聽器設定 (取代原有的 sendChatBtn 處理器) ---
+// --- 事件監聽器設定 ---
 
 // 1. 處理 API 金鑰儲存
 saveApiKeyBtn.addEventListener('click', () => {
@@ -360,54 +372,54 @@ function updateVResizer() { vResizer.style.left = colPercent + "%"; }
 
 // 水平拖拉
 hResizer.addEventListener("mousedown", e=>{
-  isDraggingH = true;
-  container.classList.add("dragging");
-  hResizer.classList.add("dragging");
-  document.body.style.cursor = "row-resize";
+    isDraggingH = true;
+    container.classList.add("dragging");
+    hResizer.classList.add("dragging");
+    document.body.style.cursor = "row-resize";
 });
 document.addEventListener("mousemove", e=>{
-  if(!isDraggingH) return;
-  const rect = container.getBoundingClientRect();
-  let y = e.clientY - rect.top;
-  rowPercent = (y/rect.height)*100;
-  if(rowPercent < minPercent) rowPercent = minPercent;
-  if(rowPercent > maxPercent) rowPercent = maxPercent;
-  container.style.gridTemplateRows = `${rowPercent}% ${100-rowPercent}%`;
-  updateHResizer();
+    if(!isDraggingH) return;
+    const rect = container.getBoundingClientRect();
+    let y = e.clientY - rect.top;
+    rowPercent = (y/rect.height)*100;
+    if(rowPercent < minPercent) rowPercent = minPercent;
+    if(rowPercent > maxPercent) rowPercent = maxPercent;
+    container.style.gridTemplateRows = `${rowPercent}% ${100-rowPercent}%`;
+    updateHResizer();
 });
 document.addEventListener("mouseup", e=>{
-  if(isDraggingH){
-    container.classList.remove("dragging");
-    hResizer.classList.remove("dragging");
-  }
-  isDraggingH = false;
-  document.body.style.cursor = "default";
+    if(isDraggingH){
+        container.classList.remove("dragging");
+        hResizer.classList.remove("dragging");
+    }
+    isDraggingH = false;
+    document.body.style.cursor = "default";
 });
 
 // 垂直拖拉
 vResizer.addEventListener("mousedown", e=>{
-  isDraggingV = true;
-  container.classList.add("dragging");
-  vResizer.classList.add("dragging");
-  document.body.style.cursor = "col-resize";
+    isDraggingV = true;
+    container.classList.add("dragging");
+    vResizer.classList.add("dragging");
+    document.body.style.cursor = "col-resize";
 });
 document.addEventListener("mousemove", e=>{
-  if(!isDraggingV) return;
-  const rect = container.getBoundingClientRect();
-  let x = e.clientX - rect.left;
-  colPercent = (x/rect.width)*100;
-  if(colPercent < minPercent) colPercent = minPercent;
-  if(colPercent > maxPercent) colPercent = maxPercent;
-  container.style.gridTemplateColumns = `${colPercent}% ${100-colPercent}%`;
-  updateVResizer();
+    if(!isDraggingV) return;
+    const rect = container.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    colPercent = (x/rect.width)*100;
+    if(colPercent < minPercent) colPercent = minPercent;
+    if(colPercent > maxPercent) colPercent = maxPercent;
+    container.style.gridTemplateColumns = `${colPercent}% ${100-colPercent}%`;
+    updateVResizer();
 });
 document.addEventListener("mouseup", e=>{
-  if(isDraggingV){
-    container.classList.remove("dragging");
-    vResizer.classList.remove("dragging");
-  }
-  isDraggingV = false;
-  document.body.style.cursor = "default";
+    if(isDraggingV){
+        container.classList.remove("dragging");
+        vResizer.classList.remove("dragging");
+    }
+    isDraggingV = false;
+    document.body.style.cursor = "default";
 });
 
 // 初始化拖拉桿位置

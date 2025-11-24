@@ -30,7 +30,7 @@
   const fab=document.getElementById("colorFab");
   const icon=document.getElementById("fabIcon");
   const content=document.getElementById("fabContent");
-  const EDGE_MARGIN = 20; 
+  const EDGE_MARGIN = 5; 
 
   const sliders={
     r: document.getElementById("rangeR"),
@@ -127,10 +127,20 @@
       applyColor();
     });
   });
+    
+  // 強制重繪函數：用於確保瀏覽器立即計算元素尺寸 (用於第一次展開修正錯位)
+  function forceLayoutRecalculation() {
+        void content.offsetHeight; 
+  }
 
   icon.addEventListener("click",()=>{
     content.style.display = content.style.display==="flex" ? "none" : "flex";
-    positionPanel();
+    
+    // 【修正 1】：展開時強制重繪並定位
+    if (content.style.display === "flex") {
+        forceLayoutRecalculation();
+        positionPanel();
+    }
   });
 
   function stickToEdge(x, y){
@@ -139,6 +149,7 @@
     const fabW = fab.offsetWidth;
     const fabH = fab.offsetHeight;
 
+    // 【修正 2】：根據 FAB 中線位置決定吸附方向
     const isNearRight = (x + fabW/2) > (windowW/2);
     
     let finalY;
@@ -152,16 +163,17 @@
     }
     
     finalY = y;
-    if (y < EDGE_MARGIN * 3) {
+    if (y < EDGE_MARGIN) { // 簡化 y 軸邊緣判斷
         finalY = EDGE_MARGIN; 
-    } else if (y > windowH - fabH - EDGE_MARGIN * 3) {
+    } else if (y > windowH - fabH - EDGE_MARGIN) {
         finalY = windowH - fabH - EDGE_MARGIN; 
     }
 
     fab.style.top = finalY + "px";
     fab.style.bottom = "auto";
-
-    positionPanel();
+    
+    // 如果面板是展開的，進行定位 (包含展開方向和邊界修正)
+    if(content.style.display==="flex") positionPanel();
   }
 
   let isDrag=false,offsetX=0,offsetY=0;
@@ -188,6 +200,7 @@
     fab.style.right="auto";
     fab.style.bottom="auto";
 
+    // 【修正 3】：拖曳時也實時更新展開方向
     if(content.style.display==="flex") positionPanel();
   });
 
@@ -202,8 +215,12 @@
 
   function positionPanel(){
     const fabRect=fab.getBoundingClientRect();
+    const windowW = window.innerWidth;
     
-    if (fab.style.right !== "auto" && fab.style.right !== "") {
+    // 關鍵：根據 FAB 的水平中心點判斷展開方向
+    const isNearRight = (fab.offsetLeft + fab.offsetWidth / 2) > (windowW / 2);
+    
+    if (isNearRight) {
       content.style.left="auto";
       content.style.right= fabRect.width + 15 + "px"; 
     } else {
@@ -211,14 +228,22 @@
       content.style.left= fabRect.width + 15 + "px";
     }
     
+    // 垂直居中定位
     content.style.top = (fabRect.height / 2) - (content.offsetHeight / 2) + "px"; 
     
+    // 邊界修正邏輯 (您原有的，但已優化底部計算)
     const contentRect = content.getBoundingClientRect();
     if (contentRect.top < EDGE_MARGIN) {
         content.style.top = (fabRect.height / 2) - (contentRect.height / 2) + (EDGE_MARGIN - contentRect.top) + "px";
     }
     if (contentRect.bottom > window.innerHeight - EDGE_MARGIN) {
-        const newTop = (fabRect.height / 2) - (contentRect.height / 2) - (contentRect.bottom - (window.innerHeight - EDGE_MARGIN));
+        // 計算需要向上推動的距離，並將其套用到 content.style.top
+        const pushUpDistance = contentRect.bottom - (window.innerHeight - EDGE_MARGIN);
+        
+        // 重新計算新的 content.style.top
+        const initialTop = (fabRect.height / 2) - (content.offsetHeight / 2);
+        const newTop = initialTop - pushUpDistance;
+        
         content.style.top = newTop + "px";
     }
   }
@@ -239,6 +264,9 @@
   function loadSettings(){
     const s=JSON.parse(localStorage.getItem("FABSettings"));
     
+    // 確保重整時面板是關閉的 (回到您先前的需求)
+    content.style.display = "none";
+    
     if(!s) {
       fab.style.left = "auto";
       fab.style.top = "auto";
@@ -258,10 +286,15 @@
 
     updateLabels();
     applyColor();
-    window.dispatchEvent(new Event('resize')); 
+    
+    // 確保 FAB 定位吸附
+    window.requestAnimationFrame(() => {
+        stickToEdge(fab.offsetLeft, fab.offsetTop);
+    });
   }
 
   window.addEventListener("resize",()=>{
+    // 【修正 4】：確保 resize 時 FAB 位置和面板展開方向都被更新
     if (fab.style.left !== "auto" || fab.style.right !== "auto") {
         stickToEdge(fab.offsetLeft, fab.offsetTop); 
     }
