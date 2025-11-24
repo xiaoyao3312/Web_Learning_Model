@@ -1,5 +1,3 @@
-// static/JS/Color_BG_Control.js
-
 (function(){
   const fabHTML=`
   <div id="colorFab">
@@ -17,9 +15,14 @@
         <input type="range" id="rangeA" min="0" max="1" step="0.01" value="1">
       </div>
       <div class="themes">
-        <button class="theme-btn" data-color="rgba(34,34,34,1)">深色</button>
-        <button class="theme-btn" data-color="rgba(255,255,255,1)">淺色</button>
+        <button class="theme-btn" data-color="rgba(0,0,0,1)">黑色</button>
+        <button class="theme-btn" data-color="rgba(85,85,85,1)">深色</button>
         <button class="theme-btn" data-color="rgba(128,128,128,1)">灰色</button>
+      </div>
+      <div class="themes">
+        <button class="theme-btn" data-color="rgba(170,170,170,1)">淺色</button>
+        <button class="theme-btn" data-color="rgba(255,255,255,1)">白色</button>
+        <button id="randomBtn" class="theme-btn">隨機</button> <!-- 新增的隨機按鈕 -->
       </div>
     </div>
   </div>`;
@@ -30,6 +33,7 @@
   const fab=document.getElementById("colorFab");
   const icon=document.getElementById("fabIcon");
   const content=document.getElementById("fabContent");
+  const randomBtn = document.getElementById("randomBtn"); // 選取新的隨機按鈕
   const EDGE_MARGIN = 5; 
 
   const sliders={
@@ -109,6 +113,21 @@
     labels.a.textContent=sliders.a.value;
   }
 
+  // 新增：生成隨機 RGBA 顏色並更新滑桿值
+  function randomizeColor() {
+      // 隨機 R, G, B (0-255)
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      // 隨機 A (0.5 - 1.0) 確保不會完全透明，並保留兩位小數
+      const a = ((Math.random() * 0.5) + 0.5).toFixed(2); 
+
+      sliders.r.value = r;
+      sliders.g.value = g;
+      sliders.b.value = b;
+      sliders.a.value = a;
+  }
+
   Object.values(sliders).forEach(s=>{
     s.addEventListener("input",()=>{
       updateLabels();
@@ -127,6 +146,15 @@
       applyColor();
     });
   });
+  
+  // 新增：隨機按鈕的事件監聽器
+  if (randomBtn) {
+    randomBtn.addEventListener("click", () => {
+      randomizeColor(); // 隨機生成顏色
+      updateLabels(); // 更新標籤顯示
+      applyColor(); // 應用新顏色
+    });
+  }
     
   // 強制重繪函數：用於確保瀏覽器立即計算元素尺寸 (用於第一次展開修正錯位)
   function forceLayoutRecalculation() {
@@ -264,7 +292,7 @@
   function loadSettings(){
     const s=JSON.parse(localStorage.getItem("FABSettings"));
     
-    // 確保重整時面板是關閉的 (回到您先前的需求)
+    // 確保重整時面板是關閉的
     content.style.display = "none";
     
     if(!s) {
