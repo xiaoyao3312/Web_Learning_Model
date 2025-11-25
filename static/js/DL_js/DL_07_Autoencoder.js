@@ -1,7 +1,7 @@
 // static/js/DL_js/DL_07_Autoencoder.js
 
 export const DL_07_Autoencoder = {
-  id: 1,
+  id: 7,
   name: "DL_07_Autoencoder",
   code: [
     { line: "import tensorflow as tf", desc: "匯入 TensorFlow" },

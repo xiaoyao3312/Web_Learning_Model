@@ -1,5 +1,5 @@
 export const ML_03_Linear_Classifier = {
-  id: 2,
+  id: 3,
   name: "ML_03_Linear_Classifier",
   code: [
 {
@@ -9,13 +9,13 @@ export const ML_03_Linear_Classifier = {
 # ==========================
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">📝 線性分類器專案大綱解析 (以 Logistic Regression 核心概念為例)</span><br><br>
+<h5>📝 線性分類器專案大綱解析 (以 Logistic Regression 核心概念為例)</h5><br><br>
 
 本專案著重於**線性分類器**的核心概念視覺化，特別是 Sigmoid 函數的應用、資料的線性可分性判斷，以及如何透過特徵工程或 3D 視覺化來尋找決策邊界。
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 目的</span><br>
+<h6>1️⃣ 目的</h6><br>
 <div style="margin-left:32px;">
 <ul>
 <li>理解 <code style="color:red;">Sigmoid 函數</code> 如何將線性得分轉換為機率或信心分數 (0到1)。</li>
@@ -28,7 +28,7 @@ export const ML_03_Linear_Classifier = {
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 流程 (程式碼邏輯順序)</span><br>
+<h6>2️⃣ 流程 (程式碼邏輯順序)</h6><br>
 <div style="margin-left:32px;">
 <ol>
 <li>核心函數定義 (Sigmoid, 極座標資料生成, 信心分數計算)。
@@ -43,7 +43,7 @@ export const ML_03_Linear_Classifier = {
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">3️⃣ 小結</span><br>
+<h6>3️⃣ 小結</h6><br>
 <div style="margin-left:32px;">
 - 專注於線性分類器 (特別是 Logistic Regression) 的數學基礎和視覺概念。<br>
 - 透過 2D/3D 轉換，展示如何將看似無法直線切割的資料，透過維度提升或特徵轉換來實現分類。<br>
@@ -61,13 +61,13 @@ from matplotlib import pyplot as plt
 from plotly import graph_objects as go
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">Python 常用資料科學與視覺化套件匯入解析</span><br><br>
+<h5>Python 常用資料科學與視覺化套件匯入解析</h5><br><br>
 
 這五行程式碼是資料科學與視覺化的基礎套件：
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ NumPy (np) 與 Pandas (pd)</span><br>
+<h6>1️⃣ NumPy (np) 與 Pandas (pd)</h6><br>
 <div style="margin-left: 32px;">
 - <strong>NumPy (np)</strong>：Python 數值運算核心，提供高效能陣列與矩陣運算。
 - <strong>Pandas (pd)</strong>：資料處理利器，擅長操作表格資料 (DataFrame)。
@@ -75,7 +75,7 @@ from plotly import graph_objects as go
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ Matplotlib (plt) 與 Seaborn (sns)</span><br>
+<h6>2️⃣ Matplotlib (plt) 與 Seaborn (sns)</h6><br>
 <div style="margin-left: 32px;">
 - <strong>Matplotlib (plt)</strong>：Python 最基礎的靜態畫圖套件，<code style="color:red;">pyplot</code> 提供繪圖介面。
 - <strong>Seaborn (sns)</strong>：基於 Matplotlib 的高階視覺化套件，專注於統計圖表。
@@ -83,7 +83,7 @@ from plotly import graph_objects as go
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">3️⃣ Plotly Express (px) 與 Plotly (go)</span><br>
+<h6>3️⃣ Plotly Express (px) 與 Plotly (go)</h6><br>
 <div style="margin-left: 32px;">
 - <strong>Plotly Express (px)</strong>：高階互動式視覺化套件，可用於生成滑鼠可操作的 2D/3D 圖表。
 - <strong>Plotly (go)</strong>：Plotly 基礎模組，用於精確控制圖表物件 (如在本專案中用於添加 3D 平面)。
@@ -114,11 +114,11 @@ def get_line_confidence(x0, y0, a=-0.375, b=-1.0, c=1.5, d_scale=5):
   return 1.0 / (1.0 + np.exp(-d*d_scale))
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">⚙️ 分類器核心函數解析</span><br><br>
+<h5>⚙️ 分類器核心函數解析</h5><br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ Sigmoid 函數 (<code style="color:red;">my_sigmoid</code>)</span><br>
+<h6>1️⃣ Sigmoid 函數 (<code style="color:red;">my_sigmoid</code>)</h6><br>
 <div style="margin-left: 32px;">
 - **功能：** Logistic Regression 的激勵函數。它將任意實數 (線性得分 $x$) 映射到 <code style="color:red;">(0, 1)</code> 範圍，代表屬於某類別的機率。
 - **作用：** 實現分類判斷，當得分 $x=0$ 時，機率為 $0.5$ (決策臨界點)。
@@ -126,7 +126,7 @@ def get_line_confidence(x0, y0, a=-0.375, b=-1.0, c=1.5, d_scale=5):
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 環形資料生成 (<code style="color:red;">create_polar_samples</code>)</span><br>
+<h6>2️⃣ 環形資料生成 (<code style="color:red;">create_polar_samples</code>)</h6><br>
 <div style="margin-left: 32px;">
 - **目的：** 透過極座標隨機生成，創建**同心圓環**分佈的資料。
 - **意義：** 這種資料在 2D 平面上**線性不可分**，用於展示線性分類器的限制。
@@ -134,7 +134,7 @@ def get_line_confidence(x0, y0, a=-0.375, b=-1.0, c=1.5, d_scale=5):
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">3️⃣ 信心分數計算 (<code style="color:red;">get_line_confidence</code>)</span><br>
+<h6>3️⃣ 信心分數計算 (<code style="color:red;">get_line_confidence</code>)</h6><br>
 <div style="margin-left: 32px;">
 - **目的：** 模擬線性模型 $a x_0 + b y_0 + c$ 的輸出，並通過 Sigmoid 轉換得到分類信心分數。
 - **核心：** 計算點到決策邊界 (直線) 的距離 $d$，距離越遠，分數越趨近 0 或 1。
@@ -153,11 +153,11 @@ df_orig = sns.load_dataset('iris')
 df = df_orig.copy()
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">📊 資料集初始化與挑戰展示</span><br><br>
+<h5>📊 資料集初始化與挑戰展示</h5><br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 環形資料集 (<code style="color:red;">df_polar</code>)</span><br>
+<h6>1️⃣ 環形資料集 (<code style="color:red;">df_polar</code>)</h6><br>
 <div style="margin-left: 32px;">
 - **生成：** 組合內環 (中心半徑 0) 和外環 (中心半徑 6) 的點。
 - **視覺結果：** <code style="color:red;">px.scatter</code> 繪製的 2D 散佈圖顯示，兩組點呈現同心圓分佈，無法用一條直線將 True 和 False 兩種顏色的點完美分開。
@@ -166,7 +166,7 @@ df = df_orig.copy()
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ Iris 資料集 (<code style="color:red;">df</code>)</span><br>
+<h6>2️⃣ Iris 資料集 (<code style="color:red;">df</code>)</h6><br>
 <div style="margin-left: 32px;">
 - **載入：** 使用 <code style="color:red;">sns.load_dataset('iris')</code> 載入著名的 Iris 資料集，用於後續的分類視覺化。
 - **複製：** 複製一份資料 (<code style="color:red;">df = df_orig.copy()</code>) 以便進行後續的標籤轉換和特徵計算。
@@ -196,11 +196,11 @@ plt.show()
 df['is_setosa'] = (df['species'] == 'setosa').astype(float)
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">🔍 Iris 資料探索：尋找線性可分性</span><br><br>
+<h5>🔍 Iris 資料探索：尋找線性可分性</h5><br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 特徵對散佈圖 (Pair Plot)</span><br>
+<h6>1️⃣ 特徵對散佈圖 (Pair Plot)</h6><br>
 <div style="margin-left: 32px;">
 - **目的：** 透過 <code style="color:red;">sns.scatterplot</code> 繪製所有特徵兩兩組合的圖表。
 - **觀察重點：** 觀察圖表，尋找哪個特徵組合可以被一條直線清晰地分開。通常 **Petal Length vs. Petal Width** (花瓣長度 vs. 花瓣寬度) 能最明顯地將 <code style="color:red;">Iris-setosa</code> 類別分離出來，這表示這兩個特徵是**線性可分**的。
@@ -208,7 +208,7 @@ df['is_setosa'] = (df['species'] == 'setosa').astype(float)
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 建立二元分類目標</span><br>
+<h6>2️⃣ 建立二元分類目標</h6><br>
 <div style="margin-left: 32px;">
 - **轉換：** 將原本的三類別 (<code style="color:red;">species</code>) 轉換為二元目標 <code style="color:red;">is_setosa</code> (是/否為 setosa)。
 - **意義：** 將問題簡化為 Logistic Regression 最適合處理的二元分類形式。
@@ -228,18 +228,18 @@ px.scatter_3d(df_polar, x='x', y='y', z='z', color='hit',
             title="環形資料 3D 視覺化 (加入 z = x²+y² 後線性可分)").show()
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">💡 Sigmoid 應用與維度提升</span><br><br>
+<h5>💡 Sigmoid 應用與維度提升</h5><br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 獨立視覺化 Sigmoid 曲線</span><br>
+<h6>1️⃣ 獨立視覺化 Sigmoid 曲線</h6><br>
 <div style="margin-left: 32px;">
 - **目的：** 獨立展示 S 形曲線，以確認 <code style="color:red;">my_sigmoid</code> 函數將線性得分 $x$ 成功映射到 $0 \sim 1$ 的區間。
 </div>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 環形資料的 3D 特徵工程</span><br>
+<h6>2️⃣ 環形資料的 3D 特徵工程</h6><br>
 <div style="margin-left: 32px;">
 - **新特徵：** <code style="color:red;">z = x² + y²</code> (距離中心的平方)。
 - **目的：** 解決原本 2D 資料的**線性不可分**問題。當引入 $z$ 軸後，內環和外環的 $z$ 值差異極大。
@@ -269,11 +269,11 @@ fig_mesh = px.scatter_3d(df_mesh, x='x', y='y', z='z', color='z',
 fig_mesh.show()
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">🌐 構建 3D 信心平面 (Decision Surface)</span><br><br>
+<h5>🌐 構建 3D 信心平面 (Decision Surface)</h5><br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 網格點生成 (<code style="color:red;">np.meshgrid</code>)</span><br>
+<h6>1️⃣ 網格點生成 (<code style="color:red;">np.meshgrid</code>)</h6><br>
 <div style="margin-left: 32px;">
 - **目的：** 在特徵空間 (Petal Length/Width) 上創建一個密集的網格點，用於描繪整個空間的分類情況。
 - **作用：** 確保我們能看到分類器在每個點上的預測結果。
@@ -281,7 +281,7 @@ fig_mesh.show()
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 3D 信心平面繪製</span><br>
+<h6>2️⃣ 3D 信心平面繪製</h6><br>
 <div style="margin-left: 32px;">
 - **計算：** 使用 <code style="color:red;">get_line_confidence</code> 為每個網格點計算 $z$ (信心分數)。
 - **結果：** 繪製出一個平滑的 S 形曲面，這就是 Logistic Regression 的**決策曲面**。這個曲面將特徵空間劃分為兩個區域 (信心分數 $\gt 0.5$ 和 $\lt 0.5$)。
@@ -306,11 +306,11 @@ fig_iris.add_surface(x=[0, 7], y=[0, 2.5], z=[[0.5, 0.5], [0.5, 0.5]],
 fig_iris.show()
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">✅ 最終視覺化：資料點與決策邊界</span><br><br>
+<h5>✅ 最終視覺化：資料點與決策邊界</h5><br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 資料點的 3D 投影</span><br>
+<h6>1️⃣ 資料點的 3D 投影</h6><br>
 <div style="margin-left: 32px;">
 - **Z 軸意義：** 每個 Iris 資料點的 $Z$ 軸值代表其被分類為 <code style="color:red;">setosa</code> 的信心分數。
 - **觀察：** 線性可分的 <code style="color:red;">setosa</code> (通常是紫色) 點將聚集在 $Z=1$ 附近。
@@ -318,7 +318,7 @@ fig_iris.show()
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 決策邊界平面 (<code style="color:red;">Z=0.5</code>)</span><br>
+<h6>2️⃣ 決策邊界平面 (<code style="color:red;">Z=0.5</code>)</h6><br>
 <div style="margin-left: 32px;">
 - **添加：** 使用 <code style="color:red;">fig_iris.add_surface</code> 在 $Z=0.5$ 高度處添加一個平面。
 - **解讀：** 該平面是分類的**臨界點**。

@@ -1,7 +1,7 @@
 // static/js/DL_js/DL_03_CIFAR_10_CNN.js
 
 export const DL_03_CIFAR_10_CNN = {
-  id: 1,
+  id: 3,
   name: "DL_03_CIFAR_10_CNN",
   code: [
     { line: "import tensorflow as tf", desc: "匯入 TensorFlow" },

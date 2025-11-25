@@ -5,14 +5,46 @@
  * 結構: clamp(最小值, 彈性縮放值, 最大值)
  */
 body {
-    /* 設定網頁預設字體：最小 14px, 彈性 2.5vw, 最大 18px */
-    font-size: clamp(14px, 2.5vw, 18px);
+    /* 設定網頁預設字體：最小 10px, 彈性 2vw, 最大 20px */
+    font-size: clamp(10px, 2vw, 20px);
     line-height: 1.6;
 }
 
+/* --- 完整標題響應式階層 --- */
+h1 {
+    /* 專門針對 h1 標題：最小 32px, 彈性 5vw, 最大 48px */
+    font-size: clamp(32px, 5vw, 48px); 
+}
+h2 {
+    /* 專門針對 h2 標題：最小 28px, 4.5vw, 最大 42px */
+    font-size: clamp(28px, 4.5vw, 42px); 
+}
+h3 {
+    /* 專門針對 h3 標題：最小 24px, 4vw, 最大 36px */
+    font-size: clamp(24px, 4vw, 36px); 
+}
 h4 {
-    /* 專門針對 h4 標題，縮放範圍更大：最小 16px, 彈性 3.5vw, 最大 24px */
-    font-size: clamp(16px, 3.5vw, 24px); 
+    /* 專門針對 h4 標題：最小 22px, 彈性 3.5vw, 最大 32px */
+    font-size: clamp(22px, 3.5vw, 32px); 
+}
+h5 {
+    /* 專門針對 h5 標題：最小 18px, 彈性 3vw, 最大 28px */
+    font-size: clamp(18px, 3vw, 28px); 
+}
+h6 {
+    /* 專門針對 h6 標題：最小 14px, 彈性 2.5vw, 最大 24px */
+    font-size: clamp(14px, 2.5vw, 24px); 
+}
+
+li {
+    /* 專門針對 li 列表項目：最小 10px, 彈性 2vw, 最大 20px */
+    font-size: clamp(10px, 2vw, 20px); 
+}
+
+/* 修正 a 標籤無效問題：使用 !important 確保覆蓋類別樣式 (如 .btn) */
+body a {
+    /* 專門針對 a 連結：最小 10px, 彈性 2vw, 最大 20px */
+    font-size: clamp(10px, 2vw, 20px) !important; 
 }
 
 /* --- 專案按鈕列樣式 --- */
@@ -21,6 +53,7 @@ h4 {
 }
 
 .top-bar {
+    font-size: clamp(10px, 2vw, 20px); /* 確保按鈕文字縮放：最小 10px，最大 20px */
     width: 100%;
     /* 讓 top-bar 不會自動換行 */
     flex-shrink: 0; 
@@ -40,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(1rem, 2.5vw, 1.4rem); /* 讓按鈕圖示也響應式縮放 */
+    font-size: clamp(10px, 2vw, 20px); /* 確保按鈕文字縮放：最小 10px，最大 20px */
     padding: 0;
     /* 確保按鈕圖示/文字顏色高對比 */
     color: var(--header-font-color); 
@@ -64,19 +97,19 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     /* 移除 Bootstrap 的 flex-grow 影響 */
     flex-shrink: 0; 
-    /* 確保按鈕文字也繼承響應式大小 */
-    font-size: clamp(12px, 2vw, 16px);
+    /* 確保按鈕文字也繼承響應式大小：最小 10px，最大 20px */
+    font-size: clamp(10px, 2vw, 20px);
 }
 
 /* --- API 金鑰輸入區樣式 --- */
 #apiKeyInput {
-    max-width: 300px; /* 限制輸入框最大寬度 */
-    font-size: clamp(14px, 2.2vw, 17px); /* 確保輸入框文字縮放 */
+    max-width: 100%; /* 限制輸入框最大寬度 */
+    font-size: clamp(10px, 2vw, 20px); /* 確保輸入框文字縮放：最小 10px，最大 20px */
 }
 #saveApiKeyBtn {
     /* 確保按鈕不會被壓縮 */
     white-space: nowrap;
-    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
+    font-size: clamp(10px, 2vw, 20px); /* 確保按鈕文字縮放：最小 10px，最大 20px */
 }
 /* 讓整個頂部容器在小螢幕上佈局更合理 */
 @media (max-width: 768px) {
@@ -115,8 +148,8 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 50% 50%; 
     /* 兩行，比例由 JS 調整 */
     grid-template-rows: 50% 50%; 
-    margin-left: 10px; /* 將容器推向右邊 20px */
-    width: calc(96vw - 10px); /* 將寬度減少 20px 以避免水平滾動 */
+    margin-left: 10px; /* 將容器推向右邊 10px */
+    width: calc(96vw - 10px); /* 將寬度減少 10px 以避免水平滾動 */
     /* 佔據視窗剩餘高度 */
     height: calc(100vh - 70px); 
     overflow: hidden;
@@ -143,8 +176,8 @@ h1, h2, h3, h4, h5, h6 {
     font-family: monospace;
     line-height: 1.4;
     cursor: default;
-    /* 【響應式】程式碼字體最小 12px，最大 16px */
-    font-size: clamp(12px, 1.8vw, 16px);
+    /* 【響應式】程式碼字體最小 10px，彈性 2vw，最大 20px */
+    font-size: clamp(10px, 2vw, 20px);
 }
 
 /* 程式碼行 (JS中創建的) */
@@ -178,8 +211,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--panel-font-color);
     /* 讓輸入框的背景和文字切換也平滑 */
     transition: background-color 0.5s linear, color 0.5s linear;
-    /* 【響應式】輸入框文字縮放 */
-    font-size: clamp(14px, 2.2vw, 17px);
+    /* 【響應式】輸入框文字縮放：最小 10px，最大 20px */
+    font-size: clamp(10px, 2vw, 20px);
 }
 
 /* 左下角筆記區 */
@@ -196,7 +229,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #saveNotesBtn {
     width: 100%;
-    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
+    font-size: clamp(10px, 2vw, 20px); /* 確保按鈕文字縮放：最小 10px，最大 20px */
 }
 
 /* 右下角聊天區 - 啟用 Flex 佈局 */
@@ -231,7 +264,7 @@ h1, h2, h3, h4, h5, h6 {
     flex-grow: 1;
     height: auto; /* 讓 JS 控制高度 */
     min-height: 40px;
-    max-height: 120px;
+    max-height: 124px;
     padding: 8px;
     border-radius: 8px;
 }
@@ -244,18 +277,18 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
     flex-shrink: 0; /* 防止按鈕被壓縮 */
-    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
+    font-size: clamp(10px, 2vw, 20px); /* 確保按鈕文字縮放：最小 10px，最大 20px */
 }
 
 /* --- 聊天訊息氣泡樣式 --- */
 .message-bubble {
     max-width: 85%;
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: 15px;
     margin-bottom: 8px;
     word-wrap: break-word;
-    /* 【響應式】聊天氣泡文字縮放 */
-    font-size: clamp(13px, 2vw, 16px);
+    /* 【響應式】聊天氣泡文字縮放：最小 10px，最大 20px */
+    font-size: clamp(10px, 2vw, 20px);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -276,7 +309,7 @@ h1, h2, h3, h4, h5, h6 {
 .ai-name {
     font-weight: bold;
     color: #0d6efd;
-    font-size: clamp(12px, 1.8vw, 14px); /* AI 助理名稱文字縮放 */
+    font-size: clamp(10px, 2vw, 20px); /* AI 助理名稱文字縮放：最小 10px，最大 20px */
     margin-bottom: 2px;
 }
 

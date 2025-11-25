@@ -9,14 +9,14 @@ export const ML_01_Linear_Regression = {
 # ==========================
       `,
       "desc": `
-<span style="font-size:26px; font-weight:bold;">📝 線性回歸專案大綱解析 (純線性)</span><br><br>
+<h5>📝 線性回歸專案大綱解析 (純線性)</h5><br><br>
 
 本專案以手動線性回歸為例，完整展示從資料生成、標準化、模型訓練到預測與視覺化的流程，幫助學生理解梯度下降、標準化、預測與可視化。
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 目的</span><br>
-<div style="margin-left:32px;">
+<h6>1️⃣ 目的</h6><br>
+<div style="margin-left:10px;">
 <ul>
 <li>建立線性回歸模型 <code style="color:red;">y = a0 + a1 * x</code>，理解模型訓練流程</li>
 <li>觀察手動梯度下降訓練過程，理解參數收斂</li>
@@ -28,8 +28,8 @@ export const ML_01_Linear_Regression = {
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 流程</span><br>
-<div style="margin-left:32px;">
+<h6>2️⃣ 流程</h6><br>
+<div style="margin-left:10px;">
 <ol>
 <li>資料生成：
 <pre><code style="color:red;">heights = np.random.uniform(140,180,300)
@@ -76,8 +76,8 @@ plt.show()
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">3️⃣ 小結</span><br>
-<div style="margin-left:32px;">
+<h6>3️⃣ 小結</h6><br>
+<div style="margin-left:10px;">
 - 展示完整流程：資料生成 → 標準化 → 模型初始化 → 訓練 → 預測 → 視覺化<br>
 - 手動梯度下降 + Z-score 標準化，直觀理解線性回歸內部運作
 </div>
@@ -92,14 +92,14 @@ import plotly.express as px
 from matplotlib import pyplot as plt
       `,
       "desc": `
-<span style="font-size:26px; font-weight:bold;">Python 常用資料科學與視覺化套件匯入解析</span><br><br>
+<h5>Python 常用資料科學與視覺化套件匯入解析</h5><br><br>
 
 這五行程式碼都是資料科學、機器學習與資料視覺化的基礎套件，逐行解析如下：
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ import numpy as np</span><br>
-<div style="margin-left: 32px;">
+<h6>1️⃣ import numpy as np</h6><br>
+<div style="margin-left: 10px;">
 - NumPy 是 Python 的數值運算核心套件，簡稱 np。<br>
 - 提供高效能陣列運算、矩陣運算與線性代數功能。<br>
 - 幾乎所有科學計算都會用到 NumPy。<br>
@@ -111,8 +111,8 @@ mean_val = np.mean(arr)  # 計算平均值<br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ import pandas as pd</span><br>
-<div style="margin-left: 32px;">
+<h6>2️⃣ import pandas as pd</h6><br>
+<div style="margin-left: 10px;">
 - Pandas 是 Python 的資料處理利器，簡稱 pd。<br>
 - 擅長操作表格資料（DataFrame）與時間序列資料（Series）。<br>
 - 常用於資料清理、分析與匯出 CSV/Excel。<br>
@@ -124,8 +124,8 @@ print(df.head())                  # 顯示前 5 筆資料<br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">3️⃣ import seaborn as sns</span><br>
-<div style="margin-left: 32px;">
+<h6>3️⃣ import seaborn as sns</h6><br>
+<div style="margin-left: 10px;">
 - Seaborn 是基於 Matplotlib 的高階視覺化套件，簡稱 sns。<br>
 - 主要用於統計圖表，如箱型圖、直方圖、散佈圖與熱力圖。<br>
 - 可以快速畫出漂亮、易讀的圖表。<br>
@@ -137,8 +137,8 @@ sns.histplot(df['salary'], bins=20)           # 畫直方圖<br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">4️⃣ import plotly.express as px</span><br>
-<div style="margin-left: 32px;">
+<h6>4️⃣ import plotly.express as px</h6><br>
+<div style="margin-left: 10px;">
 - Plotly Express 是互動式視覺化套件，簡稱 px。<br>
 - 可以建立滑鼠可互動的圖表，例如放大縮小、滑鼠提示資訊。<br>
 - 適合做網頁展示或交互式報表。<br>
@@ -150,8 +150,8 @@ fig.show()  # 互動式散佈圖<br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">5️⃣ from matplotlib import pyplot as plt</span><br>
-<div style="margin-left: 32px;">
+<h6>5️⃣ from matplotlib import pyplot as plt</h6><br>
+<div style="margin-left: 10px;">
 - Matplotlib 是 Python 最基礎的畫圖套件，pyplot 提供類似 MATLAB 的繪圖介面，簡稱 plt。<br>
 - 適合畫靜態圖表，例如折線圖、長條圖、散佈圖。<br>
 - 範例：<br>
@@ -168,8 +168,8 @@ plt.show()<br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">總結：</span><br>
-<div style="margin-left:32px;">
+<h6>總結：</h6><br>
+<div style="margin-left:10px;">
 - <strong>NumPy</strong> → 科學運算、矩陣運算<br>
 - <strong>Pandas</strong> → 資料整理、表格操作<br>
 - <strong>Seaborn / Matplotlib</strong> → 靜態圖表繪製<br>
@@ -203,10 +203,10 @@ class MyLinear():
       `,
 
       "desc": `
-<span style="font-size:26px; font-weight:bold;">MyLinear 類別：一次線性模型完整解說</span><br><br>
+<h5>MyLinear 類別：一次線性模型完整解說</h5><br><br>
 
-<span style="font-size:22px; font-weight:bold;">📌 模型概念</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 模型概念</h6><br>
+<div style="margin-left: 10px;">
 此類別實作的模型為：<br>
 <code>y = a0 + a1 * x</code><br><br>
 a0 → 截距（intercept）<br>
@@ -224,27 +224,27 @@ a1 → 斜率（slope）<br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化模型參數</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 __init__：初始化模型參數</h6><br>
+<div style="margin-left: 10px;">
 建立 MyLinear() 物件時會自動呼叫。<br>
 預設參數：a0 = 0.0（截距）、a1 = 1.0（斜率）。<br>
 並透過 <code>self.set_trainables([a0, a1])</code> 將參數儲存在物件中。<br><br>
 </div>
 
-<span style="font-size:22px; font-weight:bold;">🔹 set_trainables：設定模型參數</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 set_trainables：設定模型參數</h6><br>
+<div style="margin-left: 10px;">
 將傳入的參數（如 <code>[a0, a1]</code>）轉為 NumPy 陣列，方便做矩陣/向量運算。<br>
 並存進 <code>self.params</code>。<br><br>
 </div>
 
-<span style="font-size:22px; font-weight:bold;">🔹 get_trainables：取得目前參數</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 get_trainables：取得目前參數</h6><br>
+<div style="margin-left: 10px;">
 回傳模型參數 <code>[a0, a1]</code>。<br>
 可用於顯示、紀錄或做優化計算。<br><br>
 </div>
 
-<span style="font-size:22px; font-weight:bold;">🔹 get_y：根據 x 計算 y</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 get_y：根據 x 計算 y</h6><br>
+<div style="margin-left: 10px;">
 將參數拆成 <code>a0</code> 與 <code>a1</code>，並套入公式：<br>
 <code>y = a0 + a1 * x</code><br><br>
 
@@ -255,8 +255,8 @@ a1 → 斜率（slope）<br><br>
 適合大量資料的批次運算（向量化）。<br><br>
 </div>
 
-<span style="font-size:22px; font-weight:bold;">🔹 get_line：產生繪製直線用的資料</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 get_line：產生繪製直線用的資料</h6><br>
+<div style="margin-left: 10px;">
 用於產生等距 x 值與對應的 y 值，方便繪圖。<br><br>
 
 參數說明：<br>
@@ -294,17 +294,17 @@ class MyMSELoss():
       `,
 
       "desc": `
-<span style="font-size:26px; font-weight:bold;">MyMSELoss 類別：RMSE 損失函數完整解說</span><br><br>
+<h5>MyMSELoss 類別：RMSE 損失函數完整解說</h5><br><br>
 
-<span style="font-size:22px; font-weight:bold;">📌 這個類別的用途</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 這個類別的用途</h6><br>
+<div style="margin-left: 10px;">
 MyMSELoss 用來計算模型的預測誤差。<br>
 它接收一個模型（如 MyLinear），並提供一個方法 <code>get_loss()</code>：<br><br>
 
 <strong>計算 RMSE（Root Mean Squared Error, 均方根誤差）</strong><br>
 
 公式：<br>
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 RMSE = √(平均( (y_true − y_pred)² ))
 </div><br>
 
@@ -313,8 +313,8 @@ RMSE 越小，表示模型對資料的擬合越好。<br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化損失函數並綁定模型</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 __init__：初始化損失函數並綁定模型</h6><br>
+<div style="margin-left: 10px;">
 建立 MyMSELoss 時必須傳入一個模型物件：<br><br>
 
 <code>loss_fn = MyMSELoss(model)</code><br><br>
@@ -323,13 +323,13 @@ RMSE 越小，表示模型對資料的擬合越好。<br><br>
 之後用 <code>get_loss()</code> 計算誤差時會用到它的 <code>get_y()</code> 做預測。<br><br>
 </div>
 
-<span style="font-size:22px; font-weight:bold;">🔹 get_model：回傳綁定的模型</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 get_model：回傳綁定的模型</h6><br>
+<div style="margin-left: 10px;">
 單純提供一個方法取得目前使用的模型。<br><br>
 </div><br>
 
-<span style="font-size:22px; font-weight:bold;">🔹 get_loss：計算 RMSE（均方根誤差）</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 get_loss：計算 RMSE（均方根誤差）</h6><br>
+<div style="margin-left: 10px;">
 整個類別的核心功能。<br><br>
 
 步驟如下：<br>
@@ -374,24 +374,24 @@ class MyTrainer():
         return np.array([grad_a0, grad_a1], np.float64)
       `,
       "desc": `
-<span style="font-size:26px; font-weight:bold;">MyTrainer 類別：梯度下降訓練器解說</span><br><br>
+<h5>MyTrainer 類別：梯度下降訓練器解說</h5><br><br>
 
-<span style="font-size:22px; font-weight:bold;">📌 這個類別的用途</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 這個類別的用途</h6><br>
+<div style="margin-left: 10px;">
 此類別專門用來計算 **梯度**，是實現梯度下降（Gradient Descent）的核心。<br>
 它依賴於模型 (MyLinear) 和真實資料來計算每個參數應該調整的方向和幅度。<br><br>
 </div>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化並綁定模型與損失函數</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 __init__：初始化並綁定模型與損失函數</h6><br>
+<div style="margin-left: 10px;">
 建立 Trainer 時會儲存 Loss Function (<code>loss_fn</code>) 和 Model (<code>model</code>)。<br>
 Loss Function 用來計算 RMSE，而 Model 則用來進行預測。<br><br>
 </div>
 
-<span style="font-size:22px; font-weight:bold;">🔹 get_gradient：計算參數梯度（核心）</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 get_gradient：計算參數梯度（核心）</h6><br>
+<div style="margin-left: 10px;">
 此方法計算兩個參數 $a_0$ (截距) 和 $a_1$ (斜率) 的梯度：<br>
 
 <strong style="font-size:20px;">1. $a_0$ 的梯度 (grad\_a0)：</strong><br>
@@ -427,14 +427,14 @@ class MyZStandardization():
       `,
 
       "desc": `
-<span style="font-size:26px; font-weight:bold;">MyZStandardization 類別：Z-score 標準化完整解說</span><br><br>
+<h5>MyZStandardization 類別：Z-score 標準化完整解說</h5><br><br>
 
-<span style="font-size:22px; font-weight:bold;">📌 這個類別的用途</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 這個類別的用途</h6><br>
+<div style="margin-left: 10px;">
 此類別專門用來做「Z-score 標準化（Standardization）」。<br><br>
 
 標準化的公式為：  
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 Z = (x − mean) / std  
 </div><br>
 
@@ -449,8 +449,8 @@ Z = (x − mean) / std  
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 __init__：初始化（尚未計算 mean 與 std）</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 __init__：初始化（尚未計算 mean 與 std）</h6><br>
+<div style="margin-left: 10px;">
 初始化後預設：  
 <ul>
   <li><code>self.mean = None</code></li>
@@ -460,8 +460,8 @@ Z = (x − mean) / std  
 這讓使用者知道標準化器尚未建立轉換所需的統計量。<br>
 </div><br>
 
-<span style="font-size:22px; font-weight:bold;">🔹 fit：從資料計算平均與標準差</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 fit：從資料計算平均與標準差</h6><br>
+<div style="margin-left: 10px;">
 <code>fit(data)</code> 用來學習資料的分佈。<br><br>
 
 計算方式：  
@@ -477,10 +477,10 @@ Z = (x − mean) / std  
 方便在外部檢查。<br>
 </div><br>
 
-<span style="font-size:22px; font-weight:bold;">🔹 transform：將資料轉成標準化後的 Z 分數</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 transform：將資料轉成標準化後的 Z 分數</h6><br>
+<div style="margin-left: 10px;">
 使用公式：  
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 Z = (x − mean) / std  
 </div><br>
 
@@ -491,10 +491,10 @@ Z = (x − mean) / std  
 </ul>
 </div><br>
 
-<span style="font-size:22px; font-weight:bold;">🔹 inverse_transform：還原回原資料</span><br>
-<div style="margin-left: 32px;">
+<h6>🔹 inverse_transform：還原回原資料</h6><br>
+<div style="margin-left: 10px;">
 使用逆轉換公式：  
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 x = Z * std + mean  
 </div><br>
 
@@ -514,13 +514,13 @@ def generate_weights(heights, sigma = 5, height_ans = 1, weight_ans = -100):
       `,
 
       "desc": `
-<span style="font-size:26px; font-weight:bold;">generate_weights 函式：模擬「身高 → 體重」資料的生成器</span><br><br>
+<h5>generate_weights 函式：模擬「身高 → 體重」資料的生成器</h5><br><br>
 
-<span style="font-size:22px; font-weight:bold;">📌 函式用途</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 函式用途</h6><br>
+<div style="margin-left: 10px;">
 這個函式用來「隨機生成」身高與體重的關係資料。<br>
 它模擬一個線性模型：  
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 <code>weight = weight_ans + height_ans * height + noise</code>
 </div>
 
@@ -536,9 +536,9 @@ def generate_weights(heights, sigma = 5, height_ans = 1, weight_ans = -100):
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 函式參數說明</span><br>
+<h6>🔹 函式參數說明</h6><br>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 <strong>1. heights</strong><br>
 使用者提供的「身高資料」陣列 (NumPy array)。<br><br>
 
@@ -560,9 +560,9 @@ def generate_weights(heights, sigma = 5, height_ans = 1, weight_ans = -100):
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 函數如何運作</span><br>
+<h6>🔹 函數如何運作</h6><br>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 整個回傳值由三個部分組成：<br><br>
 
 1. **線性關係：**  
@@ -634,7 +634,7 @@ def train_model(df, model, trainer, height_std, weight_std,
             plt.show()
       `,
       "desc": `
-<span style="font-size:26px; font-weight:bold;">train_model：執行模型訓練與視覺化的主函式</span><br><br>
+<h5>train_model：執行模型訓練與視覺化的主函式</h5><br><br>
 
 這個函式是整個專案的核心流程：  
 ✔ 取得資料  
@@ -648,9 +648,9 @@ def train_model(df, model, trainer, height_std, weight_std,
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 函式用途</span><br>
+<h6>📌 函式用途</h6><br>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 此函式負責「完整的機器學習訓練迴圈」（手動版 Gradient Descent）。<br><br>
 
 它會執行：  
@@ -667,9 +667,9 @@ def train_model(df, model, trainer, height_std, weight_std,
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 參數說明</span>
+<h6>🔹 參數說明</h6>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 
 <strong>1. df</strong><br>
 Pandas 資料表，含有 height、weight、height_Z、weight_Z。<br><br>
@@ -700,9 +700,9 @@ Pandas 資料表，含有 height、weight、height_Z、weight_Z。<br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 訓練核心流程（Epoch Loop）</span>
+<h6>🔹 訓練核心流程（Epoch Loop）</h6>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 
 <strong>1. 計算梯度：</strong><br>
 <code>grads = trainer.get_gradient(df['height_Z'], df['weight_Z'])</code><br><br>
@@ -718,9 +718,9 @@ Pandas 資料表，含有 height、weight、height_Z、weight_Z。<br><br>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">🔹 可視化與訓練紀錄</span>
+<h6>🔹 可視化與訓練紀錄</h6>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 只要符合下列任一條件就會印出資訊並畫圖：  
 <ul>
   <li>第 1 次 epoch（epoch == 0）</li>
@@ -768,7 +768,7 @@ def predict_height(weight, model, height_std, weight_std):
     return height_std.inverse_transform([height_Z])[0]
       `,
       "desc": `
-<span style="font-size:26px; font-weight:bold;">預測函式：根據身高推估體重 & 根據體重推估身高</span><br><br>
+<h5>預測函式：根據身高推估體重 & 根據體重推估身高</h5><br><br>
 
 這兩個函式負責將訓練好的線性模型應用到實際預測上：  
 ✔ <strong>predict_weight</strong>：輸入身高 → 預測體重 (直接代入公式)  
@@ -777,9 +777,9 @@ def predict_height(weight, model, height_std, weight_std):
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 predict_weight：依身高預測體重 (解析解)</span><br>
+<h6>📌 predict_weight：依身高預測體重 (解析解)</h6><br>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 此函式的流程分為三步：  
 <ul>
   <li>把輸入身高轉成 Z-score</li>
@@ -790,9 +790,9 @@ def predict_height(weight, model, height_std, weight_std):
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 predict_height：依體重反推身高（數值搜尋法）</span><br>
+<h6>📌 predict_height：依體重反推身高（數值搜尋法）</h6><br>
 
-<div style="margin-left: 32px;">
+<div style="margin-left: 10px;">
 這個函式雖然對於線性模型有解析解 (<code>height_Z = (weight_Z - a0) / a1</code>)，但為了讓預測器更穩定，仍採用「數值搜尋」方式找到最佳身高。<br><br>
 流程簡述：  
 1. 將目標體重標準化為 <code>weight_Z</code>。  
@@ -853,7 +853,7 @@ predicted_weight = predict_weight(test_height, model, height_std, weight_std)
 print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f} kg")
       `,
       "desc": `
-<span style="font-size:26px; font-weight:bold;">主程式執行區解析：從資料生成到模型訓練與預測</span><br><br>
+<h5>主程式執行區解析：從資料生成到模型訓練與預測</h5><br><br>
 
 這個程式區塊是整個專案的「入口點」，負責完成以下流程：  
 ✔ 設定參數  
@@ -865,8 +865,8 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 1️⃣ 模型訓練與資料設定參數</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 1️⃣ 模型訓練與資料設定參數</h6><br>
+<div style="margin-left: 10px;">
 - <strong>data_size</strong>：生成的資料筆數<br>
 - <strong>heights_min / heights_max</strong>：身高範圍 (cm)<br>
 - <strong>sigma</strong>：體重生成時的隨機雜訊標準差<br>
@@ -879,8 +879,8 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 2️⃣ 產生資料</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 2️⃣ 產生資料</h6><br>
+<div style="margin-left: 10px;">
 - 使用 <code>np.random.uniform</code> 生成身高資料<br>
 - 使用 <code>generate_weights()</code> 將身高轉成帶有隨機雜訊的體重<br>
 - 最終放入 <code>pd.DataFrame</code> 方便操作
@@ -888,16 +888,16 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 3️⃣ 標準化資料</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 3️⃣ 標準化資料</h6><br>
+<div style="margin-left: 10px;">
 - 使用 <code>MyZStandardization</code> 將身高與體重轉成 Z-score<br>
 - 生成 <code>height_Z</code> 和 <code>weight_Z</code>，供模型訓練使用
 </div>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 4️⃣ 選擇模型與訓練器</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 4️⃣ 選擇模型與訓練器</h6><br>
+<div style="margin-left: 10px;">
 - 選擇 <code>MyLinear</code> 模型<br>
 - 訓練器 <code>MyTrainer</code> 搭配損失函式 <code>MyMSELoss</code><br>
 - 所有參數初始化完成後即可進行訓練
@@ -905,16 +905,16 @@ print(f"\\n預測身高 {test_height} cm 對應體重 ≈ {predicted_weight:.2f}
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 5️⃣ 訓練模型</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 5️⃣ 訓練模型</h6><br>
+<div style="margin-left: 10px;">
 - 使用 <code>train_model()</code> 執行完整訓練迴圈<br>
 - 包含計算梯度、更新參數、輸出 RMSE 與可視化等功能
 </div>
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">📌 6️⃣ 測試預測</span><br>
-<div style="margin-left: 32px;">
+<h6>📌 6️⃣ 測試預測</h6><br>
+<div style="margin-left: 10px;">
 - 選擇測試身高 <code>test_height = 170</code> cm<br>
 - 呼叫 <code>predict_weight()</code> 得到預測體重<br>
 - 將結果列印出，方便檢查模型是否合理

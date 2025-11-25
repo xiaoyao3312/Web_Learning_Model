@@ -1,5 +1,5 @@
 export const ML_04_Objective_And_Loss = {
-  id: 2,
+  id: 4,
   name: "ML_04_Objective_And_Loss",
   code: [
 {
@@ -9,13 +9,13 @@ export const ML_04_Objective_And_Loss = {
 # ==========================
     `,
     "desc": `
-<span style="font-size:26px; font-weight:bold;">📝 線性分類器專案大綱解析 (以 Logistic Regression 核心概念為例)</span><br><br>
+<h5>📝 線性分類器專案大綱解析 (以 Logistic Regression 核心概念為例)</h5><br><br>
 
 本專案著重於**線性分類器**的核心概念視覺化，特別是 Sigmoid 函數的應用、資料的線性可分性判斷，以及如何透過特徵工程或 3D 視覺化來尋找決策邊界。
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">1️⃣ 目的</span><br>
+<h6>1️⃣ 目的</h6><br>
 <div style="margin-left:32px;">
 <ul>
 <li>理解 <code style="color:red;">Sigmoid 函數</code> 如何將線性得分轉換為機率或信心分數 (0到1)。</li>
@@ -28,7 +28,7 @@ export const ML_04_Objective_And_Loss = {
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">2️⃣ 流程 (程式碼邏輯順序)</span><br>
+<h6>2️⃣ 流程 (程式碼邏輯順序)</h6><br>
 <div style="margin-left:32px;">
 <ol>
 <li>核心函數定義 (Sigmoid, 極座標資料生成, 信心分數計算)。
@@ -43,7 +43,7 @@ export const ML_04_Objective_And_Loss = {
 
 <hr>
 
-<span style="font-size:22px; font-weight:bold;">3️⃣ 小結</span><br>
+<h6>3️⃣ 小結</h6><br>
 <div style="margin-left:32px;">
 - 專注於線性分類器 (特別是 Logistic Regression) 的數學基礎和視覺概念。<br>
 - 透過 2D/3D 轉換，展示如何將看似無法直線切割的資料，透過維度提升或特徵轉換來實現分類。<br>

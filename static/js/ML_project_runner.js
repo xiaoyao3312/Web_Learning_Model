@@ -3,7 +3,7 @@ import { ML_projects as projects } from "./ML_project_loader.js";
 // --- 專案載入邏輯 ---
 let currentProject = 1;
 const mainTitle = document.getElementById("mainTitle"); // 取得標題元素
-const BASE_TITLE = "互動式程式碼教學";
+const BASE_TITLE = "互動式程式碼";
 
 /**
  * 從按鈕元素中提取專案英文名稱並更新主標題

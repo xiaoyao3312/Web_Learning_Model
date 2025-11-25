@@ -1,7 +1,7 @@
 // static/js/DL_js/DL_02_CIFAR_10_FCN.js
 
 export const DL_02_CIFAR_10_FCN = {
-  id: 1,
+  id: 2,
   name: "DL_02_CIFAR_10_FCN 範例",
   code: [
     { line: "import tensorflow as tf", desc: "匯入 TensorFlow" },

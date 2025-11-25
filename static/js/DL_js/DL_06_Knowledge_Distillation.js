@@ -1,7 +1,7 @@
 // static/js/DL_js/DL_06_Knowledge_Distillation.js
 
 export const DL_06_Knowledge_Distillation = {
-  id: 1,
+  id: 6,
   name: "DL_06_Knowledge_Distillation",
   code: [
     { line: "import tensorflow as tf", desc: "匯入 TensorFlow" },
