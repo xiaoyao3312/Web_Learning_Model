@@ -63,20 +63,22 @@
     const avg=(r + g + b)/3; 
     
     // *******************************************************************
-    // 關鍵修正：全域文字顏色計算（增強中灰對比度）
+    // 關鍵修正：全域文字顏色計算（調整對比度曲線至更平緩）
+    // 將指數從 1.5 調整為 1.2，使文字顏色在中灰區域的轉換更加平緩。
     // *******************************************************************
+    const exponent = 1.2; 
     let fontVal;
     
     if (avg > 127.5) {
         // 背景偏亮: 讓字體顏色往 0 (黑色) 推
-        const normalized_avg = (avg - 127.5) / (255 - 127.5); // 0 到 1
-        // 使用 Power Function 放大亮度差異，使 fontVal 更快接近 0
-        fontVal = 127.5 * (1 - Math.pow(normalized_avg, 1.5)); // 1.5 可調整
+        const normalized_avg = (avg - 127.5) / 127.5; // 0 到 1
+        // 使用較小的 Power Function 指數 (1.2) 使得 fontVal 較慢接近 0
+        fontVal = 127.5 * (1 - Math.pow(normalized_avg, exponent)); 
     } else {
         // 背景偏暗: 讓字體顏色往 255 (白色) 推
         const normalized_avg = (127.5 - avg) / 127.5; // 0 到 1
-        // 確保 fontVal 更快接近 255
-        fontVal = 127.5 + 127.5 * Math.pow(normalized_avg, 1.5); // 1.5 可調整
+        // 使用較小的 Power Function 指數 (1.2) 使得 fontVal 較慢接近 255
+        fontVal = 127.5 + 127.5 * Math.pow(normalized_avg, exponent); 
     }
     
     // 確保值在 0 到 255 範圍內
@@ -92,7 +94,7 @@
     document.documentElement.style.setProperty("--global-font-color", globalFontColor); 
     document.documentElement.style.setProperty("--header-font-color", headerFontColor);
 
-    // 面板背景和文字色
+    // 面板背景和文字色 (此部分保持硬切換，以確保 FAB 面板始終有良好對比)
     if (avg > 128) {
         // 主背景為淺色 -> 面板使用微淺灰，文字黑色
         document.documentElement.style.setProperty("--panel-bg-color", "rgba(230, 230, 230, 0.9)");

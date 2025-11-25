@@ -1,8 +1,8 @@
-// static/js/DL_js/project_1_cnn.js
+// static/js/DL_js/DL_05_Transfer_Learning.js
 
-export const project_1 = {
+export const DL_05_Transfer_Learning = {
   id: 1,
-  name: "CNN 範例",
+  name: "DL_05_Transfer_Learning",
   code: [
     { line: "import tensorflow as tf", desc: "匯入 TensorFlow" },
     { line: "model = tf.keras.models.Sequential()", desc: "建立空的 Sequential 模型" },

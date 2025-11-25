@@ -21,6 +21,7 @@ h4 {
 }
 
 .top-bar {
+    width: 100%;
     /* 讓 top-bar 不會自動換行 */
     flex-shrink: 0; 
 }
@@ -89,7 +90,6 @@ h1, h2, h3, h4, h5, h6 {
     }
     .top-bar {
         margin-bottom: 10px;
-        width: 100%;
         justify-content: space-between;
     }
     .project-btn-container {
@@ -115,7 +115,8 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 50% 50%; 
     /* 兩行，比例由 JS 調整 */
     grid-template-rows: 50% 50%; 
-    width: 100vw;
+    margin-left: 10px; /* 將容器推向右邊 20px */
+    width: calc(96vw - 10px); /* 將寬度減少 20px 以避免水平滾動 */
     /* 佔據視窗剩餘高度 */
     height: calc(100vh - 70px); 
     overflow: hidden;

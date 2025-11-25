@@ -1,113 +1,347 @@
-/* --------------------------- */
-/* 基本排版 */
-/* --------------------------- */
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  height: 100%;
+/*
+ * 【核心響應式字體設定】
+ * 使用 clamp() 函數來控制字體大小，使其根據視窗寬度 (vw) 縮放，
+ * 但保持在一個可讀的最小值和最大值之間。
+ * 結構: clamp(最小值, 彈性縮放值, 最大值)
+ */
+body {
+    /* 設定網頁預設字體：最小 14px, 彈性 2.5vw, 最大 18px */
+    font-size: clamp(14px, 2.5vw, 18px);
+    line-height: 1.6;
 }
 
-/* --------------------------- */
-/* 主容器 */
-/* --------------------------- */
-.main-container {
-  display: flex;
-  flex-direction: column;
-  height: 90vh;
-  transition: all 0.3s ease;
+h4 {
+    /* 專門針對 h4 標題，縮放範圍更大：最小 16px, 彈性 3.5vw, 最大 24px */
+    font-size: clamp(16px, 3.5vw, 24px); 
 }
 
-/* --------------------------- */
-/* 上方 Top-bar */
-/* --------------------------- */
+/* --- 專案按鈕列樣式 --- */
+.header-row {
+    margin-right: 15px;
+}
+
 .top-bar {
-  display: flex;
-  align-items: center;
-  background-color: #f8f9fa;
-  padding: 5px 10px;
-  overflow: hidden;
-  transition: all 0.3s ease;
+    width: 100%;
+    /* 讓 top-bar 不會自動換行 */
+    flex-shrink: 0; 
 }
 
-/* toggle 按鈕 */
-.top-bar .icon-btn {
-  margin-right: 10px;
+/* 確保所有標題也使用這個高對比顏色 */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--header-font-color);
+    transition: color 0.5s linear;
 }
 
-/* project 按鈕容器 */
+/* 確保按鈕顏色與頂部文字顏色一致 */
+#toggleBtn {
+    /* 確保按鈕有足夠的寬度 */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1rem, 2.5vw, 1.4rem); /* 讓按鈕圖示也響應式縮放 */
+    padding: 0;
+    /* 確保按鈕圖示/文字顏色高對比 */
+    color: var(--header-font-color); 
+}
+
 .project-btn-container {
-  display: flex;
-  gap: 5px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  width: 0;
-  transition: width 0.3s ease;
+    display: none;
+    /* 讓按鈕在水平方向排列 */
+    white-space: nowrap; 
+    overflow-x: auto;
+    padding: 0 10px;
 }
 
-/* 展開寬度自動 */
 .project-btn-container.show {
-  width: 100%;
+    display: flex;
+    gap: 8px;
 }
 
-/* project 按鈕 */
 .project-btn {
-  display: inline-block;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: all 0.3s ease;
-  white-space: normal;
-  text-align: center;
+    min-width: 100px;
+    text-align: center;
+    /* 移除 Bootstrap 的 flex-grow 影響 */
+    flex-shrink: 0; 
+    /* 確保按鈕文字也繼承響應式大小 */
+    font-size: clamp(12px, 2vw, 16px);
 }
 
-/* 展開動畫 */
-.project-btn-container.show .project-btn {
-  opacity: 1;
-  transform: translateX(0);
+/* --- API 金鑰輸入區樣式 --- */
+#apiKeyInput {
+    max-width: 300px; /* 限制輸入框最大寬度 */
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保輸入框文字縮放 */
+}
+#saveApiKeyBtn {
+    /* 確保按鈕不會被壓縮 */
+    white-space: nowrap;
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
+}
+/* 讓整個頂部容器在小螢幕上佈局更合理 */
+@media (max-width: 768px) {
+    .container-fluid.py-3 {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    .header-row {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .top-bar {
+        margin-bottom: 10px;
+        justify-content: space-between;
+    }
+    .project-btn-container {
+        width: calc(100% - 60px); /* 留一點空間給 toggleBtn */
+    }
+    #apiKeySetup {
+        width: 100%;
+        margin-top: 0 !important;
+        margin-bottom: 10px;
+    }
+    #apiKeyInput {
+        max-width: none;
+    }
 }
 
-/* 鼠標拖曳時樣式 */
-.project-btn-container.active {
-  cursor: grabbing;
+
+/* --- 四面板佈局樣式 --- */
+
+.four-panel-container {
+    /* 使用 CSS Grid 實現四格佈局 */
+    display: grid;
+    /* 兩欄，比例由 JS 調整 */
+    grid-template-columns: 50% 50%; 
+    /* 兩行，比例由 JS 調整 */
+    grid-template-rows: 50% 50%; 
+    margin-left: 10px; /* 將容器推向右邊 20px */
+    width: calc(96vw - 10px); /* 將寬度減少 20px 以避免水平滾動 */
+    /* 佔據視窗剩餘高度 */
+    height: calc(100vh - 70px); 
+    overflow: hidden;
+    position: relative; /* 為了拖拉桿的 absolute 定位 */
 }
 
-/* --------------------------- */
-/* 程式碼區容器 */
-/* --------------------------- */
-.code-container {
-  display: flex;
-  flex: 1;
-  gap: 10px;
-  padding: 10px;
-  overflow: hidden;
+/* 四個面板的通用樣式 */
+.panel {
+    border: 1px solid #ddd;
+    padding: 15px;
+    overflow: auto; 
+    
+    /* 應用面板過渡 */
+    background-color: var(--panel-bg-color);
+    color: var(--panel-font-color);
+    transition: background-color 0.5s linear, color 0.5s linear;
+    
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
-/* 左右面板 */
-.left-panel, .right-panel {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  border-radius: 5px;
+/* 程式碼區域 */
+#codeArea {
+    white-space: pre-wrap; 
+    font-family: monospace;
+    line-height: 1.4;
+    cursor: default;
+    /* 【響應式】程式碼字體最小 12px，最大 16px */
+    font-size: clamp(12px, 1.8vw, 16px);
 }
 
-/* 說明面板 */
-.left-panel {
-  background-color: #f0f0f0;
-}
-
-/* 程式碼面板 */
-.right-panel {
-  background-color: #262626;
-  color: #d4d4d4;
-  font-family: monospace;
-}
-
-/* 程式碼行 */
+/* 程式碼行 (JS中創建的) */
 .code-line {
-  padding: 2px 5px;
-  cursor: pointer;
+    display: block;
+    padding: 2px 4px;
+    cursor: pointer;
+    transition: background-color 0.1s;
 }
 
+/* 確保代碼行選中時顏色可見 */
 .code-line:hover {
-  background-color: rgba(255,255,255,0.1);
+    /* 這裡的顏色保持固定，避免隨主題變動而難以辨識 */
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.code-line.active {
+    /* 這裡的顏色保持固定，避免隨主題變動而難以辨識 */
+    background-color: rgba(40, 167, 69, 0.3);
+    font-weight: bold;
+}
+
+/* 筆記與聊天區域通用樣式 */
+#userNotes, #chatInput {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ccc;
+    resize: none;
+    /* 確保輸入框背景也使用面板背景變數 */
+    background-color: var(--panel-bg-color); 
+    color: var(--panel-font-color);
+    /* 讓輸入框的背景和文字切換也平滑 */
+    transition: background-color 0.5s linear, color 0.5s linear;
+    /* 【響應式】輸入框文字縮放 */
+    font-size: clamp(14px, 2.2vw, 17px);
+}
+
+/* 左下角筆記區 */
+.left-bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+#userNotes {
+    flex-grow: 1; /* 讓筆記區佔滿剩餘空間 */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+#saveNotesBtn {
+    width: 100%;
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
+}
+
+/* 右下角聊天區 - 啟用 Flex 佈局 */
+.right-bottom {
+    display: flex;
+    flex-direction: column; /* 聊天顯示在上，輸入區在下 */
+}
+
+/* 聊天顯示區域 */
+.chat-display {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    /* 確保聊天顯示背景也使用面板背景變數 */
+    background-color: var(--panel-bg-color);
+    color: var(--panel-font-color);
+    /* 讓聊天顯示的背景和文字切換也平滑 */
+    transition: background-color 0.5s linear, color 0.5s linear;
+}
+
+/* 聊天輸入區域 - 橫向佈局 */
+.chat-input-area {
+    display: flex;
+    align-items: flex-end; /* 將按鈕和輸入框底部對齊 */
+    gap: 8px; /* 間隔 */
+    padding-top: 5px; /* 與聊天顯示區的間隔 */
+}
+
+#chatInput {
+    flex-grow: 1;
+    height: auto; /* 讓 JS 控制高度 */
+    min-height: 40px;
+    max-height: 120px;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+#sendChatBtn {
+    width: 80px; /* 固定寬度，與輸入框對齊 */
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* 防止按鈕被壓縮 */
+    font-size: clamp(14px, 2.2vw, 17px); /* 確保按鈕文字縮放 */
+}
+
+/* --- 聊天訊息氣泡樣式 --- */
+.message-bubble {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    /* 【響應式】聊天氣泡文字縮放 */
+    font-size: clamp(13px, 2vw, 16px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.user-bubble {
+    background-color: #0d6efd; /* Bootstrap primary blue */
+    color: white;
+    margin-left: auto; /* 推到右側 */
+    border-bottom-right-radius: 4px; /* 尖角效果 */
+}
+
+.ai-bubble {
+    background-color: #f0f0f0; /* 淺灰色 */
+    color: #333;
+    margin-right: auto; /* 推到左側 */
+    border-bottom-left-radius: 4px; /* 尖角效果 */
+}
+
+.ai-name {
+    font-weight: bold;
+    color: #0d6efd;
+    font-size: clamp(12px, 1.8vw, 14px); /* AI 助理名稱文字縮放 */
+    margin-bottom: 2px;
+}
+
+/* 正在輸入的動畫點 */
+.typing-indicator .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 2px;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    animation: bounce 0.6s infinite alternate;
+}
+
+.typing-indicator .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-4px);
+    }
+}
+
+
+/* --- 拖拉桿樣式 (保持原樣) --- */
+.horizontal-resizer, .vertical-resizer {
+    position: absolute;
+    z-index: 10;
+    /* 拖拉桿背景色可以不變，確保可見性 */
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+}
+
+/* 水平拖拉桿 (上下分割線) */
+.horizontal-resizer {
+    left: 0;
+    width: 100%;
+    height: 8px; 
+    cursor: row-resize;
+    transform: translateY(-50%); 
+}
+
+/* 垂直拖拉桿 (左右分割線) */
+.vertical-resizer {
+    top: 0;
+    height: 100%;
+    width: 8px; 
+    cursor: col-resize;
+    transform: translateX(-50%); 
+}
+
+.horizontal-resizer:hover, .vertical-resizer:hover,
+.horizontal-resizer.dragging, .vertical-resizer.dragging {
+    background-color: rgba(0, 123, 255, 0.5);
+}
+
+/* 拖曳時禁止選取文字 */
+.four-panel-container.dragging {
+    user-select: none;
 }
