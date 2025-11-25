@@ -1,13 +1,17 @@
-背景顏色調整
-使用方法（任意頁面）
+更新專案到 GitHub
+git status                                # 1️⃣ 檢查狀態
+git add .                                 # 2️⃣ 暫存修改
+git commit -m "你的描述"                   # 3️⃣ Commit
+git push                                  # 4️⃣ 推送到 GitHub
+
+背景顏色調整小工具(Color_BG_Control) 使用方法（任意頁面）
 引入 CSS：
-<link rel="stylesheet" href="{{ url_for('static', filename='css/Color_BG_Control.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Color_BG_Control.css') }}">
 引入 JS（放在 <body> 結尾）：
-<script src="{{ url_for('static', filename='js/Color_BG_Control.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Color_BG_Control.js') }}"></script>
 
-ML_js
-標題文字大小20
-<span style="font-size:20px; font-weight:bold;">
+在 runner.js 檔裡找到這行 API改成自己的就能用
+    const API_KEY
 
-const API_KEY
-在JS檔裡找到這行 API改成自己的就能用
+
+
