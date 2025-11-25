@@ -1,0 +1,42 @@
+/* index_html.css */
+
+/* --- 響應式字體設定 (使用 clamp()) --- */
+
+/* 主頁大標題 H1 */
+.container h1 {
+    /* 最小 28px, 彈性 5vw, 最大 50px */
+    font-size: clamp(30px, 5vw, 50px);
+    color: var(--header-font-color);
+    transition: color 0.5s linear;
+}
+
+/* 卡片主標題 H5 */
+.card-body h5 {
+    /* 最小 20px, 彈性 3vw, 最大 30px */
+    font-size: clamp(20px, 3vw, 30px); 
+    color: var(--panel-font-color, #000000) !important;
+    transition: color 0.5s linear;
+}
+
+/* 卡片內文 P */
+.card-body p {
+    /* 最小 14px, 彈性 2.5vw, 最大 24px */
+    font-size: clamp(14px, 2.5vw, 24px); 
+    color: var(--panel-font-color, #000000) !important;
+    transition: color 0.5s linear;
+}
+
+
+/* --- 卡片主題與過渡 --- */
+
+.card {
+    /* 使用面板變數來設置卡片的背景和文字顏色 */
+    background-color: var(--panel-bg-color, #ffffff); /* 預設為白色 */
+    color: var(--panel-font-color, #000000);       /* 預設為黑色 */
+    
+    /* 確保主題切換時平滑 */
+    transition: background-color 0.5s linear, color 0.5s linear, box-shadow 0.2s;
+}
+
+/* 確保卡片內的標題和文字使用卡片的顏色，而不是全局 body 顏色 */
+/* (H5 和 P 的顏色設置已移動到上方，以和 font-size 結合) */

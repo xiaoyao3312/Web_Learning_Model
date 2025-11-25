@@ -1,0 +1,6 @@
+# requirements.txt
+Flask==2.3.3
+Jinja2==3.1.2
+# 如果你在後端使用 ML 框架
+tensorflow==2.10.0
+# ... 其他所有依賴的函式庫
