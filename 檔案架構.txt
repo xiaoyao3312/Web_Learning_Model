@@ -1,98 +1,125 @@
 https://github.com/xiaoyao3312/Web_Learning_Model.git
 
 專案結構範例
-Web_Learning_Model/
+Web_Learning_Model/                                  # 專案根目錄
 │
-├─ app.py                                          # Flask 主程式 (後端應用程式入口)
-├─ 檔案操作手冊.txt                                 # 專案文檔/操作指南
-├─ 檔案架構.txt                                     # 本文件 (專案目錄結構說明)
+├─ app.py                                           # Flask 主程式 (後端應用程式入口)
+├─ config.py                                        # 應用程式配置設定 (DEV/PROD 環境、API 金鑰變數等)
+├─ requirements.txt                                 # 執行時需要的 Python 函式庫清單
+├─ 檔案操作手冊.txt                                  # 專案文件/操作指南
+├─ 檔案架構.txt                                      # 本文件 (專案目錄結構說明)
 │
-├─ templates/                                      # 存放 HTML 模板文件 (Flask 自動查找)
-│   ├─ index.html                                  # 主頁/首頁模板
-│   ├─ ML.html                                     # 機器學習 (Machine Learning) 相關頁面模板
-│   └─ DL.html                                     # 深度學習 (Deep Learning) 相關頁面模板
+├─ data/                                            # 應用程式所需資料存放區 (例如模型和資料集) 尚未實做
+│   ├─ models/                                      # 存放 ML/DL 模型權重或預訓練檔案
+│   └─ datasets/                                    # 存放小型資料集或輸入資料
 │
-└─ static/                                         # 存放靜態資源 (CSS, JS, 圖片, 字體等)
-    │
-    ├─ css/                                        # 存放樣式表文件
-    │   ├─ Color_BG_Control.css                    # 全域顏色/背景控制樣式
-    │   ├─ DL_html.css                             # 深度學習頁面專用樣式
-    │   └─ ML_html.css                             # 機器學習頁面專用樣式
-    │
-    ├─ img/                                        # 存放圖片資源
-    │   ├─ logo.png                                # 網站/專案 Logo
-    │   ├─ DL.jpg                                  # 深度學習相關圖片
-    │   └─ ML.jpg                                  # 機器學習相關圖片
-    │
-    └─ js/                                         # 存放 JavaScript 腳本
-        │
-        ├─ Color_BG_Control.js                     # 用於控制顏色/背景的全域腳本
-        ├─ DL_project_loader.js                    # 深度學習專案的載入邏輯
-        ├─ DL_project_runner.js                    # 深度學習專案的執行邏輯
-        ├─ ML_project_loader.js                    # 機器學習專案的載入邏輯
-        ├─ ML_project_runner.js                    # 機器學習專案的執行邏輯
-        │
-        ├─ DL_js/                                  # 深度學習各子專案的 JS 實現
-        │   ├─ DL_01_MNIST_FCN.js                  # 01_MNIST (全連接網路)
-        │   ├─ DL_02_CIFAR_10_FCN.js               # 02_CIFAR-10 (全連接網路)
-        │   ├─ DL_03_CIFAR_10_CNN.js               # 03_CIFAR-10 (卷積神經網路)
-        │   ├─ DL_04_YOLO.js                       # 04_YOLO (目標檢測)
-        │   ├─ DL_05_Transfer_Learning.js          # 05_遷移學習
-        │   ├─ DL_06_Knowledge_Distillation.js     # 06_知識蒸餾
-        │   └─ DL_07_Autoencoder.js                # 07_自編碼器
-        │
-        └─ ML_js/                                  # 機器學習各子專案的 JS 實現
-            ├─ ML_01_linear_regression.js          # 01_線性迴歸
-            ├─ ML_02_Polynomial_Regression.js      # 02_多項式迴歸
-            ├─ ML_03_Linear_Classifier.js          # 03_線性分類器
-            ├─ ML_04_Objective_And_Loss.js         # 04_目標函數與損失函數
-            └─ ML_05_Metrics.js                    # 05_評估指標
-
+├─ projects/                                        # 存放後端實際要讀取和分析的 Python 程式碼 (.py) 尚未實做
+│   ├─ dl_code/                                     # 深度學習專案的 Python 程式碼
+│   │   └─ DL_01_MNIST_FCN.py                       # 實際的 Python 程式碼範例
+│   └─ ml_code/                                     # 機器學習專案的 Python 程式碼
+│       └─ ML_01_linear_regression.py               # 實際的 Python 程式碼範例
+│
+├─ templates/                                       # 存放 HTML 模板文件 (Jinja2 自動查找)
+│   ├─ index.html                                   # 網站主頁/入口頁面模板
+│   ├─ base.html                                    # 網站結構的通用基礎模板 (Jinja2 繼承)
+│   ├─ ML.html                                      # 機器學習 (ML) 專案頁面模板
+│   └─ DL.html                                      # 深度學習 (DL) 專案頁面模板
+│
+└─ static/                                          # 存放靜態資源 (由 Flask 服務)
+    │
+    ├─ css/                                         # 存放樣式表文件
+    │   ├─ Color_BG_Control.css                     # 全域顏色/背景控制樣式 (定義主題變數)
+    │   ├─ ML_DL_html.css                           # 學習頁面專用樣式 (四格面板、聊天氣泡等)
+    │   └─ index_html.css                           # 主頁面專用樣式 (卡片響應式佈局/主題)
+    │
+    ├─ img/                                         # 存放圖片資源
+    │   ├─ logo.png                                 # 網站/專案 Logo
+    │   ├─ DL.jpg                                   # 深度學習相關卡片圖片
+    │   └─ ML.jpg                                   # 機器學習相關卡片圖片
+    │
+    └─ js/                                          # 存放 JavaScript 腳本
+        │
+        ├─ Color_BG_Control.js                      # 用於控制顏色/背景主題切換的全域腳本
+        ├─ Runner_Core.js                           # 核心共用邏輯 (API/UI 交互/載入/切換)
+        ├─ DL_project_loader.js                     # 深度學習專案的程式碼/說明載入邏輯
+        ├─ DL_project_runner.js                     # 深度學習介面啟動與專案按鈕邏輯 (載入 Loader)
+        ├─ ML_project_loader.js                     # 機器學習專案的程式碼/說明載入邏輯
+        ├─ ML_project_runner.js                     # 機器學習介面啟動與專案按鈕邏輯 (載入 Loader)
+        │
+        ├─ DL_js/                                   # 深度學習各子專案的 JS 實現 (程式碼和說明文本)
+        │   ├─ DL_01_MNIST_FCN.js                   # 01_MNIST (全連接網路)
+        │   ├─ DL_02_CIFAR_10_FCN.js                # 02_CIFAR-10 (全連接網路)
+        │   ├─ DL_03_CIFAR_10_CNN.js                # 03_CIFAR-10 (卷積神經網路)
+        │   ├─ DL_04_YOLO.js                        # 04_YOLO (目標檢測)
+        │   ├─ DL_05_Transfer_Learning.js           # 05_遷移學習
+        │   ├─ DL_06_Knowledge_Distillation.js      # 06_知識蒸餾
+        │   └─ DL_07_Autoencoder.js                 # 07_自編碼器
+        │
+        └─ ML_js/                                   # 機器學習各子專案的 JS 實現 (程式碼和說明文本)
+            ├─ ML_01_linear_regression.js           # 01_線性迴歸
+            ├─ ML_02_Polynomial_Regression.js       # 02_多項式迴歸
+            ├─ ML_03_Linear_Classifier.js           # 03_線性分類器
+            ├─ ML_04_Objective_And_Loss.js          # 04_目標函數與損失函數
+            └─ ML_05_Metrics.js                     # 05_評估指標
 
 專案結構範例
 Web_Learning_Model/
 │
 ├─ app.py
+├─ config.py
+├─ requirements.txt
 ├─ 檔案操作手冊.txt
 ├─ 檔案架構.txt
 │
+├─ data/
+│   ├─ models/
+│   └─ datasets/
+│
+├─ projects/
+│   ├─ dl_code/
+│   │   └─ DL_01_MNIST_FCN.py
+│   └─ ml_code/
+│       └─ ML_01_linear_regression.py
+│
 ├─ templates/
-│   ├─ index.html
-│   ├─ ML.html
-│   └─ DL.html
+│   ├─ index.html
+│   ├─ base.html
+│   ├─ ML.html
+│   └─ DL.html
 │
 └─ static/
-    │
-    ├─ css/
-    │   ├─ Color_BG_Control.css
-    │   ├─ DL_html.css
-    │   └─ ML_html.css
-    │
-    ├─ img/
-    │   ├─ logo.png
-    │   ├─ DL.jpg
-    │   └─ ML.jpg
-    │
-    └─ js/
-        │
-        ├─ Color_BG_Control.js
-        ├─ DL_project_loader.js
-        ├─ DL_project_runner.js
-        ├─ ML_project_loader.js
-        ├─ ML_project_runner.js
-        │
-        ├─ DL_js/
-        │   ├─ DL_01_MNIST_FCN.js
-        │   ├─ DL_02_CIFAR_10_FCN.js
-        │   ├─ DL_03_CIFAR_10_CNN.js
-        │   ├─ DL_04_YOLO.js
-        │   ├─ DL_05_Transfer_Learning.js
-        │   ├─ DL_06_Knowledge_Distillation.js
-        │   └─ DL_07_Autoencoder.js
-        │
-        └─ ML_js/
-            ├─ ML_01_linear_regression.js
-            ├─ ML_02_Polynomial_Regression.js
-            ├─ ML_03_Linear_Classifier.js
-            ├─ ML_04_Objective_And_Loss.js
-            └─ ML_05_Metrics.js
+    │
+    ├─ css/
+    │   ├─ Color_BG_Control.css
+    │   ├─ ML_DL_html.css
+    │   └─ index_html.css
+    │
+    ├─ img/
+    │   ├─ logo.png
+    │   ├─ DL.jpg
+    │   └─ ML.jpg
+    │
+    └─ js/
+        │
+        ├─ Color_BG_Control.js
+        ├─ Runner_Core.js
+        ├─ DL_project_loader.js
+        ├─ DL_project_runner.js
+        ├─ ML_project_loader.js
+        ├─ ML_project_runner.js
+        │
+        ├─ DL_js/
+        │   ├─ DL_01_MNIST_FCN.js
+        │   ├─ DL_02_CIFAR_10_FCN.js
+        │   ├─ DL_03_CIFAR_10_CNN.js
+        │   ├─ DL_04_YOLO.js
+        │   ├─ DL_05_Transfer_Learning.js
+        │   ├─ DL_06_Knowledge_Distillation.js
+        │   └─ DL_07_Autoencoder.js
+        │
+        └─ ML_js/
+            ├─ ML_01_linear_regression.js
+            ├─ ML_02_Polynomial_Regression.js
+            ├─ ML_03_Linear_Classifier.js
+            ├─ ML_04_Objective_And_Loss.js
+            └─ ML_05_Metrics.js
