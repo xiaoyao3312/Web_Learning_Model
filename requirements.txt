@@ -1,6 +1,15 @@
 # requirements.txt
+
+# --- Web Framework ---
 Flask==2.3.3
 Jinja2==3.1.2
-# 如果你在後端使用 ML 框架
+Werkzeug==2.3.7  # (Flask 依賴，確保穩定性)
+
+# --- AI & Data Science Dependencies (Core for ML/DL projects) ---
 tensorflow==2.10.0
-# ... 其他所有依賴的函式庫
+# 您需要用到的 ML/DL 相關函式庫
+numpy
+pandas
+scikit-learn
+# Matplotlib 如果您在伺服器上產生圖表
+# matplotlib
